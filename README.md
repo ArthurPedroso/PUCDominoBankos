@@ -13,11 +13,3 @@ Padrão de programação:
 -#define usar padrao snake_case e tudo em maiuscula:  CONST_NUMB
   
 -variaveis de entrada de função com _ na frente:  void func(int _entrada);
- 
--teste
-
--modificado por Caio às 16:04
-
--teste de commit
-
--modificado por Caio às 16:07
