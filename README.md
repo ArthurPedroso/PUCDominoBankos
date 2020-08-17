@@ -13,3 +13,5 @@ Padrão de programação:
 -#define usar padrao snake_case e tudo em maiuscula:  CONST_NUMB
   
 -variaveis de entrada de função com _ na frente:  void func(int _entrada);
+
+-Teste banana
