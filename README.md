@@ -17,3 +17,7 @@ Padrão de programação:
 -teste
 
 -modificado por Caio às 16:04
+
+-teste de commit
+
+-modificado por Caio às 16:07
