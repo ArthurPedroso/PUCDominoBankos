@@ -18,17 +18,37 @@ Domino* shuffleDominos(Domino* _arrayDeDomino)
     return _arrayDeDomino;
 }
 
-Domino* createDominoArray()
+void initializeDominoArray(Domino* _dominoArray)
 {
-    static Domino array[28];
-
-    for(int i = 0; i < 28; i++)
+    for(int i = 0; i < sizeof(_dominoArray) / sizeof(Domino); i++)
     {
-        array[i].posX = 0;
-        array[i].posY = 0;
-        array[i].rotation = DOMINO_UP;
-        array[i].type = i;
-    }
-    
+        _dominoArray[i].posX = 0;
+        _dominoArray[i].posY = 0;
+        _dominoArray[i].rotation = DOMINO_UP;
+        _dominoArray[i].type = i;
+    }    
+}
+
+//---------Header Funcs----------//
+
+Domino* getPlayer1DominoArray()
+{
+    static Domino array[GAME_DOMINOS_AMOUNT];
+
     return array;
+}
+Domino* getPlayer2DominoArray()
+{
+    static Domino array[GAME_DOMINOS_AMOUNT];
+
+    return array;
+}
+
+void modelInitialization()
+{
+    Domino* player1Dominos = getPlayer1DominoArray();
+    Domino* player2Dominos = getPlayer2DominoArray();
+
+    initializeDominoArray(player1Dominos);
+    initializeDominoArray(player2Dominos);
 }

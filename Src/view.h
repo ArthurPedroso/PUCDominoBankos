@@ -1,7 +1,10 @@
 #ifndef VIEW_HEADER
 #define VIEW_HEADER
 
-void helloWorld(char* _msg);
-
+void menuInit();
+char menuInput();
+void screenDisplay();
+void screenDisplayOptions();
+char screenDisplayOptionsInput();
 
 #endif
