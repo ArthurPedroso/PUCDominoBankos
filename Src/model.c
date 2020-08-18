@@ -1,6 +1,7 @@
 #include "model.h"
 #include <stdlib.h>
 #include <time.h>
+#include <stdio.h>
 
 Domino* shuffleDominos(Domino* _arrayDeDomino)
 {
@@ -9,12 +10,23 @@ Domino* shuffleDominos(Domino* _arrayDeDomino)
     //seleciona lugar aleatório e troca de lugar
     for(int i = 0; i < sizeof(_arrayDeDomino)/sizeof(Domino); i++)
     {
+        int random = rand();
+
         temp = _arrayDeDomino[i];
-        _arrayDeDomino 
+        _arrayDeDomino[i] = _arrayDeDomino[random];
+        _arrayDeDomino[random] = temp;
     }
-    //por exemplo 1 no lugar no 5 e 5 no lugar do 1
-    //de maneira aleatória e sem repetir
-    
+
+    printf("\n");
+
+    for (int i = 0; i < sizeof(_arrayDeDomino)/sizeof(Domino); i++)
+    {
+        printf("%d, ", _arrayDeDomino[i].type);
+    }
+
+    printf("\n");
+    printf("%d", sizeof(_arrayDeDomino)/sizeof(Domino));
+        
     return _arrayDeDomino;
 }
 
@@ -46,9 +58,12 @@ Domino* getPlayer2DominoArray()
 
 void modelInitialization()
 {
+    srand(time(NULL));
+
     Domino* player1Dominos = getPlayer1DominoArray();
     Domino* player2Dominos = getPlayer2DominoArray();
 
     initializeDominoArray(player1Dominos);
     initializeDominoArray(player2Dominos);
+    shuffleDominos(player1Dominos);
 }
