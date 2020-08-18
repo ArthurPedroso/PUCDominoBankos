@@ -1,8 +1,20 @@
 #include "model.h"
 #include <stdlib.h>
+#include <time.h>
 
 Domino* shuffleDominos(Domino* _arrayDeDomino)
 {
+    //pega caixa e guarda fora do array
+    Domino temp;
+    //seleciona lugar aleatório e troca de lugar
+    for(int i = 0; i < sizeof(_arrayDeDomino)/sizeof(Domino); i++)
+    {
+        temp = _arrayDeDomino[i];
+        _arrayDeDomino 
+    }
+    //por exemplo 1 no lugar no 5 e 5 no lugar do 1
+    //de maneira aleatória e sem repetir
+    
     return _arrayDeDomino;
 }
 
