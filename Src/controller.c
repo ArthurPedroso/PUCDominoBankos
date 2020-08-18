@@ -1,5 +1,11 @@
 #include "controller.h"
 #include "model.h"
+
+void initialization()
+{
+
+}
+
 void startGame()
 {
     int exitCode = 1;
@@ -9,9 +15,4 @@ void startGame()
         
     } while (exitCode == 0);
     
-}
-
-void initialization()
-{
-
 }
