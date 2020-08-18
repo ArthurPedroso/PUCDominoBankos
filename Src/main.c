@@ -1,7 +1,8 @@
 #include"view.h"
+#include"controller.h"
 
 int main()
 {
-    helloWorld("oi");
+    startGame();
     return 0;    
 }
