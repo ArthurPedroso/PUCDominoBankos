@@ -8,8 +8,6 @@ void printBoard()
     {
         for(int colIndx = 0; colIndx < 10; colIndx++)
         {
-            printf("| 🁣🀱🁣");
-            printf("| 🁣🁣🁣");
         }        
         printf("\n");
     }

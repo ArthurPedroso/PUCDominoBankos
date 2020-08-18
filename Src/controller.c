@@ -1,15 +1,18 @@
 #include "controller.h"
 #include "model.h"
 
-void initialization()
-{
+//----------Head Funcs----------//
 
+void controllerInitialization()
+{
+    modelInitialization();
 }
 
 void startGame()
 {
     int exitCode = 1;
-    initialization();
+
+    controllerInitialization();
     do
     {
         
