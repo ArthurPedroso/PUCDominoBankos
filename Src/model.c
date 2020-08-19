@@ -36,7 +36,7 @@ void initializeDominoArray(Domino* _dominoArray)
         _dominoArray[i].posX = 0;
         _dominoArray[i].posY = 0;
         _dominoArray[i].rotation = DOMINO_UP;
-        _dominoArray[i].type = i;
+        _dominoArray[i].type = i + 1;
     }    
 }
 
