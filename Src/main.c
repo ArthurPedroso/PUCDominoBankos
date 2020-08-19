@@ -4,6 +4,6 @@
 int main()
 {
     startGame();
-    //menuInit();
+    menuInit();
     return 0;    
 }

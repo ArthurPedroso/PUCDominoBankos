@@ -8,9 +8,9 @@ Domino* shuffleDominos(Domino* _arrayDeDomino)
     //pega caixa e guarda fora do array
     Domino temp;
     //seleciona lugar aleatório e troca de lugar
-    for(int i = 0; i < sizeof(_arrayDeDomino)/sizeof(Domino); i++)
+    for(int i = 0; i < GAME_DOMINOS_AMOUNT; i++)
     {
-        int random = rand();
+        int random = rand() % GAME_DOMINOS_AMOUNT;
 
         temp = _arrayDeDomino[i];
         _arrayDeDomino[i] = _arrayDeDomino[random];
@@ -19,20 +19,19 @@ Domino* shuffleDominos(Domino* _arrayDeDomino)
 
     printf("\n");
 
-    for (int i = 0; i < sizeof(_arrayDeDomino)/sizeof(Domino); i++)
+    for (int j = 0; j < GAME_DOMINOS_AMOUNT; j++)
     {
-        printf("%d, ", _arrayDeDomino[i].type);
+        printf("%d, ", _arrayDeDomino[j].type);
     }
 
     printf("\n");
-    printf("%d", sizeof(_arrayDeDomino)/sizeof(Domino));
         
     return _arrayDeDomino;
 }
 
 void initializeDominoArray(Domino* _dominoArray)
 {
-    for(int i = 0; i < sizeof(_dominoArray) / sizeof(Domino); i++)
+    for(int i = 0; i < GAME_DOMINOS_AMOUNT; i++)
     {
         _dominoArray[i].posX = 0;
         _dominoArray[i].posY = 0;

@@ -1,9 +1,32 @@
 #include "view.h"
 #include <stdio.h>
 
+void printBoard()
+{
+    printf("\n");
+
+    char boardChars[84][280];
+
+    for(int linIndx = 0; linIndx < 84; linIndx++)
+    {
+        for(int colIndx = 0; colIndx < 280; colIndx++)
+        {
+            if(linIndx % 4 == 0) 
+                boardChars[linIndx][colIndx] = '+';
+            else 
+                boardChars[linIndx][colIndx] = ' ';
+            printf("%c",boardChars[linIndx][colIndx]);
+        }
+        
+        printf("\n");        
+    }
+}
+
+//-----------Head Funcs-----------//
 void menuInit() //inica menu
 {
-    printf("\n1- Play\n\n2- Quit");
+    //printf("\n1- Play\n\n2- Quit");
+    printBoard();
 }
 
 char menuInput() //recebe input do menu e returna
@@ -16,13 +39,6 @@ char menuInput() //recebe input do menu e returna
 
 void screenDisplay() //mostra a tela durante o jogo
 {
-    for(int linIndx = 0; linIndx < 10; linIndx++)
-    {
-        for(int colIndx = 0; colIndx < 10; colIndx++)
-        {
-        }        
-        printf("\n");
-    }
 }
 
 void screenDisplayOptions() //mostra as opcoes do jogador
@@ -46,4 +62,10 @@ for(int linIndx = 0; linIndx < 10; linIndx++)
         }        
         printf("\n");
     }
+
+
+
+    printf("+―――+―――+\n");
+    printf("|:: |:::|\n");
+    printf("+―――+―――+\n");
 */
