@@ -16,8 +16,7 @@ typedef struct
     int type;
 }Domino;
 
-Domino* getPlayer1DominoArray();
-Domino* getPlayer2DominoArray();
+Domino* getGameDominos();
 void modelInitialization();
 
 

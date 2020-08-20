@@ -3,30 +3,32 @@
 #include <time.h>
 #include <stdio.h>
 
-Domino* shuffleDominos(Domino* _arrayDeDomino)
+void shuffleDominos(Domino* _outArrayDeDomino)
 {
-    //pega caixa e guarda fora do array
+    //pega struct e guarda fora do array
     Domino temp;
     //seleciona lugar aleatório e troca de lugar
     for(int i = 0; i < GAME_DOMINOS_AMOUNT; i++)
     {
         int random = rand() % GAME_DOMINOS_AMOUNT;
 
-        temp = _arrayDeDomino[i];
-        _arrayDeDomino[i] = _arrayDeDomino[random];
-        _arrayDeDomino[random] = temp;
+        temp = _outArrayDeDomino[i];
+        _outArrayDeDomino[i] = _outArrayDeDomino[random];
+        _outArrayDeDomino[random] = temp;
     }
 
+    //-----DEBUG-----//
+    /*
     printf("\n");
 
     for (int j = 0; j < GAME_DOMINOS_AMOUNT; j++)
     {
-        printf("%d, ", _arrayDeDomino[j].type);
+        printf("%d, ", _outArrayDeDomino[j].type);
     }
 
     printf("\n");
-        
-    return _arrayDeDomino;
+    */
+    //-----DEBUG-----//
 }
 
 void initializeDominoArray(Domino* _dominoArray)
@@ -42,13 +44,7 @@ void initializeDominoArray(Domino* _dominoArray)
 
 //---------Header Funcs----------//
 
-Domino* getPlayer1DominoArray()
-{
-    static Domino array[GAME_DOMINOS_AMOUNT];
-
-    return array;
-}
-Domino* getPlayer2DominoArray()
+Domino* getGameDominos()
 {
     static Domino array[GAME_DOMINOS_AMOUNT];
 
@@ -59,10 +55,8 @@ void modelInitialization()
 {
     srand(time(NULL));
 
-    Domino* player1Dominos = getPlayer1DominoArray();
-    Domino* player2Dominos = getPlayer2DominoArray();
+    Domino* gameDominos = getGameDominos();
 
-    initializeDominoArray(player1Dominos);
-    initializeDominoArray(player2Dominos);
-    shuffleDominos(player1Dominos);
+    initializeDominoArray(gameDominos);
+    shuffleDominos(gameDominos);
 }
