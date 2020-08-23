@@ -7,17 +7,17 @@
 #define DOMINO_LEFT 270
 #define GAME_DOMINOS_AMOUNT 28
 
-
 typedef struct 
 {
     int posX;
     int posY;
     int rotation;
-    int type;
+    int rightType;
+    int leftType;
 }Domino;
 
 Domino* getGameDominos();
 void modelInitialization();
-
+void organizeDominoes();
 
 #endif

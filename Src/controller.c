@@ -8,14 +8,22 @@ void controllerInitialization()
     modelInitialization();
 }
 
+void managePlayerChoice(char _playerIput)
+{
+
+    if (_playerIput == OPTION_ONE)
+    {
+        organizeDominoes();
+    }
+    else if (_playerIput == OPTION_TWO)
+    {
+
+    }
+}
+
 void startGame()
 {
     int exitCode = 1;
 
     controllerInitialization();
-    do
-    {
-        
-    } while (exitCode == 0);
-    
 }

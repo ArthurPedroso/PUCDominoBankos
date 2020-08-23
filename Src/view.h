@@ -5,6 +5,7 @@ void menuInit();
 char menuInput();
 void screenDisplay();
 void screenDisplayOptions();
-char screenDisplayOptionsInput();
+void screenDisplayOptionsInput();
+void printDominoes();
 
 #endif

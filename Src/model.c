@@ -1,4 +1,5 @@
 #include "model.h"
+#include "view.h"
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
@@ -33,12 +34,26 @@ void shuffleDominos(Domino* _outArrayDeDomino)
 
 void initializeDominoArray(Domino* _dominoArray)
 {
+    int columCount= 0;
+    int lineCount = 0;
+
     for(int i = 0; i < GAME_DOMINOS_AMOUNT; i++)
     {
         _dominoArray[i].posX = 0;
         _dominoArray[i].posY = 0;
         _dominoArray[i].rotation = DOMINO_UP;
-        _dominoArray[i].type = i + 1;
+        _dominoArray[i].rightType = columCount + lineCount;
+        _dominoArray[i].leftType = lineCount;
+        
+        if(columCount >= 6 - lineCount)
+        {
+            columCount = 0;
+            lineCount++;
+        }
+        else
+        {
+            columCount++;
+        }
     }    
 }
 
@@ -55,8 +70,12 @@ void modelInitialization()
 {
     srand(time(NULL));
 
-    Domino* gameDominos = getGameDominos();
+    organizeDominoes();
+    //shuffleDominos(gameDominos);
+}
 
-    initializeDominoArray(gameDominos);
-    shuffleDominos(gameDominos);
+void organizeDominoes()
+{
+    initializeDominoArray(getGameDominos());
+    printDominoes(getGameDominos(), GAME_DOMINOS_AMOUNT);
 }
