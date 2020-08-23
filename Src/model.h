@@ -16,7 +16,7 @@ typedef struct
     int leftType;
 }Domino;
 
-Domino* getGameDominos();
+void shuffleDominoesAndDisplay();
 void modelInitialization();
 void organizeDominoes();
 

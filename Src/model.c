@@ -4,7 +4,14 @@
 #include <time.h>
 #include <stdio.h>
 
-void shuffleDominos(Domino* _outArrayDeDomino)
+Domino* getGameDominoes()
+{
+    static Domino array[GAME_DOMINOS_AMOUNT];
+
+    return array;
+}
+
+void shuffleDominoes(Domino* _outArrayDeDomino)
 {
     //pega struct e guarda fora do array
     Domino temp;
@@ -59,13 +66,6 @@ void initializeDominoArray(Domino* _dominoArray)
 
 //---------Header Funcs----------//
 
-Domino* getGameDominos()
-{
-    static Domino array[GAME_DOMINOS_AMOUNT];
-
-    return array;
-}
-
 void modelInitialization()
 {
     srand(time(NULL));
@@ -76,6 +76,12 @@ void modelInitialization()
 
 void organizeDominoes()
 {
-    initializeDominoArray(getGameDominos());
-    printDominoes(getGameDominos(), GAME_DOMINOS_AMOUNT);
+    initializeDominoArray(getGameDominoes());
+    printDominoes(getGameDominoes(), GAME_DOMINOS_AMOUNT);
+}
+
+void shuffleDominoesAndDisplay()
+{
+    shuffleDominoes(getGameDominoes());
+    printDominoes(getGameDominoes(), GAME_DOMINOS_AMOUNT);
 }

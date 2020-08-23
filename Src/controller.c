@@ -17,7 +17,7 @@ void managePlayerChoice(int _playerIput)
     }
     else if (_playerIput == OPTION_TWO)
     {
-
+        shuffleDominoesAndDisplay();
     }
     
 }
