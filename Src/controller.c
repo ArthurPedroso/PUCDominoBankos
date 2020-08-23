@@ -8,7 +8,7 @@ void controllerInitialization()
     modelInitialization();
 }
 
-void managePlayerChoice(char _playerIput)
+void managePlayerChoice(int _playerIput)
 {
 
     if (_playerIput == OPTION_ONE)
@@ -19,6 +19,7 @@ void managePlayerChoice(char _playerIput)
     {
 
     }
+    
 }
 
 void startGame()

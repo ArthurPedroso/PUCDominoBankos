@@ -25,16 +25,16 @@ void screenDisplay() //mostra a tela de jogo
 void screenDisplayOptions() //mostra as opcoes do jogador
 {
     //printf("\n1- Place piece\n2- Buy piece\n3-Show screen\n4- Quit match");
-    printf("\n1- Show Organized Dominoes\n2- Shuffle Dominoes");
+    printf("\n1- Show Organized Dominoes\n2- Shuffle Dominoes\n");
     screenDisplayOptionsInput();
 }
 
 void screenDisplayOptionsInput() //recebe input da opcao escolhida e o retona
 {
-    char playerInput = 0;
+    int playerInput = 0;
 
-    scanf("%c", &playerInput);
-    printf("\n %c ABACATAO", playerInput);
+    scanf("%d", &playerInput);
+
     managePlayerChoice(playerInput);
 }
 
