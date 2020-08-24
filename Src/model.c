@@ -6,7 +6,7 @@
 
 Domino* getGameDominoes()
 {
-    static Domino array[GAME_DOMINOS_AMOUNT];
+    static Domino array[GAME_DOMINOES_AMOUNT];
 
     return array;
 }
@@ -16,9 +16,9 @@ void shuffleDominoes(Domino* _outArrayDeDomino)
     //pega struct e guarda fora do array
     Domino temp;
     //seleciona lugar aleatório e troca de lugar
-    for(int i = 0; i < GAME_DOMINOS_AMOUNT; i++)
+    for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
     {
-        int random = rand() % GAME_DOMINOS_AMOUNT;
+        int random = rand() % GAME_DOMINOES_AMOUNT;
 
         temp = _outArrayDeDomino[i];
         _outArrayDeDomino[i] = _outArrayDeDomino[random];
@@ -29,7 +29,7 @@ void shuffleDominoes(Domino* _outArrayDeDomino)
     /*
     printf("\n");
 
-    for (int j = 0; j < GAME_DOMINOS_AMOUNT; j++)
+    for (int j = 0; j < GAME_DOMINOES_AMOUNT; j++)
     {
         printf("%d, ", _outArrayDeDomino[j].type);
     }
@@ -44,7 +44,7 @@ void initializeDominoArray(Domino* _dominoArray)
     int columCount= 0;
     int lineCount = 0;
 
-    for(int i = 0; i < GAME_DOMINOS_AMOUNT; i++)
+    for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
     {
         _dominoArray[i].posX = 0;
         _dominoArray[i].posY = 0;
@@ -71,17 +71,17 @@ void modelInitialization()
     srand(time(NULL));
 
     organizeDominoes();
-    //shuffleDominos(gameDominos);
+    //shuffleDominoes(gameDominoes);
 }
 
 void organizeDominoes()
 {
     initializeDominoArray(getGameDominoes());
-    printDominoes(getGameDominoes(), GAME_DOMINOS_AMOUNT);
+    printDominoes(getGameDominoes(), GAME_DOMINOES_AMOUNT);
 }
 
 void shuffleDominoesAndDisplay()
 {
     shuffleDominoes(getGameDominoes());
-    printDominoes(getGameDominoes(), GAME_DOMINOS_AMOUNT);
+    printDominoes(getGameDominoes(), GAME_DOMINOES_AMOUNT);
 }

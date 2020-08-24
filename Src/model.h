@@ -5,7 +5,7 @@
 #define DOMINO_RIGHT 90
 #define DOMINO_DOWN 180
 #define DOMINO_LEFT 270
-#define GAME_DOMINOS_AMOUNT 28
+#define GAME_DOMINOES_AMOUNT 28
 
 typedef struct 
 {
