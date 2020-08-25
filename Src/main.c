@@ -1,9 +1,9 @@
 #include"controller.h"
-//#include"view.h" //apenas para testes
+#include"view.h" //apenas para testes
 
 int main()
 {
+    menuInit(); //apenas testes
     startGame();
-    //menuInit(); //apenas testes
     return 0;    
 }
