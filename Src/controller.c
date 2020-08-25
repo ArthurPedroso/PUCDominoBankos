@@ -14,14 +14,15 @@ void menuPlayerSelection(int _menuOp)
     switch(_menuOp)
     {
         case 1: //New Game
-            screenDisplay(); break;
-            screenDisplayOptions(); break;
+            //screenDisplay();
+            screenDisplayOptions(); //é chamada independente de qualquer opção
+            break;
         case 2: //Save Game
 
         case 3: //Load Game
 
         case 4: //Exit Game
-            exitGameText(); break;
+            exitGameText(); break; //Jogo não fecha (loop printDominoes());
         default:
             invalidOption(); break;
     }
@@ -37,13 +38,11 @@ void managePlayerChoice(int _playerIput)
     else if (_playerIput == OPTION_TWO)
     {
         shuffleDominoesAndDisplay();
-    }
-    
+    }   
 }
 
 void startGame()
 {
     int exitCode = 1;
-
     controllerInitialization();
 }

@@ -7,31 +7,28 @@
 //-----------Head Funcs-----------//
 void menuInit() //inica e printa menu
 {
-    int option;
-
     printf("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\n");
     printf("\n");
     printf("Welcome! Let's play Domino!");
     printf("To get started, select an option:\n");
-    printf("1- New Game\n2- Save\n3- Load\n4- Exit");
+    printf("1- New Game\n2- Save\n3- Load\n4- Exit\n");
     printf("\n");
     printf("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\n");
     printf("\n");
     printf("Chosen option: ");
 
-    scanf("%d", option);
-    menuPlayerSelection(option);
+    menuPlayerSelection(menuInput());
 }
 
-char menuInput() //recebe input do menu e returna
+int menuInput() //recebe input do menu e returna
 {
-    char playerInput;
+    int playerInput;
 
-    scanf("%c", &playerInput);
+    scanf("%d", &playerInput);
     return playerInput;
 }
 
-void screenDisplay() //mostra a tela de jogo
+void screenDisplay() //mostra a tela de jogo (OpenGL)
 {
 }
 
@@ -81,10 +78,10 @@ void printDominoes(Domino* _arrayDeDomino, int _arraySize)
 
 void exitGameText()
 {
-    printf("=+=+=+=+=+=+=+=+=+=+=+=+=");
-    printf("Thank you for playing!");
-    printf("Game made by: Arthur Naves Pedroso\nCaio Henrique Portella\nLuiz Eduardo Ramirez\nMauricio Macedo Villarnobo");
-    printf("=+=+=+=+=+=+=+=+=+=+=+=+=");
+    printf("=+=+=+=+=+=+=+=+=+=+=+=+=\n");
+    printf("Thank you for playing!\n");
+    printf("Game made by:\nArthur Naves Pedroso\nCaio Henrique Portella\nLuiz Eduardo Ramirez\nMauricio Macedo Villarnobo\n");
+    printf("=+=+=+=+=+=+=+=+=+=+=+=+=\n");
 }
 
 void invalidOption()

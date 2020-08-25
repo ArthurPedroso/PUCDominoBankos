@@ -3,7 +3,7 @@
 
 int main()
 {
-    menuInit(); //apenas testes
+    menuInit(); //apenas testes; deveria estar abaixo de startGame();
     startGame();
     return 0;    
 }
