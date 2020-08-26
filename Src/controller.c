@@ -1,13 +1,17 @@
 #include "controller.h"
 #include "model.h"
 #include "view.h"
+#include "common.h"
 
-//----------Head Funcs----------//
-
+//Executado apenas uma vez no incio do jogo
 void controllerInitialization()
 {
     modelInitialization();
 }
+
+//----------Head Funcs----------//
+
+
 
 void menuPlayerSelection(int _menuOp)
 {
@@ -17,13 +21,17 @@ void menuPlayerSelection(int _menuOp)
             screenDisplay(); break;
             screenDisplayOptions(); break;
         case 2: //Save Game
-
+            menuInit(FALSE);
+            break;
         case 3: //Load Game
-
+            menuInit(FALSE);
+            break;
         case 4: //Exit Game
-            exitGameText(); break;
+            exitGameText(); 
+            break; //Jogo não fecha (loop printDominoes());
         default:
-            invalidOption(); break;
+            menuInit(TRUE);
+            break;
     }
 }
 
@@ -37,13 +45,15 @@ void managePlayerChoice(int _playerIput)
     else if (_playerIput == OPTION_TWO)
     {
         shuffleDominoesAndDisplay();
+    }   
+    else
+    {
+        exitGameText();
     }
     
 }
 
-void startGame()
+int startGame()
 {
-    int exitCode = 1;
-
-    controllerInitialization();
+    return 0;
 }
