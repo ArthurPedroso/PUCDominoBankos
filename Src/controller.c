@@ -18,8 +18,9 @@ void menuPlayerSelection(int _menuOp)
     switch(_menuOp)
     {
         case 1: //New Game
-            screenDisplay(); break;
-            screenDisplayOptions(); break;
+            screenDisplay();
+            screenDisplayOptions();
+            break;
         case 2: //Save Game
             menuInit(FALSE);
             break;
@@ -55,5 +56,7 @@ void managePlayerChoice(int _playerIput)
 
 int startGame()
 {
+    controllerInitialization();
+    menuInit(FALSE);
     return 0;
 }

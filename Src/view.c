@@ -9,9 +9,9 @@
 void clearTerminal()
 {
 #ifdef OS_Windows
-system("cls");
+    system("cls");
 #else
-printf("\033[H\033[J");
+    printf("\033[H\033[J");
 #endif
 }
 
