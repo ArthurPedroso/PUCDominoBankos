@@ -7,14 +7,11 @@
 //-----------Head Funcs-----------//
 void menuInit() //inica e printa menu
 {
-    printf("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\n");
-    printf("\n");
-    printf("Welcome! Let's play Domino!");
-    printf("To get started, select an option:\n");
-    printf("1- New Game\n2- Save\n3- Load\n4- Exit\n");
-    printf("\n");
-    printf("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\n");
-    printf("\n");
+    printf("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\n\n");
+    printf("Welcome! Let's play Domino!\n");
+    printf("To get started, select an option:\n\n");
+    printf("1- New Game\n2- Save\n3- Load\n4- Exit\n\n");
+    printf("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\n\n");
     printf("Chosen option: ");
 
     menuPlayerSelection(menuInput());
