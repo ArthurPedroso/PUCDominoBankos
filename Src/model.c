@@ -24,19 +24,6 @@ void shuffleDominoes(Domino* _outArrayDeDomino)
         _outArrayDeDomino[i] = _outArrayDeDomino[random];
         _outArrayDeDomino[random] = temp;
     }
-
-    //-----DEBUG-----//
-    /*
-    printf("\n");
-
-    for (int j = 0; j < GAME_DOMINOES_AMOUNT; j++)
-    {
-        printf("%d, ", _outArrayDeDomino[j].type);
-    }
-
-    printf("\n");
-    */
-    //-----DEBUG-----//
 }
 
 void initializeDominoArray(Domino* _dominoArray)
@@ -69,9 +56,6 @@ void initializeDominoArray(Domino* _dominoArray)
 void modelInitialization()
 {
     srand(time(NULL));
-
-    organizeDominoes();
-    //shuffleDominoes(gameDominoes);
 }
 
 void organizeDominoes()
