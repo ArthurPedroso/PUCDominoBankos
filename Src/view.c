@@ -38,8 +38,9 @@ void menuInit(int _displayInvalidOption) //inica e printa menu
     clearTerminal();
     printf("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\n");
     printf("\n");
-    printf("Welcome! Let's play Domino!");
+    printf("Welcome! Let's play Domino!\n");
     printf("To get started, select an option:\n");
+    printf("\n");
     printf("1- New Game\n2- Save\n3- Load\n4- Exit\n");
     printf("\n");
     printf("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\n");
@@ -96,7 +97,8 @@ void exitGameText()
     clearTerminal();
     printf("=+=+=+=+=+=+=+=+=+=+=+=+=\n");
     printf("Thank you for playing!\n");
-    printf("Game made by:\nArthur Naves Pedroso\nCaio Henrique Portella\nLuiz Eduardo Ramirez\nMauricio Macedo Villarnobo\n");
+    printf("\n");
+    printf("Game made by:\n\nArthur Naves Pedroso\nCaio Henrique Portella\nLuiz Eduardo Ramirez\nMauricio Macedo Villarnobo\n\n");
     printf("=+=+=+=+=+=+=+=+=+=+=+=+=\n");
 }
 
