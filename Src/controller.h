@@ -3,7 +3,7 @@
 #define OPTION_ONE 1
 #define OPTION_TWO 2
 
-void startGame();
+int startGame();
 void menuPlayerSelection(int _menuOp);
 void managePlayerChoice(int _playerInput);
 

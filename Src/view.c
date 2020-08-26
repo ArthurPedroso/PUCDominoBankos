@@ -1,23 +1,18 @@
 #include "view.h"
 #include "model.h"
 #include "controller.h"
+#include "common.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 
-//-----------Head Funcs-----------//
-void menuInit() //inica e printa menu
+void clearTerminal()
 {
-    printf("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\n");
-    printf("\n");
-    printf("Welcome! Let's play Domino!");
-    printf("To get started, select an option:\n");
-    printf("1- New Game\n2- Save\n3- Load\n4- Exit\n");
-    printf("\n");
-    printf("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\n");
-    printf("\n");
-    printf("Chosen option: ");
-
-    menuPlayerSelection(menuInput());
+#ifdef OS_Windows
+system("cls");
+#else
+printf("\033[H\033[J");
+#endif
 }
 
 int menuInput() //recebe input do menu e returna
@@ -26,6 +21,33 @@ int menuInput() //recebe input do menu e returna
 
     scanf("%d", &playerInput);
     return playerInput;
+}
+
+
+void screenDisplayOptionsInput() //recebe input da opcao escolhida e o retona
+{
+    int playerInput = 0;
+
+    scanf("%d", &playerInput);
+
+    managePlayerChoice(playerInput);
+}
+//-----------Head Funcs-----------//
+void menuInit(int _displayInvalidOption) //inica e printa menu
+{
+    clearTerminal();
+    printf("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\n");
+    printf("\n");
+    printf("Welcome! Let's play Domino!");
+    printf("To get started, select an option:\n");
+    printf("1- New Game\n2- Save\n3- Load\n4- Exit\n");
+    printf("\n");
+    printf("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\n");
+    printf("\n");
+    if(_displayInvalidOption) invalidOption();
+    printf("Chosen option: ");
+
+    menuPlayerSelection(menuInput());
 }
 
 void screenDisplay() //mostra a tela de jogo (OpenGL)
@@ -39,17 +61,10 @@ void screenDisplayOptions() //mostra as opcoes do jogador
     screenDisplayOptionsInput();
 }
 
-void screenDisplayOptionsInput() //recebe input da opcao escolhida e o retona
-{
-    int playerInput = 0;
-
-    scanf("%d", &playerInput);
-
-    managePlayerChoice(playerInput);
-}
-
 void printDominoes(Domino* _arrayDeDomino, int _arraySize)
 {
+    clearTerminal();
+
     int columCount = 0;
     int lineCount = 0;
     char leftChar = 0;
@@ -78,6 +93,7 @@ void printDominoes(Domino* _arrayDeDomino, int _arraySize)
 
 void exitGameText()
 {
+    clearTerminal();
     printf("=+=+=+=+=+=+=+=+=+=+=+=+=\n");
     printf("Thank you for playing!\n");
     printf("Game made by:\nArthur Naves Pedroso\nCaio Henrique Portella\nLuiz Eduardo Ramirez\nMauricio Macedo Villarnobo\n");
@@ -86,5 +102,5 @@ void exitGameText()
 
 void invalidOption()
 {
-    printf("Invalid selection\n");
+    printf("Invalid selection!\n");
 }
