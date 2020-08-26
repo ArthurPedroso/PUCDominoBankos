@@ -10,9 +10,9 @@
 void clearTerminal()
 {
 #ifdef OS_Windows
-system("cls");
+    system("cls");
 #else
-printf("\033[H\033[J");
+    printf("\033[H\033[J");
 #endif
 }
 
@@ -36,6 +36,8 @@ void screenDisplayOptionsInput() //recebe input da opcao escolhida e o retona
 //-----------Head Funcs-----------//
 void menuInit(int _displayInvalidOption) //inica e printa menu
 {
+    screenDisplay();
+    return;
     clearTerminal();
     printf("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\n");
     printf("\n");

@@ -100,6 +100,20 @@ void sendTriangleGeometryToOpenGL()
 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(triangleGeometryBufferData), triangleGeometryBufferData, GL_STATIC_DRAW);
 }
+void sendQuadGeometryToOpenGL()
+{
+	static const GLfloat quadGeometryBufferData[] = 
+	{
+   		-1.0f, -1.0f, 0.0f,
+   		1.0f, -1.0f, 0.0f,
+   		-1.0f,  1.0f, 0.0f,//end triangle 1
+		-1.0f,  1.0f, 0.0f,
+		1.0f,  -1.0f, 0.0f,
+		1.0f,  1.0f, 0.0f,//end triangle 2
+	};
+
+	glBufferData(GL_ARRAY_BUFFER, sizeof(quadGeometryBufferData), quadGeometryBufferData, GL_STATIC_DRAW);
+}
 void sendCubeGeometryToOpenGL()
 {
 	static const GLfloat cubeGeometryBufferData[] = 
@@ -153,7 +167,7 @@ GLuint getVertexBuffer()
 	// The following commands will talk about our 'vertexBuffer' buffer
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 	// Give our vertices to OpenGL.
-	sendCubeGeometryToOpenGL();
+	sendQuadGeometryToOpenGL();
 	//sendTriangleGeometryToOpenGL();
 
 	return vertexBuffer;
@@ -163,44 +177,22 @@ GLuint getUVBuffer()
 	GLuint uvBuffer = 0;
 	// Two UV coordinatesfor each vertex. They were created with Blender. You'll learn shortly how to do this yourself.
 	//UV para um cubo
+	/*
+		-1.0f, -1.0f, 0.0f,
+   		1.0f, -1.0f, 0.0f,
+   		-1.0f,  1.0f, 0.0f,//end triangle 1
+		-1.0f,  1.0f, 0.0f,
+		1.0f,  -1.0f, 0.0f,
+		1.0f,  1.0f, 0.0f,//end triangle 2
+	*/
 	static const GLfloat g_uv_buffer_data[] =
 	{
-    	0.000059f, 1.0f-0.000004f,
-    	0.000103f, 1.0f-0.336048f,
-    	0.335973f, 1.0f-0.335903f,
-    	1.000023f, 1.0f-0.000013f,
-    	0.667979f, 1.0f-0.335851f,
-    	0.999958f, 1.0f-0.336064f,
-    	0.667979f, 1.0f-0.335851f,
-    	0.336024f, 1.0f-0.671877f,
-    	0.667969f, 1.0f-0.671889f,
-    	1.000023f, 1.0f-0.000013f,
-    	0.668104f, 1.0f-0.000013f,
-    	0.667979f, 1.0f-0.335851f,
-    	0.000059f, 1.0f-0.000004f,
-    	0.335973f, 1.0f-0.335903f,
-    	0.336098f, 1.0f-0.000071f,
-    	0.667979f, 1.0f-0.335851f,
-    	0.335973f, 1.0f-0.335903f,
-    	0.336024f, 1.0f-0.671877f,
-    	1.000004f, 1.0f-0.671847f,
-    	0.999958f, 1.0f-0.336064f,
-    	0.667979f, 1.0f-0.335851f,
-    	0.668104f, 1.0f-0.000013f,
-    	0.335973f, 1.0f-0.335903f,
-    	0.667979f, 1.0f-0.335851f,
-    	0.335973f, 1.0f-0.335903f,
-    	0.668104f, 1.0f-0.000013f,
-    	0.336098f, 1.0f-0.000071f,
-    	0.000103f, 1.0f-0.336048f,
-    	0.000004f, 1.0f-0.671870f,
-    	0.336024f, 1.0f-0.671877f,
-    	0.000103f, 1.0f-0.336048f,
-    	0.336024f, 1.0f-0.671877f,
-    	0.335973f, 1.0f-0.335903f,
-    	0.667969f, 1.0f-0.671889f,
-    	1.000004f, 1.0f-0.671847f,
-    	0.667979f, 1.0f-0.335851f
+    	0.0f, 0.0f,
+		1.0f, 0.0f,
+		0.0f, 1.0f,
+		0.0f, 1.0f,
+		1.0f, 0.0f,
+		1.0f, 1.0f,
 	};
 
 	glGenBuffers(1, &uvBuffer);
@@ -279,7 +271,7 @@ int createEmptyWindow(GLFWwindow** _outWindow)//
 
 	// Open a window and create its OpenGL context
 	GLFWwindow* window; // (In the accompanying source code, this variable is global for simplicity)
-	window = glfwCreateWindow( 1024, 768, "Domino Bankos", NULL, NULL);
+	window = glfwCreateWindow( 1280, 960, "Domino Bankos", NULL, NULL);
 	if( window == NULL )
 	{
     	fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
@@ -312,6 +304,79 @@ int createEmptyWindow(GLFWwindow** _outWindow)//
 	return 0;
 }
 
+void handleShader(GLuint _shaderID, GLuint _textureID, GLuint _mvpHandler, 
+				GLuint _textureHandler, GLuint _timeHandler, mat4 _mvp, float _currentTime)
+{
+	//Usar o shader especificado
+	glUseProgram(_shaderID);
+	//-----SET UNIFORM VALUES-----//
+	// Send our transformation to the currently bound shader, in the "MVP" uniform
+	// This is done in the main loop since each model will have a different MVP matrix (At least for the M part)
+	glUniformMatrix4fv(_mvpHandler, 1, GL_FALSE, &_mvp[0][0]);
+	glUniform1f(_timeHandler, _currentTime);
+	//-----SET UNIFORM VALUES-----//
+
+	// Bind our texture in Texture Unit 0
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, _textureID);
+
+	// Set our "myTextureSampler" sampler to use Texture Unit 0
+	glUniform1i(_textureHandler, 0);
+
+}
+void drawObject(GLuint _vertexColorBuffer, GLuint _vertexBuffer, GLuint _uvBuffer,  mat4 _mvp)
+{
+	
+
+	
+    //-----1st attribute buffer : vertices-----//
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+	glVertexAttribPointer
+	(
+   		0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
+   		3,                  // size
+		GL_FLOAT,           // type
+		GL_FALSE,           // normalized?
+		0,                  // stride
+		(void*)0            // array buffer offset
+	);
+    //-----1st attribute buffer : vertices-----//
+	//-----2st attribute buffer : vertexcolor-----//
+	glEnableVertexAttribArray(1);
+	glBindBuffer(GL_ARRAY_BUFFER, _vertexColorBuffer);
+	glVertexAttribPointer
+	(
+   		1,                  // attribute. No particular reason for 1, but must match the layout in the shader.
+   		3,                  // size
+		GL_FLOAT,           // type
+		GL_FALSE,           // normalized?
+		0,                  // stride
+		(void*)0            // array buffer offset
+	);
+    //-----2st attribute buffer : vertexcolor-----//
+	//-----3st attribute buffer : UV-----//
+	glEnableVertexAttribArray(2);
+	glBindBuffer(GL_ARRAY_BUFFER, _uvBuffer);
+	glVertexAttribPointer
+	(
+   		2,                  // attribute. No particular reason for 2, but must match the layout in the shader.
+   		2,                  // size: U+V
+		GL_FLOAT,           // type
+		GL_FALSE,           // normalized?
+		0,                  // stride
+		(void*)0            // array buffer offset
+	);
+    //-----3st attribute buffer : UV-----//
+	//DRAW CALL
+	glDrawArrays(GL_TRIANGLES, 0, 36); // colocar quantidade de vertices
+	//tem que ter um para cada atributo
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
+
+}
+
 int drawLoop(GLFWwindow* _window)
 {
 	GLuint programID = LoadShaders("Shaders/BasicVertex.glsl","Shaders/BasicFragment.glsl");
@@ -319,7 +384,7 @@ int drawLoop(GLFWwindow* _window)
 	//-----UNIFORM HANDLES-----//
 	// Get a handle for our "MVP" uniform
 	// Only during the initialisation
-	GLuint MatrixHandler = glGetUniformLocation(programID, "MVP");	
+	GLuint MVPHandler = glGetUniformLocation(programID, "MVP");	
 	//Time para shaders
 	GLint TimeHandler = glGetUniformLocation(programID, "Time");
 	//texture handler
@@ -359,6 +424,10 @@ int drawLoop(GLFWwindow* _window)
     glm_mat4_mul(Projection, View, mvp);
     glm_mat4_mul(mvp, Model, mvp); 
 
+	mat4 mvp2;
+	glm_mat4_mul(Projection, View, mvp2);
+    glm_mat4_mul(mvp2, Model, mvp2); 
+	glm_translate(mvp2, (vec3){3.0f,3.0f,0.0f});
 	//-----VERTEX_BUFFER-----//
 	GLuint vertexBuffer = getVertexBuffer();
 	//-----VERTEX_BUFFER-----//
@@ -369,88 +438,43 @@ int drawLoop(GLFWwindow* _window)
 
 	//-----LOAD_TEXTURE-----//
 	GLuint textureID = loadBMPImage("Assets/uvtemplate.bmp");
-	GLuint bufferID = getUVBuffer();
+	GLuint uvBuffer = getUVBuffer();
 	//-----LOAD_TEXTURE-----//
 
 	//Time var
 	time_t initialTime = time(0);
-	float currentTime = 0.0f;
 	// Ensure we can capture the escape key being pressed below
 	glfwSetInputMode(_window, GLFW_STICKY_KEYS, GL_TRUE);
+
+	double lastTime = glfwGetTime();
+ 	int nbFrames = 0;
 	do
 	{
+    	// Measure speed
 		//Update time
-		currentTime = (float)difftime(time(0), initialTime);
+    	double currentGlfwTime = glfwGetTime();
+    	nbFrames++;
+    	if ( currentGlfwTime - lastTime >= 1.0 )
+		{ // If last prinf() was more than 1 sec ago
+    	 	// printf and reset timer
+    	    printf("%f ms/frame\n", 1000.0 / ((double)nbFrames));
+    	    nbFrames = 0;
+    	    lastTime += 1.0;
+    	}
+
 
     	// Clear the screen. It's not mentioned before Tutorial 02, but it can cause flickering, so it's there nonetheless.
     	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		//Usar o shader especificado
-		glUseProgram(programID);
+		//-----DRAW CALLS START-----//
 
-		//-----SET UNIFORM VALUES-----//
-		// Send our transformation to the currently bound shader, in the "MVP" uniform
-		// This is done in the main loop since each model will have a different MVP matrix (At least for the M part)
-		glUniformMatrix4fv(MatrixHandler, 1, GL_FALSE, &mvp[0][0]);
-		glUniform1f(TimeHandler, currentTime);
-		//-----SET UNIFORM VALUES-----//
+		handleShader(programID, textureID, MVPHandler, TextureHandler, TimeHandler, mvp, (float)currentGlfwTime);
+		drawObject(vertexColorBuffer, vertexBuffer, uvBuffer, mvp);
 
-		// Bind our texture in Texture Unit 0
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, textureID);
-		// Set our "myTextureSampler" sampler to use Texture Unit 0
-		glUniform1i(TextureHandler, 0);
+		handleShader(programID, textureID, MVPHandler, TextureHandler, TimeHandler, mvp2, (float)currentGlfwTime);
+		drawObject(vertexColorBuffer, vertexBuffer, uvBuffer, mvp2);
 
-
-    	//-----1st attribute buffer : vertices-----//
-		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-		glVertexAttribPointer
-		(
-   			0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
-   			3,                  // size
-			GL_FLOAT,           // type
-			GL_FALSE,           // normalized?
-			0,                  // stride
-			(void*)0            // array buffer offset
-		);
-    	//-----1st attribute buffer : vertices-----//
-
-		//-----2st attribute buffer : vertexcolor-----//
-		glEnableVertexAttribArray(1);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexColorBuffer);
-		glVertexAttribPointer
-		(
-   			1,                  // attribute. No particular reason for 1, but must match the layout in the shader.
-   			3,                  // size
-			GL_FLOAT,           // type
-			GL_FALSE,           // normalized?
-			0,                  // stride
-			(void*)0            // array buffer offset
-		);
-    	//-----2st attribute buffer : vertexcolor-----//
-
-		//-----3st attribute buffer : UV-----//
-		glEnableVertexAttribArray(2);
-		glBindBuffer(GL_ARRAY_BUFFER, bufferID);
-		glVertexAttribPointer
-		(
-   			2,                  // attribute. No particular reason for 2, but must match the layout in the shader.
-   			2,                  // size: U+V
-			GL_FLOAT,           // type
-			GL_FALSE,           // normalized?
-			0,                  // stride
-			(void*)0            // array buffer offset
-		);
-    	//-----3st attribute buffer : UV-----//
-
-		//DRAW CALL
-		glDrawArrays(GL_TRIANGLES, 0, 36); // colocar quantidade de vertices
-
-		//tem que ter um para cada atributo
-		glDisableVertexAttribArray(0);
-		glDisableVertexAttribArray(1);
-		glDisableVertexAttribArray(2);
+		//-----DRAW CALLS END-----//
 
     	// Swap buffers
     	glfwSwapBuffers(_window);
