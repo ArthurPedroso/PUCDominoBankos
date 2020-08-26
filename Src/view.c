@@ -2,6 +2,7 @@
 #include "model.h"
 #include "controller.h"
 #include "common.h"
+#include "OpenGLFiles/OGLManager.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -52,6 +53,7 @@ void menuInit(int _displayInvalidOption) //inica e printa menu
 
 void screenDisplay() //mostra a tela de jogo (OpenGL)
 {
+    startRender();
 }
 
 void screenDisplayOptions() //mostra as opcoes do jogador

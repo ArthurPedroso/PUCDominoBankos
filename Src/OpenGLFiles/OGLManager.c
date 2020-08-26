@@ -462,7 +462,7 @@ int drawLoop(GLFWwindow* _window)
 	return 0;
 }
 
-int main()
+int startRender()
 {
 	GLFWwindow* window;
 
