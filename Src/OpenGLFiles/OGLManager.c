@@ -21,6 +21,7 @@
 #include <time.h>
 
 #include "CppFiles/shader.h" //usado para carregar shaders
+#include "CppFiles/text2D.h"
 #include "gameObject.h"
 #include "OGLUtilities.h"
 void sendTriangleGeometryToOpenGL()
@@ -386,6 +387,9 @@ int drawLoop(GLFWwindow* _window)
 		glm_scale(dominoes[i].left.MVP, (vec3){0.5f, 0.5f, 1.0f});
 		glm_translate(dominoes[i].left.MVP, (vec3){-2.0f,(2.1f * i) - 15.0f,0.0f});
 	}
+
+	// Initialize our little text library with the Holstein font
+	initText2D( "Assets/Text/Arial.DDS" );
 	//GAME TESTS//
 
 
@@ -434,7 +438,10 @@ int drawLoop(GLFWwindow* _window)
 			drawObject(vertexColorBuffer, vertexBuffer, uvBuffer, currentDomino.right.MVP);
 		}
 		
-
+		
+		char text[256];
+		sprintf(text,"%.2f sec", glfwGetTime() );
+		printText2D(text, 10, 500, 60);
 		//-----DRAW CALLS END-----//
 
     	// Swap buffers
@@ -443,6 +450,8 @@ int drawLoop(GLFWwindow* _window)
 
 	} // Check if the ESC key was pressed or the window was closed
 	while( glfwGetKey(_window, GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwWindowShouldClose(_window) == 0 );
+
+	cleanupText2D();
 
 	return 0;
 }
