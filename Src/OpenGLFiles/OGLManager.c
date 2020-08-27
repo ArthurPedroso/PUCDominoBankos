@@ -20,75 +20,9 @@
 //Time para ser passado como uniform para glsl
 #include <time.h>
 
-#include"CppFiles/shader.h" //usado para carregar shaders
-
-GLuint loadBMPImage(const char* _imagePath)
-{
-	GLuint textureID;
-	// Data read from the header of the BMP file
-	unsigned char header[54]; // Each BMP file begins by a 54-bytes header
-	unsigned int dataPos;     // Position in the file where the actual data begins
-	unsigned int width, height;
-	unsigned int imageSize;   // = width*height*3(RGB)
-	// Actual RGB data
-	unsigned char * data;
-
-	// Open the file
-	FILE * file = fopen(_imagePath,"rb");
-	if (!file) { printf("Image could not be opened\n"); return 0; }
-
-	//check for header
-	if (fread(header, 1, 54, file) !=54) // If not 54 bytes read : problem
-	{		
-    	printf("Not a correct BMP file\n");
-    	return 0;
-	}
-	//check for BM in header
-	if ( header[0]!='B' || header[1]!='M' )
-	{
-    	printf("Not a correct BMP file\n");
-    	return 0;
-	}
-
-	// Read ints from the header byte array
-	dataPos    = *(int*)&(header[0x0A]);
-	imageSize  = *(int*)&(header[0x22]);
-	width      = *(int*)&(header[0x12]);
-	height     = *(int*)&(header[0x16]);
-
-	// Some BMP files are misformatted, guess missing information
-	if (imageSize==0) imageSize=width*height*3; // 3 : one byte for each Red, Green and Blue component
-	if (dataPos==0) dataPos=54; // The BMP header is done that way
-
-	// Baseado nas informacoes adquiridas do header
-	// agora é possivel alocar memoria para armazenar a imagem com base no "imageSize"
-	// Create a buffer
-	data = malloc(sizeof(unsigned char) * imageSize);
-
-	// Read the actual data from the file into the buffer
-	fread(data, 1, imageSize, file);
-
-	//Everything is in memory now, the file can be closed
-	fclose(file);
-
-
-	glGenTextures(1, &textureID);
-
-	// "Bind" the newly created texture : all future texture functions will modify this texture
-	glBindTexture(GL_TEXTURE_2D, textureID);
-
-	// Give the image to OpenGL
-	glTexImage2D(GL_TEXTURE_2D, 0,GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
-
-	// When MAGnifying the image (no bigger mipmap available), use LINEAR filtering
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	// When MINifying the image, use a LINEAR blend of two mipmaps, each filtered LINEARLY too
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	// Generate mipmaps, by the way.
-	glGenerateMipmap(GL_TEXTURE_2D);
-
-	return textureID;
-}
+#include "CppFiles/shader.h" //usado para carregar shaders
+#include "gameObject.h"
+#include "OGLUtilities.h"
 void sendTriangleGeometryToOpenGL()
 {
 	static const GLfloat triangleGeometryBufferData[] = 
@@ -393,12 +327,11 @@ int drawLoop(GLFWwindow* _window)
 
 	// Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
 	//zoado do site glm::mat4 Projection = glm::perspective(glm::radians(45.0f), (float) width / (float)height, 0.1f, 100.0f);
-	mat4 Projection; 
-    glm_perspective (glm_rad(45.0f), 4.0f / 3.0f, 0.1f, 100.0f, Projection);
+	//mat4 Projection; 
+    //glm_perspective (glm_rad(45.0f), 4.0f / 3.0f, 0.1f, 100.0f, Projection);
 	// Or, for an ortho camera :
-	//mat4 Projection = ortho(-10.0f,10.0f,-10.0f,10.0f,0.0f,100.0f); // In world coordinates
-    
-    
+	mat4 Projection; // = ortho(-10.0f,10.0f,-10.0f,10.0f,0.0f,100.0f); // In world coordinates
+    glm_ortho(-20.0f,20.0f,-15.0f,15.0f,0.0f,100.0f, Projection);
     
 	// Camera matrix
 	mat4 View;
@@ -441,6 +374,21 @@ int drawLoop(GLFWwindow* _window)
 	GLuint uvBuffer = getUVBuffer();
 	//-----LOAD_TEXTURE-----//
 
+
+
+	//GAME TESTS//
+	DominoGObject* dominoes = getAllGameDominoes(mvp);
+
+	for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+	{		
+		glm_scale(dominoes[i].right.MVP, (vec3){0.5f, 0.5f, 1.0f});
+		glm_translate(dominoes[i].right.MVP, (vec3){2.0f,(2.1f * i) - 15.0f,0.0f});
+		glm_scale(dominoes[i].left.MVP, (vec3){0.5f, 0.5f, 1.0f});
+		glm_translate(dominoes[i].left.MVP, (vec3){-2.0f,(2.1f * i) - 15.0f,0.0f});
+	}
+	//GAME TESTS//
+
+
 	//Time var
 	time_t initialTime = time(0);
 	// Ensure we can capture the escape key being pressed below
@@ -468,11 +416,24 @@ int drawLoop(GLFWwindow* _window)
 
 		//-----DRAW CALLS START-----//
 
-		handleShader(programID, textureID, MVPHandler, TextureHandler, TimeHandler, mvp, (float)currentGlfwTime);
-		drawObject(vertexColorBuffer, vertexBuffer, uvBuffer, mvp);
+		//handleShader(programID, textureID, MVPHandler, TextureHandler, TimeHandler, mvp, (float)currentGlfwTime);
+		//drawObject(vertexColorBuffer, vertexBuffer, uvBuffer, mvp);
 
-		handleShader(programID, textureID, MVPHandler, TextureHandler, TimeHandler, mvp2, (float)currentGlfwTime);
-		drawObject(vertexColorBuffer, vertexBuffer, uvBuffer, mvp2);
+		//handleShader(programID, textureID, MVPHandler, TextureHandler, TimeHandler, mvp2, (float)currentGlfwTime);
+		//drawObject(vertexColorBuffer, vertexBuffer, uvBuffer, mvp2);
+
+		
+		for(int j = 0; j < GAME_DOMINOES_AMOUNT; j++)
+		{
+			DominoGObject currentDomino = dominoes[j];
+			handleShader(programID, currentDomino.left.textureID, MVPHandler, 
+						TextureHandler, TimeHandler, currentDomino.left.MVP, (float)currentGlfwTime);
+			drawObject(vertexColorBuffer, vertexBuffer, uvBuffer, currentDomino.left.MVP);
+			handleShader(programID, currentDomino.right.textureID, MVPHandler, 
+						TextureHandler, TimeHandler, currentDomino.right.MVP, (float)currentGlfwTime);
+			drawObject(vertexColorBuffer, vertexBuffer, uvBuffer, currentDomino.right.MVP);
+		}
+		
 
 		//-----DRAW CALLS END-----//
 

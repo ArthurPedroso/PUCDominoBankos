@@ -8,13 +8,24 @@
 #include <GL/glew.h>
 #include <cglm/mat4.h>
 
+#define GAME_DOMINOES_AMOUNT 28
+
 typedef struct 
 {
+    mat4 MVP;
     GLuint vertexColorBuffer;
     GLuint vertexBuffer;
     GLuint UVBuffer;
-    mat4
-}DGObject;
+    GLuint textureID;
+}GObject;
 
+typedef struct 
+{
+    GObject right;
+    GObject left;
+    bool visible;
+}DominoGObject;
+
+DominoGObject* getAllGameDominoes(mat4 _startingMVP);
 
 #endif
