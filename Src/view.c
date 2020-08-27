@@ -15,7 +15,7 @@ void clearTerminal()
 #endif
 }
 
-int menuInput() //recebe input do menu e returna
+int menuInput() //recebe input do menu e retorna
 {
     int playerInput;
 
@@ -60,6 +60,22 @@ void screenDisplayOptions() //mostra as opcoes do jogador
     //printf("\n1- Place piece\n2- Buy piece\n3-Show screen\n4- Quit match");
     printf("\n1- Show Organized Dominoes\n2- Shuffle Dominoes\n");
     screenDisplayOptionsInput();
+}
+
+void displayPlayerSelection()
+{
+    clearTerminal();
+    printf("1- Jogar contra o AI\n2- Jogar com um amigo\n");
+    playerNumberSelection(playerSelectionInput());
+    
+}
+
+int playerSelectionInput() //recebe input do playerSelection e retorna
+{
+    int playerInput;
+
+    scanf("%d", &playerInput);
+    return playerInput;
 }
 
 void printDominoes(Domino* _arrayDeDomino, int _arraySize)

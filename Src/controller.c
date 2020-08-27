@@ -18,8 +18,9 @@ void menuPlayerSelection(int _menuOp)
     switch(_menuOp)
     {
         case 1: //New Game
-            screenDisplay();
-            screenDisplayOptions();
+            displayPlayerSelection();
+            //screenDisplay();
+            //screenDisplayOptions();
             break;
         case 2: //Save Game
             menuInit(FALSE);
@@ -33,6 +34,24 @@ void menuPlayerSelection(int _menuOp)
         default:
             menuInit(TRUE);
             break;
+    }
+}
+
+void playerNumberSelection(int _menuOP)
+{
+    if(_menuOP == 1)
+    {
+        //determinar q so tem 1 jogador
+        //Chamar funcao q inicia jogo contra AI
+    }
+    else if (_menuOP == 2)
+    {
+        //determinar q tem 2 jogadores
+        //Chamar funcao q inicia o jogo contra outro jogdor
+    }
+    else
+    {
+        exitGameText();
     }
 }
 

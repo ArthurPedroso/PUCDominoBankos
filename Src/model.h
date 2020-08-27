@@ -6,6 +6,8 @@
 #define DOMINO_DOWN 180
 #define DOMINO_LEFT 270
 #define GAME_DOMINOES_AMOUNT 28
+#define HAND_DOMINOES_AMOUNT 12
+#define EMPTY 7 //numero que representa quando um domino e' vazio
 
 typedef struct 
 {
@@ -15,6 +17,12 @@ typedef struct
     int rightType;
     int leftType;
 }Domino;
+
+typedef struct
+{
+        Domino handDominoes[HAND_DOMINOES_AMOUNT];
+}Player;
+
 
 void shuffleDominoesAndDisplay();
 void modelInitialization();

@@ -4,6 +4,24 @@
 #include <time.h>
 #include <stdio.h>
 
+
+Domino* getPlayerHand(Domino* _pilhaDominos)
+{
+    Player Player1;
+
+    for(int i = 0; i < HAND_DOMINOES_AMOUNT; i++)
+    {
+
+        int random = rand() % GAME_DOMINOES_AMOUNT;
+
+        Player1.handDominoes[i] = _pilhaDominos[random];
+        _pilhaDominos[random].leftType = EMPTY;
+        _pilhaDominos[random].rightType = EMPTY;
+    }
+
+    return Player1.handDominoes;
+} 
+
 Domino* getGameDominoes()
 {
     static Domino array[GAME_DOMINOES_AMOUNT];
