@@ -33,6 +33,11 @@ void screenDisplayOptionsInput() //recebe input da opcao escolhida e o retona
 
     managePlayerChoice(playerInput);
 }
+
+void OGLManagerUpdateCB(float _deltaTime, int _input)
+{
+    if(_input) printf("\nPressionado!%f\n", _deltaTime);
+}
 //-----------Head Funcs-----------//
 void menuInit(int _displayInvalidOption) //inica e printa menu
 {
@@ -55,7 +60,7 @@ void menuInit(int _displayInvalidOption) //inica e printa menu
 
 void screenDisplay() //mostra a tela de jogo (OpenGL)
 {
-    startRender();
+    startRender(OGLManagerUpdateCB);
 }
 
 void screenDisplayOptions() //mostra as opcoes do jogador

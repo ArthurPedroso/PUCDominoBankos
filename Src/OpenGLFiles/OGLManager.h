@@ -1,6 +1,8 @@
 #ifndef OGLMANAGER_HEADER
 #define OGLMANAGER_HEADER
 
-int startRender();
+typedef void (*CBRenderUpdate)(float _deltaTime, int _keyPress);
+
+int startRender(CBRenderUpdate _callBack);
 
 #endif

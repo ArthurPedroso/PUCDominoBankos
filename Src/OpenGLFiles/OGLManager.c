@@ -259,7 +259,7 @@ void handleShader(GLuint _shaderID, GLuint _textureID, GLuint _mvpHandler,
 	glUniform1i(_textureHandler, 0);
 
 }
-void drawObject(GLuint _vertexColorBuffer, GLuint _vertexBuffer, GLuint _uvBuffer,  mat4 _mvp)
+void drawObject(GLuint _vertexBuffer, GLuint _uvBuffer,  mat4 _mvp)
 {
 	
 
@@ -277,19 +277,6 @@ void drawObject(GLuint _vertexColorBuffer, GLuint _vertexBuffer, GLuint _uvBuffe
 		(void*)0            // array buffer offset
 	);
     //-----1st attribute buffer : vertices-----//
-	//-----2st attribute buffer : vertexcolor-----//
-	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, _vertexColorBuffer);
-	glVertexAttribPointer
-	(
-   		1,                  // attribute. No particular reason for 1, but must match the layout in the shader.
-   		3,                  // size
-		GL_FLOAT,           // type
-		GL_FALSE,           // normalized?
-		0,                  // stride
-		(void*)0            // array buffer offset
-	);
-    //-----2st attribute buffer : vertexcolor-----//
 	//-----3st attribute buffer : UV-----//
 	glEnableVertexAttribArray(2);
 	glBindBuffer(GL_ARRAY_BUFFER, _uvBuffer);
@@ -307,13 +294,33 @@ void drawObject(GLuint _vertexColorBuffer, GLuint _vertexBuffer, GLuint _uvBuffe
 	glDrawArrays(GL_TRIANGLES, 0, 36); // colocar quantidade de vertices
 	//tem que ter um para cada atributo
 	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
+	//glDisableVertexAttribArray(1); //removido vertex color
 	glDisableVertexAttribArray(2);
 
 }
-
-int drawLoop(GLFWwindow* _window)
+void debugFPS(double* _outLastTime, int* _outNbFrames)
 {
+	double lastTime = *_outLastTime;
+	int nbFrames = *_outNbFrames;
+	// Measure speed
+	//Update time
+    double currentGlfwTime = glfwGetTime();
+    nbFrames++;
+    if (currentGlfwTime - lastTime >= 1.0)
+	{ 
+		// If last prinf() was more than 1 sec ago
+    	// printf and reset timer
+    	printf("%f ms/frame\n", 1000.0 / (double)(nbFrames));
+    	nbFrames = 0;
+    	lastTime += 1.0;
+    }
+
+	*_outLastTime = lastTime;
+	*_outNbFrames = nbFrames;
+}
+int drawLoop(GLFWwindow* _window, CBRenderUpdate _callBack)
+{
+
 	GLuint programID = LoadShaders("Shaders/BasicVertex.glsl","Shaders/BasicFragment.glsl");
 
 	//-----UNIFORM HANDLES-----//
@@ -338,7 +345,7 @@ int drawLoop(GLFWwindow* _window)
 	mat4 View;
     glm_lookat
     (
-        (vec3){0.0f,  8.0f,  -20.0f}, // Camera is at (x,y,z), in World Space
+        (vec3){0.0f,  0.0f,  -50.0f}, // Camera is at (x,y,z), in World Space
         (vec3){0.0f,  0.0f,  0.0f}, // and looks at the origin
         (vec3){0.0f,  1.0f,  0.0f},
         View // Head is up (set to 0,-1,0 to look upside-down)
@@ -358,22 +365,14 @@ int drawLoop(GLFWwindow* _window)
     glm_mat4_mul(Projection, View, mvp);
     glm_mat4_mul(mvp, Model, mvp); 
 
-	mat4 mvp2;
-	glm_mat4_mul(Projection, View, mvp2);
-    glm_mat4_mul(mvp2, Model, mvp2); 
-	glm_translate(mvp2, (vec3){3.0f,3.0f,0.0f});
+
 	//-----VERTEX_BUFFER-----//
-	GLuint vertexBuffer = getVertexBuffer();
+	GLuint vertexBuffer = getVertexBuffer(); //get quad geometry by default
 	//-----VERTEX_BUFFER-----//
 
-	//-----VERTEX_COLOR-----//
-	GLuint vertexColorBuffer = getVertexColorBuffer();
-	//-----VERTEX_COLOR-----//
-
-	//-----LOAD_TEXTURE-----//
-	GLuint textureID = loadBMPImage("Assets/uvtemplate.bmp");
-	GLuint uvBuffer = getUVBuffer();
-	//-----LOAD_TEXTURE-----//
+	//-----UV_BUFFER-----//
+	GLuint uvBuffer = getUVBuffer();//quad uv
+	//-----UV_BUFFER-----//
 
 
 
@@ -388,65 +387,66 @@ int drawLoop(GLFWwindow* _window)
 		glm_translate(dominoes[i].left.MVP, (vec3){-2.0f,(2.1f * i) - 15.0f,0.0f});
 	}
 
-	// Initialize our little text library with the Holstein font
+	// Initialize our little text library with the Arial font
 	initText2D( "Assets/Text/Arial.DDS" );
 	//GAME TESTS//
 
 
-	//Time var
-	time_t initialTime = time(0);
 	// Ensure we can capture the escape key being pressed below
 	glfwSetInputMode(_window, GLFW_STICKY_KEYS, GL_TRUE);
 
-	double lastTime = glfwGetTime();
+	double lastFrameTime = glfwGetTime();
+	double lastTime = lastFrameTime;
+	double currentTime = 0;
+	double deltaTime = 0;
  	int nbFrames = 0;
 	do
-	{
-    	// Measure speed
-		//Update time
-    	double currentGlfwTime = glfwGetTime();
-    	nbFrames++;
-    	if ( currentGlfwTime - lastTime >= 1.0 )
-		{ // If last prinf() was more than 1 sec ago
-    	 	// printf and reset timer
-    	    printf("%f ms/frame\n", 1000.0 / ((double)nbFrames));
-    	    nbFrames = 0;
-    	    lastTime += 1.0;
-    	}
+	{    			
+    	// Swap buffers
+    	glfwSwapBuffers(_window);
+    	glfwPollEvents();
+		
+		//-----SET DELTA TIME-----//
+		currentTime = glfwGetTime();
+		deltaTime = currentTime - lastFrameTime;
+		lastFrameTime = currentTime;
+		//-----SET DELTA TIME-----//
 
+		//-----DEBUG-----//
+		debugFPS(&lastTime, &nbFrames);
+		//-----DEBUG-----//
+
+		//-----GAME LOGIC UPDATE-----//
+		_callBack(deltaTime, glfwGetKey(_window, GLFW_KEY_ESCAPE));
+		//-----GAME LOGIC UPDATE-----//
 
     	// Clear the screen. It's not mentioned before Tutorial 02, but it can cause flickering, so it's there nonetheless.
     	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		//-----DRAW CALLS START-----//
 
-		//handleShader(programID, textureID, MVPHandler, TextureHandler, TimeHandler, mvp, (float)currentGlfwTime);
-		//drawObject(vertexColorBuffer, vertexBuffer, uvBuffer, mvp);
-
-		//handleShader(programID, textureID, MVPHandler, TextureHandler, TimeHandler, mvp2, (float)currentGlfwTime);
-		//drawObject(vertexColorBuffer, vertexBuffer, uvBuffer, mvp2);
-
-		
+		//-----DOMINOES-----//
 		for(int j = 0; j < GAME_DOMINOES_AMOUNT; j++)
 		{
 			DominoGObject currentDomino = dominoes[j];
+			//left
 			handleShader(programID, currentDomino.left.textureID, MVPHandler, 
-						TextureHandler, TimeHandler, currentDomino.left.MVP, (float)currentGlfwTime);
-			drawObject(vertexColorBuffer, vertexBuffer, uvBuffer, currentDomino.left.MVP);
-			handleShader(programID, currentDomino.right.textureID, MVPHandler, 
-						TextureHandler, TimeHandler, currentDomino.right.MVP, (float)currentGlfwTime);
-			drawObject(vertexColorBuffer, vertexBuffer, uvBuffer, currentDomino.right.MVP);
-		}
-		
-		
-		char text[256];
-		sprintf(text,"%.2f sec", glfwGetTime() );
-		printText2D(text, 10, 500, 60);
-		//-----DRAW CALLS END-----//
+						TextureHandler, TimeHandler, currentDomino.left.MVP, (float)currentTime);
+			drawObject(vertexBuffer, uvBuffer, currentDomino.left.MVP);
 
-    	// Swap buffers
-    	glfwSwapBuffers(_window);
-    	glfwPollEvents();
+			//right
+			handleShader(programID, currentDomino.right.textureID, MVPHandler, 
+						TextureHandler, TimeHandler, currentDomino.right.MVP, (float)currentTime);
+			drawObject(vertexBuffer, uvBuffer, currentDomino.right.MVP);
+		}
+		//-----DOMINOES-----//
+		
+		//-----TEXT-----//
+		char text[256];
+		sprintf(text,"%.2f sec", currentTime );
+		printText2D(text, 10, 500, 60);
+		//-----TEXT-----//
+		//-----DRAW CALLS END-----//
 
 	} // Check if the ESC key was pressed or the window was closed
 	while( glfwGetKey(_window, GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwWindowShouldClose(_window) == 0 );
@@ -456,7 +456,7 @@ int drawLoop(GLFWwindow* _window)
 	return 0;
 }
 
-int startRender()
+int startRender(CBRenderUpdate _callBack)
 {
 	GLFWwindow* window;
 
@@ -464,6 +464,6 @@ int startRender()
 	if(createEmptyWindow(&window) == -1) return -1; //criacao de janela
 
 	printf("\nesperando input de teclado\n");
-	drawLoop(window);
+	drawLoop(window, _callBack);
 	return 0;
 }
