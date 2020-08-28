@@ -68,8 +68,6 @@ void printDominoes(Domino* _dominoArray, int _arraySize)
         oglDomino.visible = TRUE;
         setGObjectPosition(&oglDomino.left, (columCount-0.25f) * 0.2f + (columCount * 0.05f - 0.8f),((-lineCount) * 0.2f) + 0.8f, -1.0f);
         setGObjectPosition(&oglDomino.right, (columCount+0.25f) * 0.2f + (columCount * 0.05f - 0.8f), ((-lineCount) * 0.2f) + 0.8f, -1.0f); 
-        
-        //oglDomino.left
 
         oglDominos[dominoGObjectIndex] = oglDomino;
 
@@ -83,7 +81,6 @@ void printDominoes(Domino* _dominoArray, int _arraySize)
             columCount++;
         }
     }  
-    //screenDisplayOptions();
 }
 
 void exitGame()
