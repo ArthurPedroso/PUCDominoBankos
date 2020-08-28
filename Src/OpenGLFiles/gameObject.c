@@ -1,5 +1,6 @@
 #include "gameObject.h"
 #include "OGLUtilities.h"
+#include <cglm/affine.h>
 
 DominoGObject getEmptyDGObject(mat4 _startingMVP)
 {
@@ -20,8 +21,13 @@ DominoGObject getEmptyDGObject(mat4 _startingMVP)
 }
 
 //-----HEADER FUNCS-----//
-
-
+int getDominoindexByType(int _leftType, int _rightType)
+{
+    //soma dos termos de uma pa: sn = n(a1 + an)/2
+    //termo geral da pa da linha da lista de domino: an = a1 - (n - 1)
+    //normalizar o tipo da direita: rightType - leftType
+    return ((_leftType * (15 - _leftType))/2) + (_rightType - _leftType);
+}
 void initializeGameDominoesArray(DominoGObject* _array, int _arraySize, mat4 _startingMVP)
 {
     DominoGObject* allGameDominoes = _array;
@@ -45,7 +51,8 @@ void initializeGameDominoesArray(DominoGObject* _array, int _arraySize, mat4 _st
 
         allGameDominoes[i].right.textureID = dominoesTextures[columCount + lineCount];
         allGameDominoes[i].left.textureID = dominoesTextures[lineCount];
-
+        //allGameDominoes[i].rightType = columCount + lineCount;
+        //allGameDominoes[i].leftType = lineCount;
         if(columCount >= 6 - lineCount)
         {
             columCount = 0;
@@ -58,3 +65,15 @@ void initializeGameDominoesArray(DominoGObject* _array, int _arraySize, mat4 _st
     }
 }
 
+void setGObjectPosition(GObject* _outObject, float _x,float _y,float _z)
+{
+    _outObject->MVP[3][0] = _x;
+    _outObject->MVP[3][1] = _y;
+    _outObject->MVP[3][2] = _z;
+}
+void moveGObject(GObject _outObject, float _x,float _y,float _z)
+{
+    //_outObject->MVP
+
+    //glm_translate(_outObject.MVP, );
+}

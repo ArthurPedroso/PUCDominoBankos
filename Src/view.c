@@ -1,7 +1,6 @@
 #include "view.h"
 #include "model.h"
 #include "controller.h"
-#include "common.h"
 #include "OpenGLFiles/OGLManager.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -38,7 +37,7 @@ void OGLManagerUpdateCB(float _deltaTime, int _input)
 {
     if(_input) 
     {
-        menuPlayerSelection();
+        menuPlayerSelection(_input);
     }
 }
 //-----------Head Funcs-----------//
@@ -73,10 +72,40 @@ void screenDisplayOptions() //mostra as opcoes do jogador
     screenDisplayOptionsInput();
 }
 
-void printDominoes(Domino* _arrayDeDomino, int _arraySize)
+void printDominoes(Domino* _dominoArray, int _arraySize)
 {
-    
-    screenDisplayOptions();
+    DominoGObject* oglDominos = getDominoesGObjects();
+
+    int columCount= 0;
+    int lineCount = 0;
+
+    for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+    {
+        Domino currentDomino = _dominoArray[i];
+        DominoGObject oglDomino;
+        int dominoGObjectIndex = getDominoindexByType(currentDomino.leftType, currentDomino.rightType);
+
+        oglDomino = oglDominos[dominoGObjectIndex];
+
+        oglDomino.visible = TRUE;
+        setGObjectPosition(&oglDomino.left, (columCount-0.25f) * 0.2f + (columCount * 0.05f - 0.8f),((-lineCount) * 0.2f) + 0.8f, 0.0f);
+        setGObjectPosition(&oglDomino.right, (columCount+0.25f) * 0.2f + (columCount * 0.05f - 0.8f), ((-lineCount) * 0.2f) + 0.8f, 0.0f); 
+        
+        //oglDomino.left
+
+        oglDominos[dominoGObjectIndex] = oglDomino;
+
+        if(columCount >= 6 - lineCount)
+        {
+            columCount = 0;
+            lineCount++;
+        }
+        else
+        {
+            columCount++;
+        }
+    }  
+    //screenDisplayOptions();
 }
 
 void exitGameText()

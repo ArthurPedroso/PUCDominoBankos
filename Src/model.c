@@ -1,5 +1,6 @@
 #include "model.h"
 #include "view.h"
+#include "common.h"
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>

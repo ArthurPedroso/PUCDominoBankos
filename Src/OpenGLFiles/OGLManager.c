@@ -22,10 +22,10 @@
 
 #include "CppFiles/shader.h" //usado para carregar shaders
 #include "CppFiles/text2D.h"
-#include "gameObject.h"
 #include "OGLUtilities.h"
 
-DominoGObject* getGameDominoes()
+//Retorna um array de tamanho 28, com todos os dominos do jogo em ordem crescente
+DominoGObject* getDominoesGObjects()
 {
 	static DominoGObject allGameDominoes[GAME_DOMINOES_AMOUNT];
 	
@@ -384,15 +384,15 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _callBack)
 
 
 	//GAME TESTS//
-	initializeGameDominoesArray(getGameDominoes());
-	DominoGObject* dominoes = getGameDominoes();
+	initializeGameDominoesArray(getDominoesGObjects(), GAME_DOMINOES_AMOUNT, mvp);
+	DominoGObject* dominoes = getDominoesGObjects();
 
 	for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
 	{		
 		glm_scale(dominoes[i].right.MVP, (vec3){0.5f, 0.5f, 1.0f});
-		glm_translate(dominoes[i].right.MVP, (vec3){2.0f,(2.1f * i) - 15.0f,0.0f});
+		//glm_translate(dominoes[i].right.MVP, (vec3){2.0f,(2.1f * i) - 15.0f,0.0f});
 		glm_scale(dominoes[i].left.MVP, (vec3){0.5f, 0.5f, 1.0f});
-		glm_translate(dominoes[i].left.MVP, (vec3){-2.0f,(2.1f * i) - 15.0f,0.0f});
+		//glm_translate(dominoes[i].left.MVP, (vec3){-2.0f,(2.1f * i) - 15.0f,0.0f});
 	}
 	// Initialize our little text library with the Arial font
 	initText2D( "Assets/Text/Arial.DDS" );
@@ -424,7 +424,7 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _callBack)
 		//-----DEBUG-----//
 
 		//-----GAME LOGIC UPDATE-----//
-		_callBack(deltaTime, glfwGetKey(_window, GLFW_KEY_ESCAPE));
+		_callBack(deltaTime, glfwGetKey(_window, GLFW_KEY_A));
 		//-----GAME LOGIC UPDATE-----//
 
     	// Clear the screen. It's not mentioned before Tutorial 02, but it can cause flickering, so it's there nonetheless.
@@ -436,6 +436,7 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _callBack)
 		for(int j = 0; j < GAME_DOMINOES_AMOUNT; j++)
 		{
 			DominoGObject currentDomino = dominoes[j];
+			if(!currentDomino.visible) continue;
 			//left
 			handleShader(programID, currentDomino.left.textureID, MVPHandler, 
 						TextureHandler, TimeHandler, currentDomino.left.MVP, (float)currentTime);
@@ -449,9 +450,9 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _callBack)
 		//-----DOMINOES-----//
 		
 		//-----TEXT-----//
-		char text[256];
-		sprintf(text,"%.2f sec", currentTime );
-		printText2D(text, 10, 500, 60);
+		//char text[256];
+		//sprintf(text,"%.2f sec", currentTime );
+		//printText2D(text, 10, 500, 60);
 		//-----TEXT-----//
 		//-----DRAW CALLS END-----//
 

@@ -60,6 +60,6 @@ int startGame()
     //Usado para passar erros de execução do programa
     int exitCode = 0;
     controllerInitialization();
-    menuInit(FALSE); //apenas testes; deveria estar abaixo de startGame();
+    menuInit(FALSE); 
     return 0;
 }

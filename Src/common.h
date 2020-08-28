@@ -14,4 +14,13 @@
 #endif
 //-----CHECK OS-----//
 
+typedef struct 
+{
+    int posX;
+    int posY;
+    int rotation;
+    int rightType;
+    int leftType;
+}Domino;
+
 #endif
