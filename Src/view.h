@@ -7,6 +7,6 @@ void menuInit(int _displayInvalidOption);
 void screenDisplay();
 void screenDisplayOptions();
 void printDominoes(Domino* _dominoArray, int _arraySize);
-void exitGameText();
+void exitGame();
 void invalidOption();
 #endif

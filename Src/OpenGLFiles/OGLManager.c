@@ -20,17 +20,13 @@
 //Time para ser passado como uniform para glsl
 #include <time.h>
 
-#include "CppFiles/shader.h" //usado para carregar shaders
-#include "CppFiles/text2D.h"
+#include "CppFiles/shader.h" //usado para carregar shaders]
+#define GLT_IMPLEMENTATION
+#include "CppFiles/gltext.h"
+//#include "CppFiles/text2D.h"
 #include "OGLUtilities.h"
 
-//Retorna um array de tamanho 28, com todos os dominos do jogo em ordem crescente
-DominoGObject* getDominoesGObjects()
-{
-	static DominoGObject allGameDominoes[GAME_DOMINOES_AMOUNT];
-	
-	return allGameDominoes;
-}
+
 void sendTriangleGeometryToOpenGL()
 {
 	static const GLfloat triangleGeometryBufferData[] = 
@@ -268,9 +264,7 @@ void handleShader(GLuint _shaderID, GLuint _textureID, GLuint _mvpHandler,
 }
 void drawObject(GLuint _vertexBuffer, GLuint _uvBuffer,  mat4 _mvp)
 {
-	
 
-	
     //-----1st attribute buffer : vertices-----//
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
@@ -285,11 +279,11 @@ void drawObject(GLuint _vertexBuffer, GLuint _uvBuffer,  mat4 _mvp)
 	);
     //-----1st attribute buffer : vertices-----//
 	//-----3st attribute buffer : UV-----//
-	glEnableVertexAttribArray(2);
+	glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, _uvBuffer);
 	glVertexAttribPointer
 	(
-   		2,                  // attribute. No particular reason for 2, but must match the layout in the shader.
+   		1,                  // attribute. No particular reason for 2, but must match the layout in the shader.
    		2,                  // size: U+V
 		GL_FLOAT,           // type
 		GL_FALSE,           // normalized?
@@ -298,11 +292,11 @@ void drawObject(GLuint _vertexBuffer, GLuint _uvBuffer,  mat4 _mvp)
 	);
     //-----3st attribute buffer : UV-----//
 	//DRAW CALL
-	glDrawArrays(GL_TRIANGLES, 0, 36); // colocar quantidade de vertices
+	glDrawArrays(GL_TRIANGLES, 0, 6); // colocar quantidade de vertices
 	//tem que ter um para cada atributo
 	glDisableVertexAttribArray(0);
 	//glDisableVertexAttribArray(1); //removido vertex color
-	glDisableVertexAttribArray(2);
+	glDisableVertexAttribArray(1);
 
 }
 void debugFPS(double* _outLastTime, int* _outNbFrames)
@@ -324,6 +318,16 @@ void debugFPS(double* _outLastTime, int* _outNbFrames)
 
 	*_outLastTime = lastTime;
 	*_outNbFrames = nbFrames;
+}
+int getGameInput(GLFWwindow* _window)
+{
+	if(glfwGetKey(_window, GLFW_KEY_1)) return INPUT_KEY1_PRESSED;
+	if(glfwGetKey(_window, GLFW_KEY_2)) return INPUT_KEY2_PRESSED;
+	if(glfwGetKey(_window, GLFW_KEY_3)) return INPUT_KEY3_PRESSED;
+	if(glfwGetKey(_window, GLFW_KEY_4)) return INPUT_KEY4_PRESSED;
+	if(glfwGetKey(_window, GLFW_KEY_5)) return INPUT_KEY5_PRESSED;
+
+	return INPUT_NO_KEY_PRESSED;
 }
 int drawLoop(GLFWwindow* _window, CBRenderUpdate _callBack)
 {
@@ -383,7 +387,13 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _callBack)
 
 
 
-	//GAME TESTS//
+	//GAME DATA INIT//
+	GObject backGround;
+	initializeGObject(&backGround, mvp);
+	backGround.textureID = loadBMPImage("Assets/background.bmp");
+	glm_scale(backGround.MVP, (vec3){10.0f, 10.0f, 1.0f});
+	glm_translate(backGround.MVP, (vec3){0.0f, 0.0f, 20.0f});
+
 	initializeGameDominoesArray(getDominoesGObjects(), GAME_DOMINOES_AMOUNT, mvp);
 	DominoGObject* dominoes = getDominoesGObjects();
 
@@ -394,9 +404,15 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _callBack)
 		glm_scale(dominoes[i].left.MVP, (vec3){0.5f, 0.5f, 1.0f});
 		//glm_translate(dominoes[i].left.MVP, (vec3){-2.0f,(2.1f * i) - 15.0f,0.0f});
 	}
-	// Initialize our little text library with the Arial font
-	initText2D( "Assets/Text/Arial.DDS" );
-	//GAME TESTS//
+	// Initialize glText
+	if (!gltInit())
+	{
+		fprintf(stderr, "Failed to initialize glText\n");
+		glfwTerminate();
+		return EXIT_FAILURE;
+	}
+	// Creating text
+	//GAME DATA INIT//
 
 
 	// Ensure we can capture the escape key being pressed below
@@ -407,6 +423,7 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _callBack)
 	double currentTime = 0;
 	double deltaTime = 0;
  	int nbFrames = 0;
+	GLTtext *text = NULL;
 	do
 	{    			
     	// Swap buffers
@@ -424,13 +441,20 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _callBack)
 		//-----DEBUG-----//
 
 		//-----GAME LOGIC UPDATE-----//
-		_callBack(deltaTime, glfwGetKey(_window, GLFW_KEY_A));
+		_callBack(deltaTime, getGameInput(_window));
 		//-----GAME LOGIC UPDATE-----//
 
     	// Clear the screen. It's not mentioned before Tutorial 02, but it can cause flickering, so it's there nonetheless.
     	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		//-----DRAW CALLS START-----//
+
+		//-----BACKGROUND-----//
+		handleShader(programID, backGround.textureID, MVPHandler, 
+						TextureHandler, TimeHandler, backGround.MVP, (float)currentTime);
+		drawObject(vertexBuffer, uvBuffer, backGround.MVP);
+		//-----BACKGROUND-----//
+
 
 		//-----DOMINOES-----//
 		for(int j = 0; j < GAME_DOMINOES_AMOUNT; j++)
@@ -448,20 +472,50 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _callBack)
 			drawObject(vertexBuffer, uvBuffer, currentDomino.right.MVP);
 		}
 		//-----DOMINOES-----//
+
+
 		
 		//-----TEXT-----//
-		//char text[256];
-		//sprintf(text,"%.2f sec", currentTime );
-		//printText2D(text, 10, 500, 60);
+
+		text = gltCreateText();
+		gltSetText(text, "Hello World!");
+		//glDisable(GL_DEPTH_TEST);
+		// Begin text drawing (this for instance calls glUseProgram)
+		gltBeginDraw();
+		// Draw any amount of text between begin and end
+		gltColor(1.0f, 1.0f, 1.0f, 1.0f);
+		//gltDrawText3D(text, 0.0f, 0.0f, -30.0f, 1.0f, (GLfloat*)View, (GLfloat*)Projection);
+		gltDrawText2D(text, -10.0f, 10.0f, 10.0f);
+		// Finish drawing text
+		gltEndDraw();
+		//glEnable(GL_DEPTH_TEST);
 		//-----TEXT-----//
 		//-----DRAW CALLS END-----//
 
 	} // Check if the ESC key was pressed or the window was closed
-	while( glfwGetKey(_window, GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwWindowShouldClose(_window) == 0 );
+	while(glfwWindowShouldClose(_window) == 0 && !(*shouldExitGame()));
 
-	cleanupText2D();
+	
+	// Deleting text
+	gltDeleteText(text);
+	gltTerminate();
 
 	return 0;
+}
+
+//-----HEADER FUNCS-----//
+bool* shouldExitGame()
+{
+	static bool exitGame = false;
+
+	return &exitGame;
+}
+//Retorna um array de tamanho 28, com todos os dominos do jogo em ordem crescente
+DominoGObject* getDominoesGObjects()
+{
+	static DominoGObject allGameDominoes[GAME_DOMINOES_AMOUNT];
+	
+	return allGameDominoes;
 }
 
 int startRender(CBRenderUpdate _callBack)

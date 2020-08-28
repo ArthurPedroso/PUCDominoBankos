@@ -28,6 +28,7 @@ typedef struct
     //int rightType;
 }DominoGObject;
 
+void initializeGObject(GObject* _outGObject, mat4 _startingMVP);
 void setGObjectPosition(GObject* _outObject, float _x,float _y,float _z);
 void initializeGameDominoesArray(DominoGObject* _array, int _arraySize, mat4 _startingMVP);
 //Com base no tipo do dominó retorna o indice dele com base em um array ordenado

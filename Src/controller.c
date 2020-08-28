@@ -3,24 +3,33 @@
 #include "view.h"
 #include "common.h"
 
+#define STATE_MAIN_MENU 0
+#define STATE_ORGANIZE_DOMINOES 1
+
+typedef int controllerState;
+
+controllerState* getControllerState()
+{
+    static controllerState s_controllerState = 1;
+
+    return &s_controllerState;
+}
+
 //Executado apenas uma vez no incio do jogo
 void controllerInitialization()
 {
     modelInitialization();
 }
 
-//----------Head Funcs----------//
 
-
-
-void menuPlayerSelection(int _menuOp)
+void manageMenuInput(int _menuInput)
 {
-    switch(_menuOp)
+    switch(_menuInput)
     {
         case 1: //New Game
             //screenDisplay();
             //screenDisplayOptions(); 
-            managePlayerChoice(1);
+            //managePlayerChoice(1);
             break;
         case 2: //Save Game
             menuInit(FALSE);
@@ -29,7 +38,7 @@ void menuPlayerSelection(int _menuOp)
             menuInit(FALSE);
             break;
         case 4: //Exit Game
-            exitGameText(); 
+            exitGame(); 
             break; 
         default:
             menuInit(TRUE);
@@ -37,22 +46,40 @@ void menuPlayerSelection(int _menuOp)
     }
 }
 
+
+void manageOrganizeDominosInput(int _organizeDominosInput)
+{
+    switch (_organizeDominosInput)
+    {
+    case OPTION_ONE:
+        organizeDominoes();
+        break;
+    case OPTION_TWO:
+        shuffleDominoesAndDisplay();
+        break;    
+    default:
+        exitGame();
+        break;
+    }
+}
+//----------Head Funcs----------//
+
+
+/*
+*/
+
 void managePlayerChoice(int _playerIput)
 {
-
-    if (_playerIput == OPTION_ONE)
+    switch (*getControllerState())
     {
-        organizeDominoes();
-    }
-    else if (_playerIput == OPTION_TWO)
-    {
-        shuffleDominoesAndDisplay();
-    }   
-    else
-    {
-        exitGameText();
-    }
+        case STATE_MAIN_MENU:
+            manageMenuInput(_playerIput);
+            break;
     
+        case STATE_ORGANIZE_DOMINOES:
+            manageOrganizeDominosInput(_playerIput);
+            break;
+    }    
 }
 
 int startGame()

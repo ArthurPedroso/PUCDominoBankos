@@ -4,7 +4,6 @@
 #define OPTION_TWO 2
 
 int startGame();
-void menuPlayerSelection(int _menuOp);
 void managePlayerChoice(int _playerInput);
 
 #endif

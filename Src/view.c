@@ -35,9 +35,9 @@ void screenDisplayOptionsInput() //recebe input da opcao escolhida e o retona
 
 void OGLManagerUpdateCB(float _deltaTime, int _input)
 {
-    if(_input) 
+    if(_input != INPUT_NO_KEY_PRESSED) 
     {
-        menuPlayerSelection(_input);
+        managePlayerChoice(_input);
     }
 }
 //-----------Head Funcs-----------//
@@ -57,7 +57,7 @@ void menuInit(int _displayInvalidOption) //inica e printa menu
     if(_displayInvalidOption) invalidOption();
     printf("Chosen option: ");
 
-    menuPlayerSelection(menuInput());
+    managePlayerChoice(menuInput());
 }
 
 void screenDisplay() //mostra a tela de jogo (OpenGL)
@@ -108,13 +108,13 @@ void printDominoes(Domino* _dominoArray, int _arraySize)
     //screenDisplayOptions();
 }
 
-void exitGameText()
-{
-    clearTerminal();
+void exitGame()
+{    
     printf("=+=+=+=+=+=+=+=+=+=+=+=+=\n");
     printf("Thank you for playing!\n");
     printf("Game made by:\nArthur Naves Pedroso\nCaio Henrique Portella\nLuiz Eduardo Ramirez\nMauricio Macedo Villarnobo\n");
     printf("=+=+=+=+=+=+=+=+=+=+=+=+=\n");
+    *shouldExitGame() = true;
 }
 
 void invalidOption()

@@ -7,11 +7,7 @@ DominoGObject getEmptyDGObject(mat4 _startingMVP)
     DominoGObject newDomino;
     GObject newGObject;
 
-    glm_mat4_copy(_startingMVP, newGObject.MVP);
-    newGObject.UVBuffer = 0;
-    newGObject.vertexBuffer = 0;
-    newGObject.vertexColorBuffer = 0;
-    newGObject.textureID = 0;
+    initializeGObject(&newGObject, _startingMVP);
 
     newDomino.left = newGObject;
     newDomino.right = newGObject;
@@ -21,12 +17,25 @@ DominoGObject getEmptyDGObject(mat4 _startingMVP)
 }
 
 //-----HEADER FUNCS-----//
+
 int getDominoindexByType(int _leftType, int _rightType)
 {
     //soma dos termos de uma pa: sn = n(a1 + an)/2
     //termo geral da pa da linha da lista de domino: an = a1 - (n - 1)
     //normalizar o tipo da direita: rightType - leftType
     return ((_leftType * (15 - _leftType))/2) + (_rightType - _leftType);
+}
+void initializeGObject(GObject* _outGObject, mat4 _startingMVP)
+{
+    GObject newGObject;
+
+    glm_mat4_copy(_startingMVP, newGObject.MVP);
+    newGObject.UVBuffer = 0;
+    newGObject.vertexBuffer = 0;
+    newGObject.vertexColorBuffer = 0;
+    newGObject.textureID = 0;
+
+    *_outGObject = newGObject;
 }
 void initializeGameDominoesArray(DominoGObject* _array, int _arraySize, mat4 _startingMVP)
 {
@@ -70,10 +79,4 @@ void setGObjectPosition(GObject* _outObject, float _x,float _y,float _z)
     _outObject->MVP[3][0] = _x;
     _outObject->MVP[3][1] = _y;
     _outObject->MVP[3][2] = _z;
-}
-void moveGObject(GObject _outObject, float _x,float _y,float _z)
-{
-    //_outObject->MVP
-
-    //glm_translate(_outObject.MVP, );
 }
