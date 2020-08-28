@@ -14,25 +14,13 @@ void clearTerminal()
     printf("\033[H\033[J");
 #endif
 }
-
-int menuInput() //recebe input do menu e returna
+void changeOGLText(char* _newText)
 {
-    int playerInput;
+    OGLTextData* textData;
+    textData = getTextData();
 
-    scanf("%d", &playerInput);
-    return playerInput;
+    textData->textToDraw = _newText;
 }
-
-
-void screenDisplayOptionsInput() //recebe input da opcao escolhida e o retona
-{
-    int playerInput = 0;
-
-    scanf("%d", &playerInput);
-
-    managePlayerChoice(playerInput);
-}
-
 void OGLManagerUpdateCB(float _deltaTime, int _input)
 {
     if(_input != INPUT_NO_KEY_PRESSED) 
@@ -40,36 +28,26 @@ void OGLManagerUpdateCB(float _deltaTime, int _input)
         managePlayerChoice(_input);
     }
 }
+void OGLManagerFirstFrameCB()
+{
+    menuInit(0);
+}
 //-----------Head Funcs-----------//
 void menuInit(int _displayInvalidOption) //inica e printa menu
 {
-    screenDisplay();
-    return;
-    clearTerminal();
-    printf("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\n");
-    printf("\n");
-    printf("Welcome! Let's play Domino!");
-    printf("To get started, select an option:\n");
-    printf("1- New Game\n2- Save\n3- Load\n4- Exit\n");
-    printf("\n");
-    printf("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\n");
-    printf("\n");
-    if(_displayInvalidOption) invalidOption();
-    printf("Chosen option: ");
+    //changeOGLText("Welcome! Let's play Domino!\nTo get started, select an option:\n1- New Game\n2- Save\n3- Load\n4- Exit\n");
+    changeOGLText("Welcome! Let's play Domino!\nTo get started, select an option:\n1- Organize Dominoes\n2- Exit\n");
 
-    managePlayerChoice(menuInput());
 }
 
 void screenDisplay() //mostra a tela de jogo (OpenGL)
 {
-    startRender(OGLManagerUpdateCB);
+    startRender(OGLManagerUpdateCB, OGLManagerFirstFrameCB);
 }
 
 void screenDisplayOptions() //mostra as opcoes do jogador
 {
-    //printf("\n1- Place piece\n2- Buy piece\n3-Show screen\n4- Quit match");
-    printf("\n1- Show Organized Dominoes\n2- Shuffle Dominoes\n");
-    screenDisplayOptionsInput();
+    changeOGLText("\n1- Show Organized Dominoes\n2- Shuffle Dominoes\n3- Go Back");
 }
 
 void printDominoes(Domino* _dominoArray, int _arraySize)
@@ -88,8 +66,8 @@ void printDominoes(Domino* _dominoArray, int _arraySize)
         oglDomino = oglDominos[dominoGObjectIndex];
 
         oglDomino.visible = TRUE;
-        setGObjectPosition(&oglDomino.left, (columCount-0.25f) * 0.2f + (columCount * 0.05f - 0.8f),((-lineCount) * 0.2f) + 0.8f, 0.0f);
-        setGObjectPosition(&oglDomino.right, (columCount+0.25f) * 0.2f + (columCount * 0.05f - 0.8f), ((-lineCount) * 0.2f) + 0.8f, 0.0f); 
+        setGObjectPosition(&oglDomino.left, (columCount-0.25f) * 0.2f + (columCount * 0.05f - 0.8f),((-lineCount) * 0.2f) + 0.8f, -1.0f);
+        setGObjectPosition(&oglDomino.right, (columCount+0.25f) * 0.2f + (columCount * 0.05f - 0.8f), ((-lineCount) * 0.2f) + 0.8f, -1.0f); 
         
         //oglDomino.left
 

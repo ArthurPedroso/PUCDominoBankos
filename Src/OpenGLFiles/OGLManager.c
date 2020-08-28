@@ -26,6 +26,9 @@
 //#include "CppFiles/text2D.h"
 #include "OGLUtilities.h"
 
+#define WIDTH_PXLS 1280
+#define HEIGTH_PXLS 960
+
 
 void sendTriangleGeometryToOpenGL()
 {
@@ -209,7 +212,7 @@ int createEmptyWindow(GLFWwindow** _outWindow)//
 
 	// Open a window and create its OpenGL context
 	GLFWwindow* window; // (In the accompanying source code, this variable is global for simplicity)
-	window = glfwCreateWindow( 1280, 960, "Domino Bankos", NULL, NULL);
+	window = glfwCreateWindow( WIDTH_PXLS, HEIGTH_PXLS, "Domino Bankos", NULL, NULL);
 	if( window == NULL )
 	{
     	fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
@@ -329,7 +332,7 @@ int getGameInput(GLFWwindow* _window)
 
 	return INPUT_NO_KEY_PRESSED;
 }
-int drawLoop(GLFWwindow* _window, CBRenderUpdate _callBack)
+int drawLoop(GLFWwindow* _window, CBRenderUpdate _updateCallBack, CBBeforeFirstFrame _firstFrameCallBack)
 {
 
 	GLuint programID = LoadShaders("Shaders/BasicVertex.glsl","Shaders/BasicFragment.glsl");
@@ -389,6 +392,7 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _callBack)
 
 	//GAME DATA INIT//
 	GObject backGround;
+	OGLTextData* textData;
 	initializeGObject(&backGround, mvp);
 	backGround.textureID = loadBMPImage("Assets/background.bmp");
 	glm_scale(backGround.MVP, (vec3){10.0f, 10.0f, 1.0f});
@@ -404,6 +408,14 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _callBack)
 		glm_scale(dominoes[i].left.MVP, (vec3){0.5f, 0.5f, 1.0f});
 		//glm_translate(dominoes[i].left.MVP, (vec3){-2.0f,(2.1f * i) - 15.0f,0.0f});
 	}
+
+	textData = getTextData();
+	textData->scale = 1.5f;
+	textData->textToDraw = "";
+	textData->xPos = 0.0f;
+	textData->yPos = 780.0f;
+	//GAME DATA INIT//
+
 	// Initialize glText
 	if (!gltInit())
 	{
@@ -411,8 +423,6 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _callBack)
 		glfwTerminate();
 		return EXIT_FAILURE;
 	}
-	// Creating text
-	//GAME DATA INIT//
 
 
 	// Ensure we can capture the escape key being pressed below
@@ -424,6 +434,9 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _callBack)
 	double deltaTime = 0;
  	int nbFrames = 0;
 	GLTtext *text = NULL;
+
+	_firstFrameCallBack();
+
 	do
 	{    			
     	// Swap buffers
@@ -441,7 +454,7 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _callBack)
 		//-----DEBUG-----//
 
 		//-----GAME LOGIC UPDATE-----//
-		_callBack(deltaTime, getGameInput(_window));
+		_updateCallBack(deltaTime, getGameInput(_window));
 		//-----GAME LOGIC UPDATE-----//
 
     	// Clear the screen. It's not mentioned before Tutorial 02, but it can cause flickering, so it's there nonetheless.
@@ -476,20 +489,28 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _callBack)
 
 		
 		//-----TEXT-----//
+		if(textData->textToDraw[0] != '\0')
+		{
+			// Enable depth test
+			glDisable(GL_DEPTH_TEST);
 
-		text = gltCreateText();
-		gltSetText(text, "Hello World!");
-		//glDisable(GL_DEPTH_TEST);
-		// Begin text drawing (this for instance calls glUseProgram)
-		gltBeginDraw();
-		// Draw any amount of text between begin and end
-		gltColor(1.0f, 1.0f, 1.0f, 1.0f);
-		//gltDrawText3D(text, 0.0f, 0.0f, -30.0f, 1.0f, (GLfloat*)View, (GLfloat*)Projection);
-		gltDrawText2D(text, -10.0f, 10.0f, 10.0f);
-		// Finish drawing text
-		gltEndDraw();
-		//glEnable(GL_DEPTH_TEST);
+			text = gltCreateText();
+			gltSetText(text, textData->textToDraw);
+			//glDisable(GL_DEPTH_TEST);
+			// Begin text drawing (this for instance calls glUseProgram)
+			gltBeginDraw();
+			// Draw any amount of text between begin and end
+			gltColor(1.0f, 1.0f, 1.0f, 1.0f);
+			gltDrawText2D(text, textData->xPos, textData->yPos, textData->scale);
+			// Finish drawing text
+			gltEndDraw();
+			//glEnable(GL_DEPTH_TEST);
+
+			// Enable depth test
+			glEnable(GL_DEPTH_TEST);
+		}
 		//-----TEXT-----//
+		
 		//-----DRAW CALLS END-----//
 
 	} // Check if the ESC key was pressed or the window was closed
@@ -502,7 +523,6 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _callBack)
 
 	return 0;
 }
-
 //-----HEADER FUNCS-----//
 bool* shouldExitGame()
 {
@@ -517,15 +537,21 @@ DominoGObject* getDominoesGObjects()
 	
 	return allGameDominoes;
 }
-
-int startRender(CBRenderUpdate _callBack)
+OGLTextData* getTextData()
 {
-	GLFWwindow* window;
+	static OGLTextData textData;
 
+	return &textData;
+}
+
+int startRender(CBRenderUpdate _updateCallBack, CBBeforeFirstFrame _firstFrameCallBack)
+{	
+	GLFWwindow* window;
+	
 	printf("\nCriando janela\n");
 	if(createEmptyWindow(&window) == -1) return -1; //criacao de janela
 
 	printf("\nesperando input de teclado\n");
-	drawLoop(window, _callBack);
+	drawLoop(window, _updateCallBack, _firstFrameCallBack);
 	return 0;
 }

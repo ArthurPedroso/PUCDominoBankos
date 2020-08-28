@@ -11,9 +11,20 @@
 #define INPUT_NO_KEY_PRESSED 0
 
 typedef void (*CBRenderUpdate)(float _deltaTime, int _keyPress);
+typedef void (*CBBeforeFirstFrame)();
+
+typedef struct 
+{
+    char* textToDraw;
+    float xPos;
+    float yPos;
+    float scale;
+}OGLTextData;
+
 
 DominoGObject* getDominoesGObjects();
+OGLTextData* getTextData();
 bool* shouldExitGame();
-int startRender(CBRenderUpdate _callBack);
+int startRender(CBRenderUpdate _updateCallBack, CBBeforeFirstFrame _firstFrameCallBack);
 
 #endif

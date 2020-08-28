@@ -44,6 +44,9 @@ void initializeGameDominoesArray(DominoGObject* _array, int _arraySize, mat4 _st
 
     int columCount = 0;
     int lineCount = 0;
+    
+    glm_translate_z(emptyObj.left.MVP, 1.0f);
+    glm_translate_z(emptyObj.right.MVP, 1.0f);
 
     GLuint dominoesTextures[7]; //preguica forte de fazer um loop com edicao da string do path
     dominoesTextures[0] = loadBMPImage("Assets/Dominoes/domino0.bmp");

@@ -10,7 +10,7 @@ typedef int controllerState;
 
 controllerState* getControllerState()
 {
-    static controllerState s_controllerState = 1;
+    static controllerState s_controllerState = 0;
 
     return &s_controllerState;
 }
@@ -27,22 +27,17 @@ void manageMenuInput(int _menuInput)
     switch(_menuInput)
     {
         case 1: //New Game
-            //screenDisplay();
-            //screenDisplayOptions(); 
-            //managePlayerChoice(1);
+            screenDisplayOptions();
+            *getControllerState() = STATE_ORGANIZE_DOMINOES;
             break;
         case 2: //Save Game
-            menuInit(FALSE);
+            exitGame(); 
             break;
         case 3: //Load Game
-            menuInit(FALSE);
             break;
         case 4: //Exit Game
-            exitGame(); 
+            //exitGame(); 
             break; 
-        default:
-            menuInit(TRUE);
-            break;
     }
 }
 
@@ -51,14 +46,15 @@ void manageOrganizeDominosInput(int _organizeDominosInput)
 {
     switch (_organizeDominosInput)
     {
-    case OPTION_ONE:
+    case 1:
         organizeDominoes();
         break;
-    case OPTION_TWO:
+    case 2:
         shuffleDominoesAndDisplay();
         break;    
-    default:
-        exitGame();
+    case 3:
+        menuInit(0);
+        *getControllerState() = STATE_MAIN_MENU;
         break;
     }
 }
@@ -87,6 +83,6 @@ int startGame()
     //Usado para passar erros de execução do programa
     int exitCode = 0;
     controllerInitialization();
-    menuInit(FALSE); 
+    screenDisplay();
     return 0;
 }
