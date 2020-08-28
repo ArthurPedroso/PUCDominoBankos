@@ -36,7 +36,10 @@ void screenDisplayOptionsInput() //recebe input da opcao escolhida e o retona
 
 void OGLManagerUpdateCB(float _deltaTime, int _input)
 {
-    if(_input) printf("\nPressionado!%f\n", _deltaTime);
+    if(_input) 
+    {
+        menuPlayerSelection();
+    }
 }
 //-----------Head Funcs-----------//
 void menuInit(int _displayInvalidOption) //inica e printa menu
@@ -72,31 +75,7 @@ void screenDisplayOptions() //mostra as opcoes do jogador
 
 void printDominoes(Domino* _arrayDeDomino, int _arraySize)
 {
-    clearTerminal();
-
-    int columCount = 0;
-    int lineCount = 0;
-    char leftChar = 0;
-    char rightChar = 0;
-    for(int i = 0; i < _arraySize; i++)
-    {
-        leftChar = _arrayDeDomino[i].leftType + 48;
-        rightChar = _arrayDeDomino[i].rightType + 48;
-
-        printf("%c%c ", leftChar, rightChar);
-
-        if(columCount >= 6 - lineCount)
-        {
-            columCount = 0;
-            lineCount++;
-            printf("\n");
-        }
-        else
-        {
-            columCount++;
-        }
-    }
-
+    
     screenDisplayOptions();
 }
 

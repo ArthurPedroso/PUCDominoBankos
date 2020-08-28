@@ -22,9 +22,9 @@ DominoGObject getEmptyDGObject(mat4 _startingMVP)
 //-----HEADER FUNCS-----//
 
 
-DominoGObject* getAllGameDominoes(mat4 _startingMVP)
+void initializeGameDominoesArray(DominoGObject* _array, int _arraySize, mat4 _startingMVP)
 {
-    static DominoGObject allGameDominoes[GAME_DOMINOES_AMOUNT];
+    DominoGObject* allGameDominoes = _array;
     DominoGObject emptyObj = getEmptyDGObject(_startingMVP);
 
     int columCount = 0;
@@ -56,7 +56,5 @@ DominoGObject* getAllGameDominoes(mat4 _startingMVP)
             columCount++;
         }
     }
-
-    return allGameDominoes;
 }
 

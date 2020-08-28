@@ -24,6 +24,13 @@
 #include "CppFiles/text2D.h"
 #include "gameObject.h"
 #include "OGLUtilities.h"
+
+DominoGObject* getGameDominoes()
+{
+	static DominoGObject allGameDominoes[GAME_DOMINOES_AMOUNT];
+	
+	return allGameDominoes;
+}
 void sendTriangleGeometryToOpenGL()
 {
 	static const GLfloat triangleGeometryBufferData[] = 
@@ -377,7 +384,8 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _callBack)
 
 
 	//GAME TESTS//
-	DominoGObject* dominoes = getAllGameDominoes(mvp);
+	initializeGameDominoesArray(getGameDominoes());
+	DominoGObject* dominoes = getGameDominoes();
 
 	for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
 	{		
@@ -386,7 +394,6 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _callBack)
 		glm_scale(dominoes[i].left.MVP, (vec3){0.5f, 0.5f, 1.0f});
 		glm_translate(dominoes[i].left.MVP, (vec3){-2.0f,(2.1f * i) - 15.0f,0.0f});
 	}
-
 	// Initialize our little text library with the Arial font
 	initText2D( "Assets/Text/Arial.DDS" );
 	//GAME TESTS//

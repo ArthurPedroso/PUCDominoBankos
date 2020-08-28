@@ -26,6 +26,6 @@ typedef struct
     bool visible;
 }DominoGObject;
 
-DominoGObject* getAllGameDominoes(mat4 _startingMVP);
+DominoGObject* initializeAllGameDominoes(mat4 _startingMVP);
 
 #endif

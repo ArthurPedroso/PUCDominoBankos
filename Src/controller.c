@@ -19,7 +19,8 @@ void menuPlayerSelection(int _menuOp)
     {
         case 1: //New Game
             //screenDisplay();
-            screenDisplayOptions(); //é chamada independente de qualquer opção
+            //screenDisplayOptions(); 
+            managePlayerChoice(1);
             break;
         case 2: //Save Game
             menuInit(FALSE);
@@ -29,7 +30,7 @@ void menuPlayerSelection(int _menuOp)
             break;
         case 4: //Exit Game
             exitGameText(); 
-            break; //Jogo não fecha (loop printDominoes());
+            break; 
         default:
             menuInit(TRUE);
             break;
