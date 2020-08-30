@@ -9,10 +9,6 @@ Domino* getGameDominoes()
     static Domino array[GAME_DOMINOES_AMOUNT];
 
     return array;
-
-    //Domino* array = malloc(GAME_DOMINOES_AMOUNT * sizeof(Domino));
-
-    //return array;
 }
 
 void getPlayersHands(Domino* _dominoesPile) //Recebe a pilha inicial de dominos e atribui 7 para cada jogador
@@ -74,7 +70,6 @@ void shuffleDominoes(Domino* _outArrayDeDomino) //embaralha a pilha de dominos
         _outArrayDeDomino[i] = _outArrayDeDomino[random];
         _outArrayDeDomino[random] = temp;
     }
-
 }
 
 void initializeDominoArray(Domino* _dominoArray) //inicializa a pilha de dominos
