@@ -62,6 +62,14 @@ void screenDisplayOptions() //mostra as opcoes do jogador
     screenDisplayOptionsInput();
 }
 
+int playerSelectionInput() //recebe input do playerSelection e retorna
+{
+    int playerInput;
+
+    scanf("%d", &playerInput);
+    return playerInput;
+}
+
 void displayPlayerSelection()
 {
     clearTerminal();
@@ -70,13 +78,6 @@ void displayPlayerSelection()
     
 }
 
-int playerSelectionInput() //recebe input do playerSelection e retorna
-{
-    int playerInput;
-
-    scanf("%d", &playerInput);
-    return playerInput;
-}
 
 void printDominoes(Domino* _arrayDeDomino, int _arraySize)
 {

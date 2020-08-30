@@ -13,6 +13,7 @@ void controllerInitialization()
 
 
 
+
 void menuPlayerSelection(int _menuOp)
 {
     switch(_menuOp)
@@ -41,6 +42,8 @@ void playerNumberSelection(int _menuOP)
 {
     if(_menuOP == 1)
     {
+        getPlayersHands(getGameDominoes());
+
         //determinar q so tem 1 jogador
         //Chamar funcao q inicia jogo contra AI
     }

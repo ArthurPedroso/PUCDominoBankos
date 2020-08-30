@@ -6,11 +6,14 @@
 #define DOMINO_DOWN 180
 #define DOMINO_LEFT 270
 #define GAME_DOMINOES_AMOUNT 28
-#define HAND_DOMINOES_AMOUNT 12
-#define EMPTY 7 //numero que representa quando um domino e' vazio
+#define HAND_DOMINOES_STARTING_AMOUNT 7
+#define STATE_DOMINOES_PILE 0
+#define STATE_PLAYER_ONE 1
+#define STATE_PLAYER_TWO 2
 
 typedef struct 
 {
+    int state;
     int posX;
     int posY;
     int rotation;
@@ -18,14 +21,12 @@ typedef struct
     int leftType;
 }Domino;
 
-typedef struct
-{
-        Domino handDominoes[HAND_DOMINOES_AMOUNT];
-}Player;
-
-
+Domino* getGameDominoes();
+void getPlayersHands(Domino* _dominoesPile);
+void pickDominoeFromPile(Domino* _dominoesPile, int player);
 void shuffleDominoesAndDisplay();
 void modelInitialization();
 void organizeDominoes();
+void initializeDominoArray(Domino* _dominoArray); //temporario
 
 #endif
