@@ -10,6 +10,7 @@
 #define STATE_DOMINOES_PILE 0
 #define STATE_PLAYER_ONE 1
 #define STATE_PLAYER_TWO 2
+#define STATE_GAME_TABLE 3
 
 typedef struct 
 {
