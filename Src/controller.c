@@ -3,8 +3,10 @@
 #include "view.h"
 #include "common.h"
 
+//-----UI_STATES-----// 
 #define STATE_MAIN_MENU 0
 #define STATE_ORGANIZE_DOMINOES 1
+//-----UI_STATES-----// 
 
 typedef int controllerState;
 
@@ -59,7 +61,7 @@ void playerNumberSelection(int _menuOP)
     }
     else
     {
-        exitGameText();
+        exitGame();
     }
 }
 //-----INCOMING-----//
@@ -80,12 +82,9 @@ void manageOrganizeDominosInput(int _organizeDominosInput)
         break;
     }
 }
+
+
 //----------Head Funcs----------//
-
-
-/*
-*/
-
 void managePlayerChoice(int _playerIput)
 {
     switch (*getControllerState())
@@ -99,7 +98,6 @@ void managePlayerChoice(int _playerIput)
             break;
     }    
 }
-
 int startGame()
 {
     controllerInitialization();

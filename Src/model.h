@@ -12,6 +12,8 @@
 #define STATE_PLAYER_TWO 2
 #define STATE_GAME_TABLE 3
 
+#include "common.h"
+
 
 Domino* getGameDominoes();
 void getPlayersHands(Domino* _dominoesPile);
