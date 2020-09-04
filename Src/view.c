@@ -87,7 +87,8 @@ void exitGame()
 {    
     printf("=+=+=+=+=+=+=+=+=+=+=+=+=\n");
     printf("Thank you for playing!\n");
-    printf("Game made by:\nArthur Naves Pedroso\nCaio Henrique Portella\nLuiz Eduardo Ramirez\nMauricio Macedo Villarnobo\n");
+    printf("\n");
+    printf("Game made by:\n\nArthur Naves Pedroso\nCaio Henrique Portella\nLuiz Eduardo Ramirez\nMauricio Macedo Villarnobo\n\n");
     printf("=+=+=+=+=+=+=+=+=+=+=+=+=\n");
     *shouldExitGame() = true;
 }

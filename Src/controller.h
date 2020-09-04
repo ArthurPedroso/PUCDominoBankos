@@ -5,5 +5,6 @@
 
 int startGame();
 void managePlayerChoice(int _playerInput);
+void playerNumberSelection(int _menuOP);
 
 #endif

@@ -8,5 +8,6 @@ void screenDisplay();
 void screenDisplayOptions();
 void printDominoes(Domino* _dominoArray, int _arraySize);
 void exitGame();
+//Adicionar playerSelection
 void invalidOption();
 #endif

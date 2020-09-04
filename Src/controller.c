@@ -29,6 +29,7 @@ void manageMenuInput(int _menuInput)
         case 1: //New Game
             screenDisplayOptions();
             *getControllerState() = STATE_ORGANIZE_DOMINOES;
+            //old: displayPlayerSelection();
             break;
         case 2: //Save Game
             exitGame(); 
@@ -41,6 +42,27 @@ void manageMenuInput(int _menuInput)
     }
 }
 
+//-----INCOMING-----//
+void playerNumberSelection(int _menuOP)
+{
+    if(_menuOP == 1)
+    {
+        getPlayersHands(getGameDominoes());
+
+        //determinar q so tem 1 jogador
+        //Chamar funcao q inicia jogo contra AI
+    }
+    else if (_menuOP == 2)
+    {
+        //determinar q tem 2 jogadores
+        //Chamar funcao q inicia o jogo contra outro jogdor
+    }
+    else
+    {
+        exitGameText();
+    }
+}
+//-----INCOMING-----//
 
 void manageOrganizeDominosInput(int _organizeDominosInput)
 {
@@ -80,9 +102,7 @@ void managePlayerChoice(int _playerIput)
 
 int startGame()
 {
-    //Usado para passar erros de execução do programa
-    int exitCode = 0;
     controllerInitialization();
-    screenDisplay();
+    screenDisplay(); //old MENUINIT
     return 0;
 }

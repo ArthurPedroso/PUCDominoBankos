@@ -16,6 +16,7 @@
 
 typedef struct 
 {
+    int state;
     int posX;
     int posY;
     int rotation;
