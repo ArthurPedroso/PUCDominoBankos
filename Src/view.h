@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-void menuInit(int _displayInvalidOption);
+void menuInit();
 void screenDisplay();
 void screenDisplayOptions();
 void printDominoes(Domino* _dominoArray, int _arraySize);

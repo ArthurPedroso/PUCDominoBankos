@@ -22,9 +22,9 @@ typedef struct
 }OGLTextData;
 
 
-DominoGObject* getDominoesGObjects();
-OGLTextData* getTextData();
-bool* shouldExitGame();
+DominoGObject* s_getDominoesGObjects();
+OGLTextData* s_getTextData();
+bool* s_shouldExitGame();
 int startRender(CBRenderUpdate _updateCallBack, CBBeforeFirstFrame _firstFrameCallBack);
 
 #endif

@@ -1,0 +1,16 @@
+Padrão de programação:
+
+-Usar padrão camelCase
+
+-Código todo em Inglês
+
+-Declarações de funções sempre com letra minuscula:  void func();
+  
+-#define usar padrao snake_case e tudo em maiuscula:  CONST_NUMB
+  
+-variaveis de entrada de função com _ na frente:  void func(int _entrada);
+
+-variaveis estáticas e funções que retornam variaveis estáticas tem que ter s_ antes de sua Declaraçao
+ex: static int s_genericStaticInt;
+
+-{} tem que estar alinhadas verticalmente

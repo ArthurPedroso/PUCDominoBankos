@@ -4,7 +4,7 @@
 #include <time.h>
 #include <stdio.h>
 
-Domino* getGameDominoes()
+Domino* s_getGameDominoes()
 {
     static Domino array[GAME_DOMINOES_AMOUNT];
 
@@ -107,12 +107,12 @@ void modelInitialization()
 
 void organizeDominoes()
 {
-    initializeDominoArray(getGameDominoes());
-    printDominoes(getGameDominoes(), GAME_DOMINOES_AMOUNT);
+    initializeDominoArray(s_getGameDominoes());
+    printDominoes(s_getGameDominoes(), GAME_DOMINOES_AMOUNT);
 }
 
 void shuffleDominoesAndDisplay()
 {
-    shuffleDominoes(getGameDominoes());
-    printDominoes(getGameDominoes(), GAME_DOMINOES_AMOUNT);
+    shuffleDominoes(s_getGameDominoes());
+    printDominoes(s_getGameDominoes(), GAME_DOMINOES_AMOUNT);
 }

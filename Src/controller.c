@@ -4,13 +4,13 @@
 #include "common.h"
 
 //-----UI_STATES-----// 
-#define STATE_MAIN_MENU 0
-#define STATE_ORGANIZE_DOMINOES 1
+#define UI_STATE_MAIN_MENU 0
+#define UI_STATE_ORGANIZE_DOMINOES 1
 //-----UI_STATES-----// 
 
 typedef int controllerState;
 
-controllerState* getControllerState()
+controllerState* s_getControllerState()
 {
     static controllerState s_controllerState = 0;
 
@@ -24,13 +24,14 @@ void controllerInitialization()
 }
 
 
-void manageMenuInput(int _menuInput)
+//UI controllers
+void manageMenuInput(uiInput _menuInput)
 {
     switch(_menuInput)
     {
         case 1: //New Game
             screenDisplayOptions();
-            *getControllerState() = STATE_ORGANIZE_DOMINOES;
+            *s_getControllerState() = UI_STATE_ORGANIZE_DOMINOES;
             //old: displayPlayerSelection();
             break;
         case 2: //Save Game
@@ -45,28 +46,28 @@ void manageMenuInput(int _menuInput)
 }
 
 //-----INCOMING-----//
-void playerNumberSelection(int _menuOP)
+void playerNumberSelection(uiInput _menuOP)
 {
-    if(_menuOP == 1)
+    switch (_menuOP)
     {
-        getPlayersHands(getGameDominoes());
+        case 1:
+            //getPlayersHands(getGameDominoes());
 
-        //determinar q so tem 1 jogador
-        //Chamar funcao q inicia jogo contra AI
-    }
-    else if (_menuOP == 2)
-    {
-        //determinar q tem 2 jogadores
-        //Chamar funcao q inicia o jogo contra outro jogdor
-    }
-    else
-    {
-        exitGame();
+            //determinar q so tem 1 jogador
+            //Chamar funcao q inicia jogo contra AI
+            break;
+        case 2: //Save Game
+            //determinar q tem 2 jogadores
+            //Chamar funcao q inicia o jogo contra outro jogdor
+            break;
+        case 3:
+            exitGame();
+            break;
     }
 }
 //-----INCOMING-----//
 
-void manageOrganizeDominosInput(int _organizeDominosInput)
+void manageOrganizeDominosInput(uiInput _organizeDominosInput)
 {
     switch (_organizeDominosInput)
     {
@@ -78,22 +79,22 @@ void manageOrganizeDominosInput(int _organizeDominosInput)
         break;    
     case 3:
         menuInit(0);
-        *getControllerState() = STATE_MAIN_MENU;
+        *s_getControllerState() = UI_STATE_MAIN_MENU;
         break;
     }
 }
-
+//UI controllers
 
 //----------Head Funcs----------//
-void managePlayerChoice(int _playerIput)
+void managePlayerChoice(uiInput _playerIput)
 {
-    switch (*getControllerState())
+    switch (*s_getControllerState())
     {
-        case STATE_MAIN_MENU:
+        case UI_STATE_MAIN_MENU:
             manageMenuInput(_playerIput);
             break;
     
-        case STATE_ORGANIZE_DOMINOES:
+        case UI_STATE_ORGANIZE_DOMINOES:
             manageOrganizeDominosInput(_playerIput);
             break;
     }    

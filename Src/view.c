@@ -2,8 +2,8 @@
 #include "model.h"
 #include "controller.h"
 #include "OpenGLFiles/OGLManager.h"
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 
 void clearTerminal()
@@ -17,7 +17,7 @@ void clearTerminal()
 void changeOGLText(char* _newText)
 {
     OGLTextData* textData;
-    textData = getTextData();
+    textData = s_getTextData();
 
     textData->textToDraw = _newText;
 }
@@ -30,10 +30,10 @@ void OGLManagerUpdateCB(float _deltaTime, int _input)
 }
 void OGLManagerFirstFrameCB()
 {
-    menuInit(0);
+    menuInit();
 }
 //-----------Head Funcs-----------//
-void menuInit(int _displayInvalidOption) //inica e printa menu
+void menuInit() //inica e printa menu
 {
     //changeOGLText("Welcome! Let's play Domino!\nTo get started, select an option:\n1- New Game\n2- Save\n3- Load\n4- Exit\n");
     changeOGLText("Welcome! Let's play Domino!\nTo get started, select an option:\n1- Organize Dominoes\n2- Exit\n");
@@ -52,7 +52,7 @@ void screenDisplayOptions() //mostra as opcoes do jogador
 
 void printDominoes(Domino* _dominoArray, int _arraySize)
 {
-    DominoGObject* oglDominos = getDominoesGObjects();
+    DominoGObject* oglDominos = s_getDominoesGObjects();
 
     int columCount= 0;
     int lineCount = 0;
@@ -90,7 +90,7 @@ void exitGame()
     printf("\n");
     printf("Game made by:\n\nArthur Naves Pedroso\nCaio Henrique Portella\nLuiz Eduardo Ramirez\nMauricio Macedo Villarnobo\n\n");
     printf("=+=+=+=+=+=+=+=+=+=+=+=+=\n");
-    *shouldExitGame() = true;
+    *s_shouldExitGame() = true;
 }
 
 void invalidOption()

@@ -398,8 +398,8 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _updateCallBack, CBBeforeFirstF
 	glm_scale(backGround.MVP, (vec3){10.0f, 10.0f, 1.0f});
 	glm_translate(backGround.MVP, (vec3){0.0f, 0.0f, 20.0f});
 
-	initializeGameDominoesArray(getDominoesGObjects(), GAME_DOMINOES_AMOUNT, mvp);
-	DominoGObject* dominoes = getDominoesGObjects();
+	initializeGameDominoesArray(s_getDominoesGObjects(), GAME_DOMINOES_AMOUNT, mvp);
+	DominoGObject* dominoes = s_getDominoesGObjects();
 
 	for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
 	{		
@@ -409,7 +409,7 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _updateCallBack, CBBeforeFirstF
 		//glm_translate(dominoes[i].left.MVP, (vec3){-2.0f,(2.1f * i) - 15.0f,0.0f});
 	}
 
-	textData = getTextData();
+	textData = s_getTextData();
 	textData->scale = 1.5f;
 	textData->textToDraw = "";
 	textData->xPos = 0.0f;
@@ -514,7 +514,7 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _updateCallBack, CBBeforeFirstF
 		//-----DRAW CALLS END-----//
 
 	} // Check if the ESC key was pressed or the window was closed
-	while(glfwWindowShouldClose(_window) == 0 && !(*shouldExitGame()));
+	while(glfwWindowShouldClose(_window) == 0 && !(*s_shouldExitGame()));
 
 	
 	// Deleting text
@@ -524,20 +524,20 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _updateCallBack, CBBeforeFirstF
 	return 0;
 }
 //-----HEADER FUNCS-----//
-bool* shouldExitGame()
+bool* s_shouldExitGame()
 {
 	static bool exitGame = false;
 
 	return &exitGame;
 }
 //Retorna um array de tamanho 28, com todos os dominos do jogo em ordem crescente
-DominoGObject* getDominoesGObjects()
+DominoGObject* s_getDominoesGObjects()
 {
 	static DominoGObject allGameDominoes[GAME_DOMINOES_AMOUNT];
 	
 	return allGameDominoes;
 }
-OGLTextData* getTextData()
+OGLTextData* s_getTextData()
 {
 	static OGLTextData textData;
 
