@@ -2,6 +2,7 @@
 #include "model.h"
 #include "controller.h"
 #include "OpenGLFiles/OGLManager.h"
+#include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -33,21 +34,46 @@ void OGLManagerFirstFrameCB()
     menuInit();
 }
 //-----------Head Funcs-----------//
+
 void menuInit() //inica e printa menu
 {
-    //changeOGLText("Welcome! Let's play Domino!\nTo get started, select an option:\n1- New Game\n2- Save\n3- Load\n4- Exit\n");
-    changeOGLText("Welcome! Let's play Domino!\nTo get started, select an option:\n1- Organize Dominoes\n2- Exit\n");
+    //O 104 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
+    //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
+    static char strBuffer[104]; 
 
+    strcpy(strBuffer, "Welcome! Let's play Domino!\n");
+    strcat(strBuffer, "To get started, select an option:\n");
+    strcat(strBuffer, "1- New Game\n");
+    strcat(strBuffer, "2- Save\n");
+    strcat(strBuffer, "3- Load\n");
+    strcat(strBuffer, "4- Exit\n");
+
+    changeOGLText(strBuffer);
 }
-
-void screenDisplay() //mostra a tela de jogo (OpenGL)
-{
-    startRender(OGLManagerUpdateCB, OGLManagerFirstFrameCB);
-}
-
+/*
+Old, only to organize dominoes
 void screenDisplayOptions() //mostra as opcoes do jogador
 {
     changeOGLText("\n1- Show Organized Dominoes\n2- Shuffle Dominoes\n3- Go Back");
+}
+*/
+void displayPlayerSelectionMenu() //mostra a tela de seleção de jogadores
+{
+    //O 76 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
+    //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
+    static char strBuffer[87]; 
+
+    strcpy(strBuffer, "Quantos jogadores irão jogar?\n");
+    strcat(strBuffer, "1- Jogar contra o AI\n");
+    strcat(strBuffer, "2- Jogar com um amigo\n");
+    strcat(strBuffer, "3- Voltar\n");
+
+    changeOGLText(strBuffer);
+}
+
+void screenDisplay() //Ativa o OpenGL
+{
+    startRender(OGLManagerUpdateCB, OGLManagerFirstFrameCB);
 }
 
 void printDominoes(Domino* _dominoArray, int _arraySize)

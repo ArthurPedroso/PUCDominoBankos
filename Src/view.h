@@ -5,7 +5,7 @@
 
 void menuInit();
 void screenDisplay();
-void screenDisplayOptions();
+void displayPlayerSelectionMenu();
 void printDominoes(Domino* _dominoArray, int _arraySize);
 void exitGame();
 //Adicionar playerSelection

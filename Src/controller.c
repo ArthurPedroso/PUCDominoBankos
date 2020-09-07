@@ -5,7 +5,8 @@
 
 //-----UI_STATES-----// 
 #define UI_STATE_MAIN_MENU 0
-#define UI_STATE_ORGANIZE_DOMINOES 1
+//#define UI_STATE_ORGANIZE_DOMINOES 1 //old name
+#define UI_STATE_SELECT_PLAYERS 1
 //-----UI_STATES-----// 
 
 typedef int controllerState;
@@ -20,53 +21,52 @@ controllerState* s_getControllerState()
 //Executado apenas uma vez no incio do jogo
 void controllerInitialization()
 {
+    *s_getControllerState() = UI_STATE_MAIN_MENU;
     modelInitialization();
 }
 
 
-//UI controllers
-void manageMenuInput(uiInput _menuInput)
+//----------UI controllers----------//
+void manageMainMenuInput(uiInput _menuInput) //Menu principal
 {
     switch(_menuInput)
     {
         case 1: //New Game
-            screenDisplayOptions();
-            *s_getControllerState() = UI_STATE_ORGANIZE_DOMINOES;
-            //old: displayPlayerSelection();
+            displayPlayerSelectionMenu();
+            *s_getControllerState() = UI_STATE_SELECT_PLAYERS;
             break;
         case 2: //Save Game
-            exitGame(); 
             break;
         case 3: //Load Game
             break;
         case 4: //Exit Game
-            //exitGame(); 
+            exitGame(); 
             break; 
     }
 }
 
-//-----INCOMING-----//
-void playerNumberSelection(uiInput _menuOP)
+void playerNumberSelection(uiInput _menuInput)
 {
-    switch (_menuOP)
+    switch (_menuInput)
     {
         case 1:
             //getPlayersHands(getGameDominoes());
 
-            //determinar q so tem 1 jogador
+            //determina q so tem 1 jogador
             //Chamar funcao q inicia jogo contra AI
             break;
-        case 2: //Save Game
-            //determinar q tem 2 jogadores
+        case 2:
+            //determina q tem 2 jogadores
             //Chamar funcao q inicia o jogo contra outro jogdor
             break;
         case 3:
-            exitGame();
+            *s_getControllerState() = UI_STATE_MAIN_MENU;
+            menuInit(); //Go back
             break;
     }
 }
-//-----INCOMING-----//
 
+/* essa função não será mais utilizada
 void manageOrganizeDominosInput(uiInput _organizeDominosInput)
 {
     switch (_organizeDominosInput)
@@ -83,19 +83,20 @@ void manageOrganizeDominosInput(uiInput _organizeDominosInput)
         break;
     }
 }
-//UI controllers
+*/
+//-----------UI controllers----------//
 
 //----------Head Funcs----------//
-void managePlayerChoice(uiInput _playerIput)
+void managePlayerChoice(uiInput _playerInput)
 {
     switch (*s_getControllerState())
     {
         case UI_STATE_MAIN_MENU:
-            manageMenuInput(_playerIput);
+            manageMainMenuInput(_playerInput);
             break;
     
-        case UI_STATE_ORGANIZE_DOMINOES:
-            manageOrganizeDominosInput(_playerIput);
+        case UI_STATE_SELECT_PLAYERS:
+            playerNumberSelection(_playerInput);
             break;
     }    
 }
