@@ -16,11 +16,9 @@
 
 
 Domino* getGameDominoes();
-void getPlayersHands(Domino* _dominoesPile);
-void pickDominoeFromPile(Domino* _dominoesPile, int player);
 void shuffleDominoesAndDisplay();
 void modelInitialization();
 void organizeDominoes();
-void initializeDominoArray(Domino* _dominoArray); //temporario
+void resetDominoesState();
 
 #endif

@@ -3,9 +3,14 @@
 
 #include "common.h"
 
+//-----UI_TEXT-----//
 void menuInit();
-void screenDisplay();
 void displayPlayerSelectionMenu();
+void displayStartDominosAssigmentMenu();
+//-----UI_TEXT-----//
+
+int screenDisplay();
+void hideAllDominoes();
 void printDominoes(Domino* _dominoArray, int _arraySize);
 void exitGame();
 //Adicionar playerSelection

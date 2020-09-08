@@ -7,6 +7,7 @@
 #define UI_STATE_MAIN_MENU 0
 //#define UI_STATE_ORGANIZE_DOMINOES 1 //old name
 #define UI_STATE_SELECT_PLAYERS 1
+#define UI_STATE_ASSING_STARTING_DOMINOES 2
 //-----UI_STATES-----// 
 
 typedef int controllerState;
@@ -50,18 +51,45 @@ void playerNumberSelection(uiInput _menuInput)
     switch (_menuInput)
     {
         case 1:
-            //getPlayersHands(getGameDominoes());
+            // *old getPlayersHands(getGameDominoes());
 
             //determina q so tem 1 jogador
             //Chamar funcao q inicia jogo contra AI
             break;
         case 2:
+            displayStartDominosAssigmentMenu();
+            *s_getControllerState() = UI_STATE_ASSING_STARTING_DOMINOES;
             //determina q tem 2 jogadores
             //Chamar funcao q inicia o jogo contra outro jogdor
             break;
         case 3:
             *s_getControllerState() = UI_STATE_MAIN_MENU;
             menuInit(); //Go back
+            break;
+    }
+}
+
+void manageStartDominosAssigmentMenuInput(uiInput _menuInput)
+{
+    switch (_menuInput)
+    {
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+        case 5:
+            hideAllDominoes();
+            break;
+        case 6:
+            *s_getControllerState() = UI_STATE_SELECT_PLAYERS;
+            resetDominoesState();
+            menuInit(); //Go back
+            break;
+        case 7:
             break;
     }
 }
@@ -98,11 +126,13 @@ void managePlayerChoice(uiInput _playerInput)
         case UI_STATE_SELECT_PLAYERS:
             playerNumberSelection(_playerInput);
             break;
+        case UI_STATE_ASSING_STARTING_DOMINOES:
+            manageStartDominosAssigmentMenuInput(_playerInput);
+            break;
     }    
 }
 int startGame()
 {
     controllerInitialization();
-    screenDisplay(); //old MENUINIT
-    return 0;
+    return screenDisplay();
 }

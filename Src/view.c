@@ -35,6 +35,7 @@ void OGLManagerFirstFrameCB()
 }
 //-----------Head Funcs-----------//
 
+//-----UI_TEXT-----//
 void menuInit() //inica e printa menu
 {
     //O 104 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
@@ -71,9 +72,27 @@ void displayPlayerSelectionMenu() //mostra a tela de seleção de jogadores
     changeOGLText(strBuffer);
 }
 
-void screenDisplay() //Ativa o OpenGL
+void displayStartDominosAssigmentMenu()
 {
-    startRender(OGLManagerUpdateCB, OGLManagerFirstFrameCB);
+    //O 76 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
+    //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
+    static char strBuffer[250]; 
+
+    strcpy(strBuffer, "Distribuir dominós iniciais entre os jogadores:\n");
+    strcat(strBuffer, "1- Distribuir para jogador 1\n");
+    strcat(strBuffer, "2- Distribuir para jogador 2\n");
+    strcat(strBuffer, "3- Visualizar dominós atribuidos para jogador 1\n");
+    strcat(strBuffer, "4- Visualizar dominós atribuidos para jogador 2\n");
+    strcat(strBuffer, "5- Ocultar dominós\n");
+    strcat(strBuffer, "6- Voltar\n");
+
+    changeOGLText(strBuffer);
+}
+//-----UI_TEXT-----//
+
+int screenDisplay() //Ativa o OpenGL e retorna qualquer codigo de erro
+{
+    return startRender(OGLManagerUpdateCB, OGLManagerFirstFrameCB);
 }
 
 void printDominoes(Domino* _dominoArray, int _arraySize)
@@ -107,6 +126,15 @@ void printDominoes(Domino* _dominoArray, int _arraySize)
             columCount++;
         }
     }  
+}
+
+void hideAllDominoes()
+{
+    DominoGObject* oglDominos = s_getDominoesGObjects();
+    for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+    {
+        oglDominos[i].visible = false;
+    }
 }
 
 void exitGame()
