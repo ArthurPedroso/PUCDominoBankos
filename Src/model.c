@@ -13,24 +13,6 @@ Domino* s_getGameDominoes()
 
 
 
-
-void pickDominoeFromPile(Domino* _dominoesPile, int player) //pega uma peca da pilha e atribui a um jogador especifico
-{
-    int random = 0;
-
-    for(int i = 0; i < HAND_DOMINOES_STARTING_AMOUNT; i++)
-    {
-        random = rand() % 28;
-        
-        while(_dominoesPile[random].state != STATE_DOMINOES_PILE)
-        {
-            random = rand() % 28;
-        }
-
-        _dominoesPile[random].state = player;
-    }
-}
-
 void shuffleDominoes(Domino* _outArrayDeDomino) //embaralha a pilha de dominos
 {
     //pega struct e guarda fora do array
@@ -131,6 +113,27 @@ void assignPlayer2StartingHand() //Atribui 7 dominos para o jogador 2
 } 
 
 //-----ORGANIZE/SHUFFLE DOMINOS-----//
+
+
+
+void pickDominoeFromPile(int _playerState) //pega uma peca da pilha e atribui a um jogador especifico
+{
+    int random = 0;
+
+    Domino* gameDominoes = s_getGameDominoes();
+
+    for(int i = 0; i < HAND_DOMINOES_STARTING_AMOUNT; i++)
+    {
+        random = rand() % 28;
+        
+        while(gameDominoes[random].state != STATE_DOMINOES_PILE)
+        {
+            random = rand() % 28;
+        }
+
+        gameDominoes[random].state = _playerState;
+    }
+}
 void organizeDominoes()
 {
     initializeDominoArray(s_getGameDominoes());

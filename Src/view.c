@@ -31,12 +31,12 @@ void OGLManagerUpdateCB(float _deltaTime, int _input)
 }
 void OGLManagerFirstFrameCB()
 {
-    menuInit();
+    displayStartingMenu();
 }
 //-----------Head Funcs-----------//
 
 //-----UI_TEXT-----//
-void menuInit() //inica e printa menu
+void displayStartingMenu() //inica e printa menu
 {
     //O 104 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
     //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
@@ -72,13 +72,14 @@ void displayPlayerSelectionMenu() //mostra a tela de seleção de jogadores
     changeOGLText(strBuffer);
 }
 
-void displayStartDominosAssigmentMenu()
+void displayStartDominosAssigmentMenu(int _cantStartGameWarning)
 {
-    //O 76 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
+    //O 290 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
     //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
-    static char strBuffer[270]; 
+    static char strBuffer[290]; 
 
-    strcpy(strBuffer, "Distribuir dominós iniciais entre os jogadores:\n");
+    if(!_cantStartGameWarning) strcpy(strBuffer, "Distribuir dominós iniciais entre os jogadores:\n");
+    else strcpy(strBuffer, "Só é possivel iniciar o jogo após a distribuição de domínos entre os jogadores:\n");
     strcat(strBuffer, "1- Iniciar jogo\n");
     strcat(strBuffer, "2- Distribuir para jogador 1\n");
     strcat(strBuffer, "3- Distribuir para jogador 2\n");
@@ -86,6 +87,36 @@ void displayStartDominosAssigmentMenu()
     strcat(strBuffer, "5- Visualizar dominós atribuidos para jogador 2\n");
     strcat(strBuffer, "6- Ocultar dominós\n");
     strcat(strBuffer, "7- Voltar\n");
+
+    changeOGLText(strBuffer);
+}
+void displayMainGameUIPlayer1Turn()
+{
+    //O 76 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
+    //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
+    static char strBuffer[105]; 
+
+    strcpy(strBuffer, "Turno do jogador 1\n");
+    strcat(strBuffer, "1- Mostrar mao\n");
+    strcat(strBuffer, "2- Esconder mao\n");
+    strcat(strBuffer, "3- Compra peca\n");
+    strcat(strBuffer, "4- Posicionar peca\n");
+    strcat(strBuffer, "5- Voltar para o menu principal\n");
+
+    changeOGLText(strBuffer);
+}
+void displayMainGameUIPlayer2Turn()
+{
+    //O 76 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
+    //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
+    static char strBuffer[122]; 
+
+    strcpy(strBuffer, "Turno do jogador 1\n");
+    strcat(strBuffer, "1- Mostrar mao\n");
+    strcat(strBuffer, "2- Esconder mao\n");
+    strcat(strBuffer, "3- Compra peca\n");
+    strcat(strBuffer, "4- Posicionar peca\n");
+    strcat(strBuffer, "5- Voltar para o menu principal\n");
 
     changeOGLText(strBuffer);
 }
@@ -146,6 +177,18 @@ void hideAllDominoes()
     for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
     {
         oglDominos[i].visible = false;
+    }
+}
+
+void hideDominoesBasedOnState(Domino* _dominoArray, int _arraySize, int _stateFilter)
+{
+    DominoGObject* oglDominos = s_getDominoesGObjects();
+    
+    for(int i = 0; i < _arraySize; i++)
+    {
+        if(_dominoArray[i].state != _stateFilter) continue;
+
+        oglDominos[getDominoindexByType(_dominoArray[i].leftType, _dominoArray[i].rightType)].visible = FALSE;
     }
 }
 

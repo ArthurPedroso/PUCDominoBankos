@@ -22,6 +22,7 @@ void modelInitialization();
 void resetDominoesState();
 void assignPlayer1StartingHand();
 void assignPlayer2StartingHand();
+void pickDominoeFromPile(int _playerState);
 
 //-----ETAPA1-----//
 //void shuffleDominoesAndDisplay();
