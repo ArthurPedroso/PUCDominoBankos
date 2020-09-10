@@ -15,10 +15,17 @@
 #include "common.h"
 
 
-Domino* getGameDominoes();
-void shuffleDominoesAndDisplay();
+Domino* s_getGameDominoes();
+void displayPlayer1Hand();
+void displayPlayer2Hand();
 void modelInitialization();
-void organizeDominoes();
 void resetDominoesState();
+void assignPlayer1StartingHand();
+void assignPlayer2StartingHand();
+
+//-----ETAPA1-----//
+//void shuffleDominoesAndDisplay();
+//void organizeDominoes();
+//-----ETAPA1-----//
 
 #endif

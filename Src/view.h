@@ -12,6 +12,7 @@ void displayStartDominosAssigmentMenu();
 int screenDisplay();
 void hideAllDominoes();
 void printDominoes(Domino* _dominoArray, int _arraySize);
+void printDominoesBasedOnState(Domino* _dominoArray, int _arraySize, int _stateFilter);
 void exitGame();
 //Adicionar playerSelection
 void invalidOption();

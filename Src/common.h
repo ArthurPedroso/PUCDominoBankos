@@ -22,6 +22,7 @@ typedef struct
     int rotation;
     int rightType;
     int leftType;
+    float scale;
 }Domino;
 
 #endif

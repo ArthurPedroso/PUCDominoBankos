@@ -59,6 +59,7 @@ void initializeDominoArray(Domino* _dominoArray) //inicializa a pilha de dominos
         _dominoArray[i].rotation = DOMINO_UP;
         _dominoArray[i].rightType = columCount + lineCount;
         _dominoArray[i].leftType = lineCount;
+        _dominoArray[i].scale = 1.0f;
         
         if(columCount >= 6 - lineCount)
         {
@@ -77,6 +78,7 @@ void initializeDominoArray(Domino* _dominoArray) //inicializa a pilha de dominos
 void modelInitialization()
 {
     srand(time(NULL));
+    initializeDominoArray(s_getGameDominoes());
 }
 void resetDominoesState()
 {
@@ -104,6 +106,8 @@ void assignPlayer1StartingHand() //Atribui 7 dominos para o jogador 1
 
         gameDominos[random].state = STATE_PLAYER_ONE;
     } 
+
+    printf("Atribuida mao do jogador 1");
 }
 void assignPlayer2StartingHand() //Atribui 7 dominos para o jogador 2
 {
@@ -122,6 +126,8 @@ void assignPlayer2StartingHand() //Atribui 7 dominos para o jogador 2
 
         gameDominos[random].state = STATE_PLAYER_TWO;
     }
+    
+    printf("Atribuida mao do jogador 1");
 } 
 
 //-----ORGANIZE/SHUFFLE DOMINOS-----//
@@ -135,5 +141,49 @@ void shuffleDominoesAndDisplay()
 {
     shuffleDominoes(s_getGameDominoes());
     printDominoes(s_getGameDominoes(), GAME_DOMINOES_AMOUNT);
+}
+
+void displayPlayer1Hand()
+{
+    Domino* gameDominoes = s_getGameDominoes();
+    Domino domino;
+    
+    int lastDominoXPos = -8;
+    int lastDominoYPos = -2;
+
+    for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+    {
+        domino = gameDominoes[i];
+        if(domino.state != STATE_PLAYER_ONE) continue;
+
+        domino.posX = lastDominoXPos;
+        lastDominoXPos += 3;
+        domino.posY = lastDominoYPos;
+        gameDominoes[i] = domino;
+    }
+
+    printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_PLAYER_ONE);
+}
+
+void displayPlayer2Hand()
+{    
+    Domino* gameDominoes = s_getGameDominoes();
+    Domino domino;
+    
+    int lastDominoXPos = -8;
+    int lastDominoYPos = -2;
+
+    for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+    {
+        domino = gameDominoes[i];
+        if(domino.state != STATE_PLAYER_TWO) continue;
+
+        domino.posX = lastDominoXPos;
+        lastDominoXPos += 3;
+        domino.posY = lastDominoYPos;
+        gameDominoes[i] = domino;
+    }
+
+    printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_PLAYER_TWO);
 }
 //-----ORGANIZE/SHUFFLE DOMINOS-----//

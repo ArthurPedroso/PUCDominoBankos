@@ -63,6 +63,9 @@ void initializeGameDominoesArray(DominoGObject* _array, int _arraySize, mat4 _st
 
         allGameDominoes[i].right.textureID = dominoesTextures[columCount + lineCount];
         allGameDominoes[i].left.textureID = dominoesTextures[lineCount];
+        allGameDominoes[i].scale[0] = 1.0f;
+        allGameDominoes[i].scale[1] = 1.0f;
+        allGameDominoes[i].scale[2] = 1.0f;
         //allGameDominoes[i].rightType = columCount + lineCount;
         //allGameDominoes[i].leftType = lineCount;
         if(columCount >= 6 - lineCount)
@@ -82,4 +85,23 @@ void setGObjectPosition(GObject* _outObject, float _x,float _y,float _z)
     _outObject->MVP[3][0] = _x;
     _outObject->MVP[3][1] = _y;
     _outObject->MVP[3][2] = _z;
+}
+void setDominoGOPosition(DominoGObject* _outDomino, float _x,float _y,float _z)
+{
+    setGObjectPosition(&(_outDomino->left), (_x - (0.1f * _outDomino->scale[0])),_y, _z);
+    setGObjectPosition(&(_outDomino->right), (_x + (0.1f * _outDomino->scale[0])), _y, _z); 
+}
+void setDominoGOLocalPosition(DominoGObject* _outDomino, float _x,float _y,float _z)
+{
+    setGObjectPosition(&(_outDomino->left), ((_x * 0.2f * _outDomino->scale[0]) - (0.1f * _outDomino->scale[0])),(_y * 0.2f * _outDomino->scale[1]), _z);
+    setGObjectPosition(&(_outDomino->right), ((_x * 0.2f * _outDomino->scale[0]) + (0.1f * _outDomino->scale[0])), (_y * 0.2f * _outDomino->scale[1]), _z); 
+}
+void setDominoGOScale(DominoGObject* _outDomino, float _x,float _y,float _z)
+{
+    glm_scale(_outDomino->left.MVP, (vec3){_x / _outDomino->scale[0], _y / _outDomino->scale[1], _z / _outDomino->scale[2] });
+    glm_scale(_outDomino->right.MVP, (vec3){_x / _outDomino->scale[0], _y / _outDomino->scale[1], _z / _outDomino->scale[2] });
+
+    _outDomino->scale[0] = _x;
+    _outDomino->scale[1] = _y;
+    _outDomino->scale[2] = _z;
 }

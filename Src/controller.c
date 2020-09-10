@@ -2,6 +2,7 @@
 #include "model.h"
 #include "view.h"
 #include "common.h"
+#include <stdio.h>
 
 //-----UI_STATES-----// 
 #define UI_STATE_MAIN_MENU 0
@@ -9,6 +10,15 @@
 #define UI_STATE_SELECT_PLAYERS 1
 #define UI_STATE_ASSING_STARTING_DOMINOES 2
 //-----UI_STATES-----// 
+
+//-----StartDominosAssigmentMenuStates-----//
+#define ASSIGMENT_MENU_INITIAL          0b0000000000000000
+#define ASSIGMENT_MENU_PLAYER1_ASSIGNED 0b0000000000000010
+#define ASSIGMENT_MENU_PLAYER2_ASSIGNED 0b0000000000000100
+#define ASSIGMENT_MENU_PLAYER1_DISPLAY  0b0000000000001000
+#define ASSIGMENT_MENU_PLAYER2_DISPLAY  0b0000000000010000
+
+//-----StartDominosAssigmentMenuStates-----//
 
 typedef int controllerState;
 
@@ -71,25 +81,62 @@ void playerNumberSelection(uiInput _menuInput)
 
 void manageStartDominosAssigmentMenuInput(uiInput _menuInput)
 {
+    static int assigmentMenuState = ASSIGMENT_MENU_INITIAL;
     switch (_menuInput)
     {
         case 1:
             break;
         case 2:
+            if((int)(assigmentMenuState & ASSIGMENT_MENU_PLAYER1_ASSIGNED) == 0)
+            {
+                assigmentMenuState += ASSIGMENT_MENU_PLAYER1_ASSIGNED;
+
+                assignPlayer1StartingHand();
+            }
             break;
         case 3:
+            if((int)(assigmentMenuState & ASSIGMENT_MENU_PLAYER2_ASSIGNED) == 0)
+            {
+                assigmentMenuState += ASSIGMENT_MENU_PLAYER2_ASSIGNED;
+
+                assignPlayer2StartingHand();
+            }
             break;
         case 4:
+            if((int)(assigmentMenuState & ASSIGMENT_MENU_PLAYER1_DISPLAY) == 0)
+            {
+                printf("dentro do case 4");
+                if((int)(assigmentMenuState & ASSIGMENT_MENU_PLAYER2_DISPLAY) != 0) assigmentMenuState -= ASSIGMENT_MENU_PLAYER2_DISPLAY;
+                assigmentMenuState += ASSIGMENT_MENU_PLAYER1_DISPLAY;
+
+                hideAllDominoes();
+                displayPlayer1Hand();
+            }
             break;
         case 5:
-            hideAllDominoes();
+            if((int)(assigmentMenuState & ASSIGMENT_MENU_PLAYER2_DISPLAY) == 0)
+            {
+                if((int)(assigmentMenuState & ASSIGMENT_MENU_PLAYER1_DISPLAY) != 0) assigmentMenuState -= ASSIGMENT_MENU_PLAYER1_DISPLAY;
+                assigmentMenuState += ASSIGMENT_MENU_PLAYER2_DISPLAY;
+
+                hideAllDominoes();
+                displayPlayer2Hand();                
+            }
             break;
         case 6:
-            *s_getControllerState() = UI_STATE_SELECT_PLAYERS;
-            resetDominoesState();
-            menuInit(); //Go back
+            if((int)(assigmentMenuState & (ASSIGMENT_MENU_PLAYER2_DISPLAY + ASSIGMENT_MENU_PLAYER1_DISPLAY)) != 0)
+            {
+                if((int)(assigmentMenuState & ASSIGMENT_MENU_PLAYER2_DISPLAY) != 0) assigmentMenuState -= ASSIGMENT_MENU_PLAYER2_DISPLAY;
+                if((int)(assigmentMenuState & ASSIGMENT_MENU_PLAYER1_DISPLAY) != 0) assigmentMenuState -= ASSIGMENT_MENU_PLAYER1_DISPLAY;
+                hideAllDominoes();
+            }
             break;
         case 7:
+            *s_getControllerState() = UI_STATE_SELECT_PLAYERS;
+            assigmentMenuState = ASSIGMENT_MENU_INITIAL;
+            resetDominoesState();
+            hideAllDominoes();
+            displayPlayerSelectionMenu(); //Go back
             break;
     }
 }
