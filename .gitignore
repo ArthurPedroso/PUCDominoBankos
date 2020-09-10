@@ -2,4 +2,4 @@
 .vscode/
 #Pasta de builds
 BuildOutput/
-
+libraries/
