@@ -186,6 +186,30 @@ void updateAllKeyStates(GLFWwindow* _window)
 		updateActiveKeyState(INPUT_KEY9, keyPress, keyActive, keyRelease);
 	else
 		updateUnactiveKeyState(INPUT_KEY9, keyPress, keyActive, keyRelease);		
+		
+	
+	if(glfwGetKey(_window, GLFW_KEY_UP))
+		updateActiveKeyState(INPUT_KEY_UP, keyPress, keyActive, keyRelease);
+	else
+		updateUnactiveKeyState(INPUT_KEY_UP, keyPress, keyActive, keyRelease);		
+		
+	
+	if(glfwGetKey(_window, GLFW_KEY_DOWN))
+		updateActiveKeyState(INPUT_KEY_DOWN, keyPress, keyActive, keyRelease);
+	else
+		updateUnactiveKeyState(INPUT_KEY_DOWN, keyPress, keyActive, keyRelease);		
+		
+	
+	if(glfwGetKey(_window, GLFW_KEY_LEFT))
+		updateActiveKeyState(INPUT_KEY_LEFT, keyPress, keyActive, keyRelease);
+	else
+		updateUnactiveKeyState(INPUT_KEY_LEFT, keyPress, keyActive, keyRelease);		
+		
+	
+	if(glfwGetKey(_window, GLFW_KEY_RIGHT))
+		updateActiveKeyState(INPUT_KEY_RIGHT, keyPress, keyActive, keyRelease);
+	else
+		updateUnactiveKeyState(INPUT_KEY_RIGHT, keyPress, keyActive, keyRelease);		
 	
 }
 

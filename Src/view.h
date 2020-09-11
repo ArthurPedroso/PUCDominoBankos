@@ -9,6 +9,8 @@ void displayPlayerSelectionMenu();
 void displayStartDominosAssigmentMenu(int _cantStartGameWarning);
 void displayMainGameUIPlayer1Turn();
 void displayMainGameUIPlayer2Turn();
+void displayPlaceDominoUIPlayer1Turn();
+void displayPlaceDominoUIPlayer2Turn();
 //-----UI_TEXT-----//
 
 int screenDisplay();

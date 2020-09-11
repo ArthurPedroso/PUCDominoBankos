@@ -112,7 +112,6 @@ void assignPlayer2StartingHand() //Atribui 7 dominos para o jogador 2
     printf("Atribuida mao do jogador 1");
 } 
 
-//-----ORGANIZE/SHUFFLE DOMINOS-----//
 
 
 
@@ -133,17 +132,6 @@ void pickDominoeFromPile(int _playerState) //pega uma peca da pilha e atribui a 
 
         gameDominoes[random].state = _playerState;
     }
-}
-void organizeDominoes()
-{
-    initializeDominoArray(s_getGameDominoes());
-    printDominoes(s_getGameDominoes(), GAME_DOMINOES_AMOUNT);
-}
-
-void shuffleDominoesAndDisplay()
-{
-    shuffleDominoes(s_getGameDominoes());
-    printDominoes(s_getGameDominoes(), GAME_DOMINOES_AMOUNT);
 }
 
 void displayPlayer1Hand()
@@ -188,5 +176,69 @@ void displayPlayer2Hand()
     }
 
     printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_PLAYER_TWO);
+}
+
+void movePlayer1Domino(int _moveDirection)
+{
+    Domino* gameDominoes = s_getGameDominoes();
+    Domino* selectedDomino;
+    bool foundSelectedDomino = FALSE;
+    for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+    {
+        if(gameDominoes[i].state == STATE_GAME_MOVING) 
+        {
+            selectedDomino = &gameDominoes[i];
+            foundSelectedDomino = TRUE;
+        } 
+    }
+    if(!foundSelectedDomino) 
+    {
+        printf("!ERRO! - Nenhum domino no estado de movimento encontrado!");
+        return;
+    }
+
+    switch (_moveDirection)
+    {
+        case DOMINO_UP:
+            selectedDomino->posY += 1;
+            break;
+        case DOMINO_DOWN:
+            selectedDomino->posY -= 1;
+            break;
+        case DOMINO_LEFT:
+            selectedDomino->posX -= 1;
+            break;
+        case DOMINO_RIGHT:
+            selectedDomino->posX += 1;
+            break;
+    }
+
+    
+}
+
+void changePlayer1SelectedDomino()
+{
+
+}
+
+
+
+
+
+
+
+
+//-----ORGANIZE/SHUFFLE DOMINOS-----//
+
+void organizeDominoes()
+{
+    initializeDominoArray(s_getGameDominoes());
+    printDominoes(s_getGameDominoes(), GAME_DOMINOES_AMOUNT);
+}
+
+void shuffleDominoesAndDisplay()
+{
+    shuffleDominoes(s_getGameDominoes());
+    printDominoes(s_getGameDominoes(), GAME_DOMINOES_AMOUNT);
 }
 //-----ORGANIZE/SHUFFLE DOMINOS-----//

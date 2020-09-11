@@ -11,6 +11,8 @@
 #define UI_STATE_ASSING_STARTING_DOMINOES 2
 #define UI_STATE_MAIN_GAME_PLAYER1_TURN 3
 #define UI_STATE_MAIN_GAME_PLAYER2_TURN 4
+#define UI_STATE_PLACE_DOMINO_PLAYER1_TURN 5
+#define UI_STATE_PLACE_DOMINO_PLAYER2_TURN 6
 //-----UI_STATES-----// 
 
 //-----StartDominosAssigmentMenuStates-----//
@@ -19,7 +21,6 @@
 #define ASSIGMENT_MENU_PLAYER2_ASSIGNED 0b0000000000000100
 #define ASSIGMENT_MENU_PLAYER1_DISPLAY  0b0000000000001000
 #define ASSIGMENT_MENU_PLAYER2_DISPLAY  0b0000000000010000
-
 //-----StartDominosAssigmentMenuStates-----//
 
 typedef int controllerState;
@@ -184,11 +185,57 @@ void manageMainGameUIPlayer2Turn(uiInput _menuInput)
 {
     switch (_menuInput)
     {
+        case 1:
+            displayPlayer2Hand();
+            break;
+        case 2:
+            hideDominoesBasedOnState(s_getGameDominoes(), GAME_DOMINOES_AMOUNT, STATE_PLAYER_TWO);
+            break;
+        case 3:
+            pickDominoeFromPile(STATE_PLAYER_TWO);
+            displayPlayer2Hand();
+            break;
+        case 4:
 
+            break;
+        case 5:
+            *s_getControllerState() = UI_STATE_MAIN_MENU;
+            hideAllDominoes();
+            resetDominoesState();
+            displayStartingMenu();
+            break;
     }
 }
 
+void managePlaceDominoUIPlayer1Turn(uiInput _menuInput)
+{
+    switch (_menuInput)
+    {
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        case 10:
+            break;
+        case 11:
+            break;
+        case 12:
+            break;
+        case 13:
+            break;
+    }
 
+}
+
+void managePlaceDominoUIPlayer2Turn(uiInput _menuInput)
+{
+    switch (_menuInput)
+    {
+
+    }
+}
 /* essa função não será mais utilizada
 void manageOrganizeDominosInput(uiInput _organizeDominosInput)
 {
@@ -228,6 +275,12 @@ void managePlayerChoice(uiInput _playerInput)
             break;
         case UI_STATE_MAIN_GAME_PLAYER2_TURN:
             manageMainGameUIPlayer2Turn(_playerInput);
+            break;
+        case UI_STATE_PLACE_DOMINO_PLAYER1_TURN:
+            managePlaceDominoUIPlayer1Turn(_playerInput);
+            break;
+        case UI_STATE_PLACE_DOMINO_PLAYER2_TURN:
+            managePlaceDominoUIPlayer2Turn(_playerInput);
             break;
     }    
 }

@@ -28,15 +28,19 @@ void OGLManagerUpdateCB(float _deltaTime)
     int input;
 
     if(OGLGetKeyDown(INPUT_KEY0)) input = 0;
-    if(OGLGetKeyDown(INPUT_KEY1)) input = 1;
-    if(OGLGetKeyDown(INPUT_KEY2)) input = 2;
-    if(OGLGetKeyDown(INPUT_KEY3)) input = 3;
-    if(OGLGetKeyDown(INPUT_KEY4)) input = 4;
-    if(OGLGetKeyDown(INPUT_KEY5)) input = 5;
-    if(OGLGetKeyDown(INPUT_KEY6)) input = 6;
-    if(OGLGetKeyDown(INPUT_KEY7)) input = 7;
-    if(OGLGetKeyDown(INPUT_KEY8)) input = 8;
-    if(OGLGetKeyDown(INPUT_KEY9)) input = 9;
+    else if(OGLGetKeyDown(INPUT_KEY1)) input = 1;
+    else if(OGLGetKeyDown(INPUT_KEY2)) input = 2;
+    else if(OGLGetKeyDown(INPUT_KEY3)) input = 3;
+    else if(OGLGetKeyDown(INPUT_KEY4)) input = 4;
+    else if(OGLGetKeyDown(INPUT_KEY5)) input = 5;
+    else if(OGLGetKeyDown(INPUT_KEY6)) input = 6;
+    else if(OGLGetKeyDown(INPUT_KEY7)) input = 7;
+    else if(OGLGetKeyDown(INPUT_KEY8)) input = 8;
+    else if(OGLGetKeyDown(INPUT_KEY9)) input = 9;
+    else if(OGLGetKeyDown(INPUT_KEY_UP)) input = 10;
+    else if(OGLGetKeyDown(INPUT_KEY_DOWN)) input = 11;
+    else if(OGLGetKeyDown(INPUT_KEY_LEFT)) input = 12;
+    else if(OGLGetKeyDown(INPUT_KEY_RIGHT)) input = 13;
 
     managePlayerChoice(input);
 }
@@ -103,7 +107,7 @@ void displayStartDominosAssigmentMenu(int _cantStartGameWarning)
 }
 void displayMainGameUIPlayer1Turn()
 {
-    //O 76 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
+    //O 105 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
     //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
     static char strBuffer[105]; 
 
@@ -118,7 +122,7 @@ void displayMainGameUIPlayer1Turn()
 }
 void displayMainGameUIPlayer2Turn()
 {
-    //O 76 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
+    //O 122 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
     //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
     static char strBuffer[122]; 
 
@@ -128,6 +132,35 @@ void displayMainGameUIPlayer2Turn()
     strcat(strBuffer, "3- Compra peca\n");
     strcat(strBuffer, "4- Posicionar peca\n");
     strcat(strBuffer, "5- Voltar para o menu principal\n");
+
+    changeOGLText(strBuffer);
+}
+
+void displayPlaceDominoUIPlayer1Turn()
+{
+    //O 76 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
+    //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
+    static char strBuffer[128]; 
+
+    strcpy(strBuffer, "Turno do jogador 1, posicionar dominó\n");
+    strcat(strBuffer, "---Utilize as setas do teclado para mover o domino---");
+    strcat(strBuffer, "1- Confirmar posição\n");
+    strcat(strBuffer, "2- Mudar peca\n");
+    strcat(strBuffer, "3- Voltar\n");
+
+    changeOGLText(strBuffer);
+}
+void displayPlaceDominoUIPlayer2Turn()
+{
+    //O 76 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
+    //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
+    static char strBuffer[128]; 
+
+    strcpy(strBuffer, "Turno do jogador 2, posicionar dominó\n");
+    strcat(strBuffer, "---Utilize as setas do teclado para mover o domino---");
+    strcat(strBuffer, "1- Confirmar posição\n");
+    strcat(strBuffer, "2- Mudar peca\n");
+    strcat(strBuffer, "3- Voltar\n");
 
     changeOGLText(strBuffer);
 }
