@@ -2,6 +2,7 @@
 #include "model.h"
 #include "controller.h"
 #include "OpenGLFiles/OGLManager.h"
+#include "OpenGLFiles/OGLUtilities.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -22,12 +23,22 @@ void changeOGLText(char* _newText)
 
     textData->textToDraw = _newText;
 }
-void OGLManagerUpdateCB(float _deltaTime, int _input)
+void OGLManagerUpdateCB(float _deltaTime)
 {
-    if(_input != INPUT_NO_KEY_PRESSED) 
-    {
-        managePlayerChoice(_input);
-    }
+    int input;
+
+    if(OGLGetKeyDown(INPUT_KEY0)) input = 0;
+    if(OGLGetKeyDown(INPUT_KEY1)) input = 1;
+    if(OGLGetKeyDown(INPUT_KEY2)) input = 2;
+    if(OGLGetKeyDown(INPUT_KEY3)) input = 3;
+    if(OGLGetKeyDown(INPUT_KEY4)) input = 4;
+    if(OGLGetKeyDown(INPUT_KEY5)) input = 5;
+    if(OGLGetKeyDown(INPUT_KEY6)) input = 6;
+    if(OGLGetKeyDown(INPUT_KEY7)) input = 7;
+    if(OGLGetKeyDown(INPUT_KEY8)) input = 8;
+    if(OGLGetKeyDown(INPUT_KEY9)) input = 9;
+
+    managePlayerChoice(input);
 }
 void OGLManagerFirstFrameCB()
 {

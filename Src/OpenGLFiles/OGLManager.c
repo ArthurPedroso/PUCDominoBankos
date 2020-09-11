@@ -24,7 +24,6 @@
 #define GLT_IMPLEMENTATION
 #include "CppFiles/gltext.h"
 //#include "CppFiles/text2D.h"
-#include "OGLUtilities.h"
 
 #define WIDTH_PXLS 1280
 #define HEIGTH_PXLS 960
@@ -322,6 +321,7 @@ void debugFPS(double* _outLastTime, int* _outNbFrames)
 	*_outLastTime = lastTime;
 	*_outNbFrames = nbFrames;
 }
+/*
 int getGameInput(GLFWwindow* _window)
 {
 	if(glfwGetKey(_window, GLFW_KEY_1)) return INPUT_KEY1_PRESSED;
@@ -336,6 +336,7 @@ int getGameInput(GLFWwindow* _window)
 
 	return INPUT_NO_KEY_PRESSED;
 }
+*/
 int drawLoop(GLFWwindow* _window, CBRenderUpdate _updateCallBack, CBBeforeFirstFrame _firstFrameCallBack)
 {
 
@@ -375,7 +376,7 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _updateCallBack, CBBeforeFirstF
     glm_mat4_copy(GLM_MAT4_IDENTITY, Model);
     glm_scale(Model, (vec3){2.0f,2.0f,2.0f});
 
-	//
+	//getGameInput
     //Model = 
 	// Our ModelViewProjection : multiplication of our 3 matrices
 	
@@ -457,8 +458,12 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _updateCallBack, CBBeforeFirstF
 		debugFPS(&lastTime, &nbFrames);
 		//-----DEBUG-----//
 
+		//-----UPDATE INPUT-----//
+		updateAllKeyStates(_window);
+		//-----UPDATE INPUT-----//
+
 		//-----GAME LOGIC UPDATE-----//
-		_updateCallBack(deltaTime, getGameInput(_window));
+		_updateCallBack(deltaTime);
 		//-----GAME LOGIC UPDATE-----//
 
     	// Clear the screen. It's not mentioned before Tutorial 02, but it can cause flickering, so it's there nonetheless.
