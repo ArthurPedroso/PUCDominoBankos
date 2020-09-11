@@ -23,6 +23,7 @@ typedef struct
 {
     GObject right;
     GObject left;
+    vec3 scale;
     bool visible;
     //int leftType;
     //int rightType;
@@ -30,6 +31,9 @@ typedef struct
 
 void initializeGObject(GObject* _outGObject, mat4 _startingMVP);
 void setGObjectPosition(GObject* _outObject, float _x,float _y,float _z);
+void setDominoGOScale(DominoGObject* _outDomino, float _x,float _y,float _z);
+void setDominoGOPosition(DominoGObject* _outDomino, float _x,float _y,float _z);
+void setDominoGOLocalPosition(DominoGObject* _outDomino, float _x,float _y,float _z);
 void initializeGameDominoesArray(DominoGObject* _array, int _arraySize, mat4 _startingMVP);
 //Com base no tipo do dominó retorna o indice dele com base em um array ordenado
 int getDominoindexByType(int _leftType, int _rightType);

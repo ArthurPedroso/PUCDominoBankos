@@ -3,10 +3,21 @@
 
 #include "common.h"
 
-void menuInit();
-void screenDisplay();
+//-----UI_TEXT-----//
+void displayStartingMenu();
 void displayPlayerSelectionMenu();
+void displayStartDominosAssigmentMenu(int _cantStartGameWarning);
+void displayMainGameUIPlayer1Turn();
+void displayMainGameUIPlayer2Turn();
+void displayPlaceDominoUIPlayer1Turn();
+void displayPlaceDominoUIPlayer2Turn();
+//-----UI_TEXT-----//
+
+int screenDisplay();
+void hideAllDominoes();
+void hideDominoesBasedOnState(Domino* _dominoArray, int _arraySize, int _stateFilter);
 void printDominoes(Domino* _dominoArray, int _arraySize);
+void printDominoesBasedOnState(Domino* _dominoArray, int _arraySize, int _stateFilter);
 void exitGame();
 //Adicionar playerSelection
 void invalidOption();

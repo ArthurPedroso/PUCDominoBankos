@@ -24,7 +24,6 @@
 #define GLT_IMPLEMENTATION
 #include "CppFiles/gltext.h"
 //#include "CppFiles/text2D.h"
-#include "OGLUtilities.h"
 
 #define WIDTH_PXLS 1280
 #define HEIGTH_PXLS 960
@@ -322,6 +321,7 @@ void debugFPS(double* _outLastTime, int* _outNbFrames)
 	*_outLastTime = lastTime;
 	*_outNbFrames = nbFrames;
 }
+/*
 int getGameInput(GLFWwindow* _window)
 {
 	if(glfwGetKey(_window, GLFW_KEY_1)) return INPUT_KEY1_PRESSED;
@@ -329,9 +329,14 @@ int getGameInput(GLFWwindow* _window)
 	if(glfwGetKey(_window, GLFW_KEY_3)) return INPUT_KEY3_PRESSED;
 	if(glfwGetKey(_window, GLFW_KEY_4)) return INPUT_KEY4_PRESSED;
 	if(glfwGetKey(_window, GLFW_KEY_5)) return INPUT_KEY5_PRESSED;
+	if(glfwGetKey(_window, GLFW_KEY_6)) return INPUT_KEY6_PRESSED;
+	if(glfwGetKey(_window, GLFW_KEY_7)) return INPUT_KEY7_PRESSED;
+	if(glfwGetKey(_window, GLFW_KEY_8)) return INPUT_KEY8_PRESSED;
+	if(glfwGetKey(_window, GLFW_KEY_9)) return INPUT_KEY9_PRESSED;
 
 	return INPUT_NO_KEY_PRESSED;
 }
+*/
 int drawLoop(GLFWwindow* _window, CBRenderUpdate _updateCallBack, CBBeforeFirstFrame _firstFrameCallBack)
 {
 
@@ -371,7 +376,7 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _updateCallBack, CBBeforeFirstF
     glm_mat4_copy(GLM_MAT4_IDENTITY, Model);
     glm_scale(Model, (vec3){2.0f,2.0f,2.0f});
 
-	//
+	//getGameInput
     //Model = 
 	// Our ModelViewProjection : multiplication of our 3 matrices
 	
@@ -403,9 +408,9 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _updateCallBack, CBBeforeFirstF
 
 	for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
 	{		
-		glm_scale(dominoes[i].right.MVP, (vec3){0.5f, 0.5f, 1.0f});
+		//glm_scale(dominoes[i].right.MVP, (vec3){0.5f, 0.5f, 1.0f});
 		//glm_translate(dominoes[i].right.MVP, (vec3){2.0f,(2.1f * i) - 15.0f,0.0f});
-		glm_scale(dominoes[i].left.MVP, (vec3){0.5f, 0.5f, 1.0f});
+		//glm_scale(dominoes[i].left.MVP, (vec3){0.5f, 0.5f, 1.0f});
 		//glm_translate(dominoes[i].left.MVP, (vec3){-2.0f,(2.1f * i) - 15.0f,0.0f});
 	}
 
@@ -413,7 +418,7 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _updateCallBack, CBBeforeFirstF
 	textData->scale = 1.5f;
 	textData->textToDraw = "";
 	textData->xPos = 0.0f;
-	textData->yPos = 780.0f;
+	textData->yPos = 760.0f;
 	//GAME DATA INIT//
 
 	// Initialize glText
@@ -453,8 +458,12 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _updateCallBack, CBBeforeFirstF
 		debugFPS(&lastTime, &nbFrames);
 		//-----DEBUG-----//
 
+		//-----UPDATE INPUT-----//
+		updateAllKeyStates(_window);
+		//-----UPDATE INPUT-----//
+
 		//-----GAME LOGIC UPDATE-----//
-		_updateCallBack(deltaTime, getGameInput(_window));
+		_updateCallBack(deltaTime);
 		//-----GAME LOGIC UPDATE-----//
 
     	// Clear the screen. It's not mentioned before Tutorial 02, but it can cause flickering, so it's there nonetheless.

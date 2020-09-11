@@ -1,6 +1,8 @@
 #ifndef COMMON_HEADER
 #define COMMON_HEADER
 
+#include <stdbool.h>
+
 #define TRUE 1
 #define FALSE 0
 
@@ -14,6 +16,9 @@
 #endif
 //-----CHECK OS-----//
 
+#define GAME_DOMINOES_AMOUNT 28
+#define HAND_DOMINOES_STARTING_AMOUNT 7
+
 typedef struct 
 {
     int state;
@@ -22,6 +27,7 @@ typedef struct
     int rotation;
     int rightType;
     int leftType;
+    float scale;
 }Domino;
 
 #endif
