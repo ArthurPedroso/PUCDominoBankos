@@ -4,6 +4,7 @@
 #include <time.h>
 #include <stdio.h>
 
+//Armazena os dados dos dominós do jogo 
 Domino* s_getGameDominoes()
 {
     static Domino array[GAME_DOMINOES_AMOUNT];
@@ -12,7 +13,7 @@ Domino* s_getGameDominoes()
 }
 
 
-
+//Embaralha 
 void shuffleDominoes(Domino* _outArrayDeDomino) //embaralha a pilha de dominos
 {
     //pega struct e guarda fora do array
