@@ -13,8 +13,8 @@ Domino* s_getGameDominoes()
 }
 
 
-//Embaralha 
-void shuffleDominoes(Domino* _outArrayDeDomino) //embaralha a pilha de dominos
+//Embaralha o array de dominos do jogo
+void shuffleDominoes(Domino* _outArrayDeDomino) 
 {
     //pega struct e guarda fora do array
     Domino temp;
@@ -29,6 +29,7 @@ void shuffleDominoes(Domino* _outArrayDeDomino) //embaralha a pilha de dominos
     }
 }
 
+//Atribui valores iniciais para todos os elementos do array de dominós
 void initializeDominoArray(Domino* _dominoArray) //inicializa a pilha de dominos
 {
     int columCount= 0;
@@ -58,11 +59,13 @@ void initializeDominoArray(Domino* _dominoArray) //inicializa a pilha de dominos
 
 //---------Header Funcs----------//
 
+//Inicia o sistema de numeros aleatorios e Aloca a memoria utilizada pelo array de dominos
 void modelInitialization()
 {
     srand(time(NULL));
     initializeDominoArray(s_getGameDominoes());
 }
+//Aplica o estado de "STATE_DOMINOES_PILE" a todos os dominos do jogo
 void resetDominoesState()
 {
     Domino* gameDominos = s_getGameDominoes();
@@ -72,8 +75,8 @@ void resetDominoesState()
         gameDominos[i].state = STATE_DOMINOES_PILE;
     }
 }
-
-void assignPlayer1StartingHand() //Atribui 7 dominos para o jogador 1
+//Atribui 7 dominos aleatorios para o jogador 1
+void assignPlayer1StartingHand() 
 {
     Domino* gameDominos = s_getGameDominoes();
     int random = 0;
@@ -92,6 +95,7 @@ void assignPlayer1StartingHand() //Atribui 7 dominos para o jogador 1
 
     printf("Atribuida mao do jogador 1");
 }
+//Atribui 7 dominos aleatorios para o jogador 2
 void assignPlayer2StartingHand() //Atribui 7 dominos para o jogador 2
 {
     Domino* gameDominos = s_getGameDominoes();
@@ -115,8 +119,8 @@ void assignPlayer2StartingHand() //Atribui 7 dominos para o jogador 2
 
 
 
-
-void pickDominoeFromPile(int _playerState) //pega uma peca da pilha e atribui a um jogador especifico
+//Pega aleatoriamento um domiono da pilha de dominos e atribui ele ao jogador indicado pela variavel "_playerState"
+void pickDominoeFromPile(int _playerState)
 {
     int random = 0;
 
@@ -157,6 +161,7 @@ void displayPlayer1Hand()
     printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_PLAYER_ONE);
 }
 
+//Posiciona os dominos na área de "mão do jogador" na tela do opengl e pede para ele renderizar esse dominos
 void displayPlayer2Hand()
 {    
     Domino* gameDominoes = s_getGameDominoes();
@@ -179,6 +184,7 @@ void displayPlayer2Hand()
     printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_PLAYER_TWO);
 }
 
+//Move o domino selecionado do jogador 1, 1 casa para determinada direcao
 void movePlayer1Domino(int _moveDirection)
 {
     Domino* gameDominoes = s_getGameDominoes();
@@ -217,6 +223,7 @@ void movePlayer1Domino(int _moveDirection)
     
 }
 
+//Troca a selecao de domino do jogador 1 para o proximo domino da sua mão
 void changePlayer1SelectedDomino()
 {
 
