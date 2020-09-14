@@ -16,6 +16,9 @@ void clearTerminal()
     printf("\033[H\033[J");
 #endif
 }
+
+//Muda o texto do OpengGl
+//É possivel mudar a posicao e o tamanho do texto alterando as outras variaveis do "textData" 
 void changeOGLText(char* _newText)
 {
     OGLTextData* textData;
@@ -23,9 +26,11 @@ void changeOGLText(char* _newText)
 
     textData->textToDraw = _newText;
 }
+//Chamado no inicio de cada frame
+//A variavel _deltaTime traz o tempo que demorou para renderizar o ultimo frame
 void OGLManagerUpdateCB(float _deltaTime)
 {
-    int input;
+    int input = -1; //atrivuição inicial neutra cujo valor nunca será utilizado pelo controlador
 
     if(OGLGetKeyDown(INPUT_KEY0)) input = 0;
     else if(OGLGetKeyDown(INPUT_KEY1)) input = 1;
@@ -42,8 +47,10 @@ void OGLManagerUpdateCB(float _deltaTime)
     else if(OGLGetKeyDown(INPUT_KEY_LEFT)) input = 12;
     else if(OGLGetKeyDown(INPUT_KEY_RIGHT)) input = 13;
 
-    managePlayerChoice(input);
+    managePlayerChoice(input);//Passa para o coontroller o input atual do jogador
 }
+//Chamado antes da renderização do primeiro frame
+//usar para inicialização
 void OGLManagerFirstFrameCB()
 {
     displayStartingMenu();
@@ -51,7 +58,8 @@ void OGLManagerFirstFrameCB()
 //-----------Head Funcs-----------//
 
 //-----UI_TEXT-----//
-void displayStartingMenu() //inica e printa menu
+//Menu Principal
+void displayStartingMenu()
 {
     //O 104 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
     //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
@@ -66,13 +74,8 @@ void displayStartingMenu() //inica e printa menu
 
     changeOGLText(strBuffer);
 }
-/*
-Old, only to organize dominoes
-void screenDisplayOptions() //mostra as opcoes do jogador
-{
-    changeOGLText("\n1- Show Organized Dominoes\n2- Shuffle Dominoes\n3- Go Back");
-}
-*/
+
+//Menu de selecao de numero de jogadores
 void displayPlayerSelectionMenu() //mostra a tela de seleção de jogadores
 {
     //O 76 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
@@ -87,6 +90,7 @@ void displayPlayerSelectionMenu() //mostra a tela de seleção de jogadores
     changeOGLText(strBuffer);
 }
 
+//Menu de atribuição de dominós
 void displayStartDominosAssigmentMenu(int _cantStartGameWarning)
 {
     //O 290 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
@@ -105,6 +109,8 @@ void displayStartDominosAssigmentMenu(int _cantStartGameWarning)
 
     changeOGLText(strBuffer);
 }
+
+//Menu de gameplay do jogador 1
 void displayMainGameUIPlayer1Turn()
 {
     //O 105 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
@@ -120,6 +126,8 @@ void displayMainGameUIPlayer1Turn()
 
     changeOGLText(strBuffer);
 }
+
+//Menu de gameplay do jogador 2
 void displayMainGameUIPlayer2Turn()
 {
     //O 122 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
@@ -136,6 +144,7 @@ void displayMainGameUIPlayer2Turn()
     changeOGLText(strBuffer);
 }
 
+//Menu de posicionamento de dominos do jogador 1
 void displayPlaceDominoUIPlayer1Turn()
 {
     //O 76 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
@@ -150,6 +159,8 @@ void displayPlaceDominoUIPlayer1Turn()
 
     changeOGLText(strBuffer);
 }
+
+//Menu de posicionamento de dominos do jogador 1
 void displayPlaceDominoUIPlayer2Turn()
 {
     //O 76 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
@@ -164,13 +175,23 @@ void displayPlaceDominoUIPlayer2Turn()
 
     changeOGLText(strBuffer);
 }
+
+/*
+Old, only to organize dominoes
+void screenDisplayOptions() //mostra as opcoes do jogador
+{
+    changeOGLText("\n1- Show Organized Dominoes\n2- Shuffle Dominoes\n3- Go Back");
+}
+*/
 //-----UI_TEXT-----//
 
-int screenDisplay() //Ativa o OpenGL e retorna qualquer codigo de erro
+//Ativa o OpenGL e retorna qualquer codigo de erro
+int screenDisplay() 
 {
     return startRender(OGLManagerUpdateCB, OGLManagerFirstFrameCB);
 }
 
+//Recebe um array de dominós e exibe seus equivalentes pelo OpenGL
 void printDominoes(Domino* _dominoArray, int _arraySize)
 {
     DominoGObject* oglDominos = s_getDominoesGObjects();
@@ -191,6 +212,7 @@ void printDominoes(Domino* _dominoArray, int _arraySize)
     }  
 }
 
+//Recebe um array de dominós e exibe seus equivalentes pelo OpenGL, exibindo apenas os dominos com o estado de "_stateFilter"
 void printDominoesBasedOnState(Domino* _dominoArray, int _arraySize, int _stateFilter)
 {
     DominoGObject* oglDominos = s_getDominoesGObjects();
@@ -215,6 +237,7 @@ void printDominoesBasedOnState(Domino* _dominoArray, int _arraySize, int _stateF
 
 }
 
+//Esconde todos os dominos
 void hideAllDominoes()
 {
     DominoGObject* oglDominos = s_getDominoesGObjects();
@@ -224,6 +247,7 @@ void hideAllDominoes()
     }
 }
 
+//esconde apenas os dominos com o estado de _stateFilter
 void hideDominoesBasedOnState(Domino* _dominoArray, int _arraySize, int _stateFilter)
 {
     DominoGObject* oglDominos = s_getDominoesGObjects();
@@ -236,6 +260,7 @@ void hideDominoesBasedOnState(Domino* _dominoArray, int _arraySize, int _stateFi
     }
 }
 
+//avisa o opengl para finalizar suas operações
 void exitGame()
 {    
     printf("=+=+=+=+=+=+=+=+=+=+=+=+=\n");
@@ -245,6 +270,7 @@ void exitGame()
     printf("=+=+=+=+=+=+=+=+=+=+=+=+=\n");
     *s_shouldExitGame() = true;
 }
+
 
 void invalidOption()
 {

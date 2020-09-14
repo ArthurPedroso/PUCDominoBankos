@@ -25,6 +25,7 @@
 
 typedef int controllerState;
 
+//Essa variável é responsável por divergir o fluxo de input para a funcao de controle específica para cada menu
 controllerState* s_getControllerState()
 {
     static controllerState s_controllerState = 0;
