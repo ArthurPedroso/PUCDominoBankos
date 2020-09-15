@@ -296,7 +296,33 @@ void movePlayer1Domino(int _moveDirection)
 //Troca a selecao de domino do jogador 1 para o proximo domino da sua mão
 void changePlayer1SelectedDomino()
 {
-
+    Domino* gameDominoes = s_getGameDominoes();
+    Domino* selectedDomino;
+    bool foundSelectedDomino = FALSE;
+    for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+    {
+        if(gameDominoes[i].state == STATE_GAME_MOVING) 
+        {
+            selectedDomino = &gameDominoes[i];
+            selectedDomino->state = STATE_PLAYER_ONE;
+            foundSelectedDomino = TRUE;
+        }
+        else if(foundSelectedDomino)
+        {
+            if(gameDominoes[i].state == STATE_PLAYER_ONE)
+            {
+                gameDominoes[i].state = STATE_GAME_MOVING;
+                break;
+            }
+            else if(i == GAME_DOMINOES_AMOUNT - 1) i = -1;            
+        }
+        
+    }
+    if(foundSelectedDomino) 
+    {
+        printf("!ERRO! - Nenhum domino no estado de movimento encontrado!");
+        return;
+    }
 }
 
 
