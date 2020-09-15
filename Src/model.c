@@ -75,46 +75,75 @@ void resetDominoesState()
         gameDominos[i].state = STATE_DOMINOES_PILE;
     }
 }
-//Atribui 7 dominos aleatorios para o jogador 1
-void assignPlayer1StartingHand() 
+
+int checkDominoesPile(Domino* _dominoArray)
+{
+    int dominoesInPileNumber = 0;
+
+    for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+    {
+        if(_dominoArray[i].state == STATE_GAME_TABLE)
+        {
+            dominoesInPileNumber++;
+        }
+    }
+
+    return dominoesInPileNumber;
+}
+
+void assignPlayer1StartingHand() //Atribui 7 dominos para o jogador 1
 {
     Domino* gameDominos = s_getGameDominoes();
     int random = 0;
 
-    for(int i = 0; i < HAND_DOMINOES_STARTING_AMOUNT; i++)
+    if(checkDominoesPile(gameDominos) >= 7)
     {
-        random = rand() % 28;
-
-        while(gameDominos[random].state != STATE_DOMINOES_PILE) //Reescrever, pode travar o programa se o random não bater com um domino sem dono
+        for(int i = 0; i < HAND_DOMINOES_STARTING_AMOUNT; i++)
         {
             random = rand() % 28;
-        }
 
-        gameDominos[random].state = STATE_PLAYER_ONE;
-    } 
+            while(gameDominos[random].state != STATE_DOMINOES_PILE) //Reescrever, pode travar o programa se o random não bater com um domino sem dono
+            {
+                random = rand() % 28;
+            }
 
-    printf("Atribuida mao do jogador 1");
+            gameDominos[random].state = STATE_PLAYER_ONE;
+        } 
+
+        printf("Atribuida mao do jogador 1");
+    }
+    else
+    {
+        printf("Nao ha dominos suficientes na pilha");
+    }
 }
 //Atribui 7 dominos aleatorios para o jogador 2
 void assignPlayer2StartingHand() //Atribui 7 dominos para o jogador 2
 {
     Domino* gameDominos = s_getGameDominoes();
     int random = 0;
-    
 
-    for(int i = 0; i < HAND_DOMINOES_STARTING_AMOUNT; i++)
+    if(checkDominoesPile(gameDominos) >= 7)
     {
-        random = rand() % 28;
-        
-        while(gameDominos[random].state != STATE_DOMINOES_PILE) //Reescrever, pode travar o programa se o random não bater com um domino sem dono
+        for(int i = 0; i < HAND_DOMINOES_STARTING_AMOUNT; i++)
         {
             random = rand() % 28;
-        }
 
-        gameDominos[random].state = STATE_PLAYER_TWO;
+            while(gameDominos[random].state != STATE_DOMINOES_PILE) //Reescrever, pode travar o programa se o random não bater com um domino sem dono
+            {
+                random = rand() % 28;
+            }
+
+            gameDominos[random].state = STATE_PLAYER_TWO;
+        } 
+
+        printf("Atribuida mao do jogador 2");
+    }
+    else
+    {
+        printf("Nao ha dominos suficientes na pilha");
     }
     
-    printf("Atribuida mao do jogador 1");
 } 
 
 
@@ -123,21 +152,28 @@ void assignPlayer2StartingHand() //Atribui 7 dominos para o jogador 2
 void pickDominoeFromPile(int _playerState)
 {
     int random = 0;
-
     Domino* gameDominoes = s_getGameDominoes();
 
-    for(int i = 0; i < HAND_DOMINOES_STARTING_AMOUNT; i++)
+    if(checkDominoesPile(gameDominoes) != 0)
     {
-        random = rand() % 28;
-        
-        while(gameDominoes[random].state != STATE_DOMINOES_PILE)
+        for(int i = 0; i < HAND_DOMINOES_STARTING_AMOUNT; i++)
         {
             random = rand() % 28;
-        }
+        
+            while(gameDominoes[random].state != STATE_DOMINOES_PILE)
+            {
+                random = rand() % 28;
+            }
 
-        gameDominoes[random].state = _playerState;
+            gameDominoes[random].state = _playerState;
+        }
+    }
+    else
+    {
+        printf("Nao ha mais dominos na pilha");
     }
 }
+
 
 void displayPlayer1Hand()
 {
