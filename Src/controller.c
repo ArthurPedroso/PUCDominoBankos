@@ -219,19 +219,19 @@ void managePlaceDominoUIPlayer1Turn(uiInput _menuInput)
 {
     switch (_menuInput)
     {
-        case 1:
+        case 1: //Confirma a posicao do domino
             break;
-        case 2:
+        case 2: //Seleciona outro domino
             break;
-        case 3:
+        case 3: //Volta para o menu anterior
             break;
-        case 10:
+        case 10: //Move o domino selecionado para cima
             break;
-        case 11:
+        case 11: //Move o domino selecionado para baixo
             break;
-        case 12:
+        case 12: //Move o domino selecionado para a esquerda
             break;
-        case 13:
+        case 13: //Move o domino selecionado para a direita
             break;
     }
 
