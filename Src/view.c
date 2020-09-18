@@ -229,7 +229,7 @@ void printDominoesBasedOnState(Domino* _dominoArray, int _arraySize, int _stateF
 
         oglDomino.visible = TRUE;        
         setDominoGOScale(&oglDomino, 0.4f, 0.4f, 0.4f);
-        setDominoGOLocalPosition(&oglDomino, currentDomino.posX, currentDomino.posY, -1.0f);
+        setDominoGOLocalPosition(&oglDomino, currentDomino.posX, currentDomino.posY * 1.3333333f, -1.0f);
         //setDominoGOPosition(&oglDomino, currentDomino.posX, currentDomino.posY, -1.0f);
 
         oglDominos[dominoGObjectIndex] = oglDomino;

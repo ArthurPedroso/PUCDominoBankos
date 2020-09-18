@@ -111,7 +111,7 @@ void manageStartDominosAssigmentMenuInput(uiInput _menuInput)
             {
                 assigmentMenuState += ASSIGMENT_MENU_PLAYER1_ASSIGNED; //Armazenar que o jogador 1 ja foi atribuido
 
-                assignPlayer1StartingHand();
+                assignPlayerStartingHand(STATE_PLAYER_ONE);
             }
             break;
         case 3: //Atribuir dominós para o jogador 2
@@ -119,17 +119,17 @@ void manageStartDominosAssigmentMenuInput(uiInput _menuInput)
             {
                 assigmentMenuState += ASSIGMENT_MENU_PLAYER2_ASSIGNED; //Armazenar que o jogador 2 ja foi atribuido
 
-                assignPlayer2StartingHand();
+                assignPlayerStartingHand(STATE_PLAYER_TWO);
             }
             break;
-        case 4: //Show player 2 hand
+        case 4: //Show player 1 hand
             if((int)(assigmentMenuState & ASSIGMENT_MENU_PLAYER1_DISPLAY) == 0) //Se o jogador 1 estiver não estiver com a mão exposta
             {
                 if((int)(assigmentMenuState & ASSIGMENT_MENU_PLAYER2_DISPLAY) != 0) assigmentMenuState -= ASSIGMENT_MENU_PLAYER2_DISPLAY; //Se o jogador 2 estiver com a mão exposta, armazenar que ele vai deixar de ter a mão exposta
                 assigmentMenuState += ASSIGMENT_MENU_PLAYER1_DISPLAY; //Armazenar que o jogador 1 tem a mão exposta
 
                 hideAllDominoes();
-                displayPlayer1Hand();
+                displayPlayerHand(STATE_PLAYER_ONE);
             }
             break;
         case 5: //Show player 2 hand
@@ -139,7 +139,7 @@ void manageStartDominosAssigmentMenuInput(uiInput _menuInput)
                 assigmentMenuState += ASSIGMENT_MENU_PLAYER2_DISPLAY; //Armazenar que o jogador 2 tem a mão exposta
 
                 hideAllDominoes();
-                displayPlayer2Hand();                
+                displayPlayerHand(STATE_PLAYER_TWO);                
             }
             break;
         case 6: //Hide all dominoes
@@ -166,17 +166,19 @@ void manageMainGameUIPlayer1Turn(uiInput _menuInput)
     switch (_menuInput)
     {
         case 1: //Mostra mão do jogador 1
-            displayPlayer1Hand();
+            displayPlayerHand(STATE_PLAYER_ONE);
             break;
         case 2: //Esconde mão do jogador 1
             hideDominoesBasedOnState(s_getGameDominoes(), GAME_DOMINOES_AMOUNT, STATE_PLAYER_ONE);
             break;
         case 3: //Pega 1 dominó da pilha de dominós
             pickDominoeFromPile(STATE_PLAYER_ONE);
-            displayPlayer1Hand();
+            displayPlayerHand(STATE_PLAYER_ONE);
             break;
         case 4:
-
+            *s_getControllerState() = UI_STATE_PLACE_DOMINO_PLAYER1_TURN;
+            displayPlaceDominoUIPlayer1Turn();
+            changePlayerSelectedDomino(STATE_PLAYER_ONE);
             break;
         case 5: //volta
             *s_getControllerState() = UI_STATE_MAIN_MENU;
@@ -193,18 +195,19 @@ void manageMainGameUIPlayer2Turn(uiInput _menuInput)
     switch (_menuInput)
     {
         case 1: //Mostra mão do jogador 2
-            displayPlayer2Hand();
+            displayPlayerHand(STATE_PLAYER_TWO);
             break;
         case 2: //Esconde mão do jogador 2
             hideDominoesBasedOnState(s_getGameDominoes(), GAME_DOMINOES_AMOUNT, STATE_PLAYER_TWO);
             break;
         case 3: //Pega 2 dominó da pilha de dominós
             pickDominoeFromPile(STATE_PLAYER_TWO);
-            displayPlayer2Hand();
+            displayPlayerHand(STATE_PLAYER_TWO);
             break;
         case 4: //entra na ui de posicionamento de dominos
-            *s_getControllerState() = UI_STATE_PLACE_DOMINO_PLAYER1_TURN;
-            displayPlaceDominoUIPlayer1Turn();
+            *s_getControllerState() = UI_STATE_PLACE_DOMINO_PLAYER2_TURN;
+            displayPlaceDominoUIPlayer2Turn();
+            changePlayerSelectedDomino(STATE_PLAYER_TWO);
             break;
         case 5: //Volta ao menu principal
             *s_getControllerState() = UI_STATE_MAIN_MENU;
@@ -223,20 +226,25 @@ void managePlaceDominoUIPlayer1Turn(uiInput _menuInput)
         case 1: //Confirma a posicao do domino
             break;
         case 2: //Seleciona outro domino
-            changePlayer1SelectedDomino();
+            changePlayerSelectedDomino(STATE_PLAYER_ONE);
             break;
         case 3: //Volta para o menu anterior
             *s_getControllerState() = UI_STATE_MAIN_GAME_PLAYER1_TURN;
             hideDominoesBasedOnState(s_getGameDominoes(), GAME_DOMINOES_AMOUNT, STATE_GAME_MOVING);
             displayMainGameUIPlayer1Turn();
+            unselectPlayerDomino(STATE_PLAYER_ONE);
             break;
         case 10: //Move o domino selecionado para cima
+            movePlayerDomino(MOVE_DOMINO_UP, STATE_PLAYER_ONE);
             break;
         case 11: //Move o domino selecionado para baixo
+            movePlayerDomino(MOVE_DOMINO_DOWN, STATE_PLAYER_ONE);
             break;
         case 12: //Move o domino selecionado para a esquerda
+            movePlayerDomino(MOVE_DOMINO_LEFT, STATE_PLAYER_ONE);
             break;
         case 13: //Move o domino selecionado para a direita
+            movePlayerDomino(MOVE_DOMINO_RIGHT, STATE_PLAYER_ONE);
             break;
     }
 

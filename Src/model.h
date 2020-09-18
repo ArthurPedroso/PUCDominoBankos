@@ -2,10 +2,10 @@
 #define MODEL_HEADER
 
 //-----ROTACAO DO DOMINO-----//
-#define DOMINO_UP 0
-#define DOMINO_RIGHT 90
-#define DOMINO_DOWN 180
-#define DOMINO_LEFT 270
+#define DOMINO_ROTATION_0 0
+#define DOMINO_ROTATION_90 90
+#define DOMINO_ROTATION_180 180
+#define DOMINO_ROTATION_270 270
 
 //-----ESTADOS DO DOMINO-----//
 #define STATE_DOMINOES_PILE 0
@@ -27,15 +27,14 @@
 
 Domino* s_getGameDominoes();
 
-void displayPlayer1Hand();
-void displayPlayer2Hand();
+void displayPlayerHand(int _player);
 void modelInitialization();
 void resetDominoesState();
-void assignPlayer1StartingHand();
-void assignPlayer2StartingHand();
-void changePlayer1SelectedDomino();
-void changePlayer2SelectedDomino();
+void assignPlayerStartingHand(int _player);
+void changePlayerSelectedDomino(int _player);
 void pickDominoeFromPile(int _playerState);
+void movePlayerDomino(int _moveDirection, int _player);
+void unselectPlayerDomino(int _player);
 
 //-----ETAPA1-----//
 //void shuffleDominoesAndDisplay();

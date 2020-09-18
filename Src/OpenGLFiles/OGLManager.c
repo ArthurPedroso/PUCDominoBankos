@@ -406,13 +406,6 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _updateCallBack, CBBeforeFirstF
 	initializeGameDominoesArray(s_getDominoesGObjects(), GAME_DOMINOES_AMOUNT, mvp);
 	DominoGObject* dominoes = s_getDominoesGObjects();
 
-	for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
-	{		
-		//glm_scale(dominoes[i].right.MVP, (vec3){0.5f, 0.5f, 1.0f});
-		//glm_translate(dominoes[i].right.MVP, (vec3){2.0f,(2.1f * i) - 15.0f,0.0f});
-		//glm_scale(dominoes[i].left.MVP, (vec3){0.5f, 0.5f, 1.0f});
-		//glm_translate(dominoes[i].left.MVP, (vec3){-2.0f,(2.1f * i) - 15.0f,0.0f});
-	}
 
 	textData = s_getTextData();
 	textData->scale = 1.5f;
