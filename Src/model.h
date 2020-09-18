@@ -33,6 +33,8 @@ void modelInitialization();
 void resetDominoesState();
 void assignPlayer1StartingHand();
 void assignPlayer2StartingHand();
+void changePlayer1SelectedDomino();
+void changePlayer2SelectedDomino();
 void pickDominoeFromPile(int _playerState);
 
 //-----ETAPA1-----//

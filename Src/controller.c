@@ -202,10 +202,11 @@ void manageMainGameUIPlayer2Turn(uiInput _menuInput)
             pickDominoeFromPile(STATE_PLAYER_TWO);
             displayPlayer2Hand();
             break;
-        case 4:
-
+        case 4: //entra na ui de posicionamento de dominos
+            *s_getControllerState() = UI_STATE_PLACE_DOMINO_PLAYER1_TURN;
+            displayPlaceDominoUIPlayer1Turn();
             break;
-        case 5:
+        case 5: //Volta ao menu principal
             *s_getControllerState() = UI_STATE_MAIN_MENU;
             hideAllDominoes();
             resetDominoesState();
@@ -222,8 +223,12 @@ void managePlaceDominoUIPlayer1Turn(uiInput _menuInput)
         case 1: //Confirma a posicao do domino
             break;
         case 2: //Seleciona outro domino
+            changePlayer1SelectedDomino();
             break;
         case 3: //Volta para o menu anterior
+            *s_getControllerState() = UI_STATE_MAIN_GAME_PLAYER1_TURN;
+            hideDominoesBasedOnState(s_getGameDominoes(), GAME_DOMINOES_AMOUNT, STATE_GAME_MOVING);
+            displayMainGameUIPlayer1Turn();
             break;
         case 10: //Move o domino selecionado para cima
             break;

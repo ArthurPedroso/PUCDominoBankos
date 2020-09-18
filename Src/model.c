@@ -278,16 +278,52 @@ void changePlayer1SelectedDomino()
             if(gameDominoes[i].state == STATE_PLAYER_ONE)
             {
                 gameDominoes[i].state = STATE_GAME_MOVING;
-                break;
-            }
-            else if(i == GAME_DOMINOES_AMOUNT - 1) i = -1;            
+                return;
+            }          
         }
         
     }
-    if(foundSelectedDomino) 
+    for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
     {
-        printf("!ERRO! - Nenhum domino no estado de movimento encontrado!");
-        return;
+        if(gameDominoes[i].state == STATE_PLAYER_ONE)
+        {
+            gameDominoes[i].state = STATE_GAME_MOVING;
+            return;
+        }          
+    }
+}
+
+//Troca a selecao de domino do jogador 2 para o proximo domino da sua mão
+void changePlayer2SelectedDomino()
+{
+    Domino* gameDominoes = s_getGameDominoes();
+    Domino* selectedDomino;
+    bool foundSelectedDomino = FALSE;
+    for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+    {
+        if(gameDominoes[i].state == STATE_GAME_MOVING) 
+        {
+            selectedDomino = &gameDominoes[i];
+            selectedDomino->state = STATE_PLAYER_TWO;
+            foundSelectedDomino = TRUE;
+        }
+        else if(foundSelectedDomino)
+        {
+            if(gameDominoes[i].state == STATE_PLAYER_TWO)
+            {
+                gameDominoes[i].state = STATE_GAME_MOVING;
+                return;
+            }          
+        }
+        
+    }
+    for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+    {
+        if(gameDominoes[i].state == STATE_PLAYER_TWO)
+        {
+            gameDominoes[i].state = STATE_GAME_MOVING;
+            return;
+        }          
     }
 }
 
