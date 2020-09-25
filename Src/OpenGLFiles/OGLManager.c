@@ -245,7 +245,7 @@ int createEmptyWindow(GLFWwindow** _outWindow)//
 }
 
 void handleShader(GLuint _shaderID, GLuint _textureID, GLuint _mvpHandler, 
-				GLuint _textureHandler, GLuint _timeHandler, mat4 _mvp, float _currentTime)
+				GLuint _textureHandler,  GLuint _timeHandler, GLuint _dominoColorIDHandler, mat4 _mvp, float _currentTime, int _dominoColorID)
 {
 	//Usar o shader especificado
 	glUseProgram(_shaderID);
@@ -254,6 +254,7 @@ void handleShader(GLuint _shaderID, GLuint _textureID, GLuint _mvpHandler,
 	// This is done in the main loop since each model will have a different MVP matrix (At least for the M part)
 	glUniformMatrix4fv(_mvpHandler, 1, GL_FALSE, &_mvp[0][0]);
 	glUniform1f(_timeHandler, _currentTime);
+	glUniform1i(_dominoColorIDHandler, _dominoColorID);
 	//-----SET UNIFORM VALUES-----//
 
 	// Bind our texture in Texture Unit 0
@@ -348,6 +349,8 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _updateCallBack, CBBeforeFirstF
 	GLuint MVPHandler = glGetUniformLocation(programID, "MVP");	
 	//Time para shaders
 	GLint TimeHandler = glGetUniformLocation(programID, "Time");
+
+	GLuint DominoColorIDHandler = glGetUniformLocation(programID, "dominoColorID");
 	//texture handler
 	GLint TextureHandler = glGetUniformLocation(programID, "textureSampler");
 	//-----UNIFORM HANDLES-----//
@@ -466,7 +469,7 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _updateCallBack, CBBeforeFirstF
 
 		//-----BACKGROUND-----//
 		handleShader(programID, backGround.textureID, MVPHandler, 
-						TextureHandler, TimeHandler, backGround.MVP, (float)currentTime);
+						TextureHandler, TimeHandler, DominoColorIDHandler, backGround.MVP, (float)currentTime, 0);
 		drawObject(vertexBuffer, uvBuffer, backGround.MVP);
 		//-----BACKGROUND-----//
 
@@ -478,12 +481,12 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _updateCallBack, CBBeforeFirstF
 			if(!currentDomino.visible) continue;
 			//left
 			handleShader(programID, currentDomino.left.textureID, MVPHandler, 
-						TextureHandler, TimeHandler, currentDomino.left.MVP, (float)currentTime);
+						TextureHandler, TimeHandler, DominoColorIDHandler, currentDomino.left.MVP, (float)currentTime, currentDomino.colorID);
 			drawObject(vertexBuffer, uvBuffer, currentDomino.left.MVP);
 
 			//right
 			handleShader(programID, currentDomino.right.textureID, MVPHandler, 
-						TextureHandler, TimeHandler, currentDomino.right.MVP, (float)currentTime);
+						TextureHandler, TimeHandler, DominoColorIDHandler, currentDomino.right.MVP, (float)currentTime, currentDomino.colorID);
 			drawObject(vertexBuffer, uvBuffer, currentDomino.right.MVP);
 		}
 		//-----DOMINOES-----//

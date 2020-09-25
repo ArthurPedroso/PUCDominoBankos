@@ -115,7 +115,7 @@ void displayMainGameUIPlayer1Turn()
 {
     //O 105 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
     //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
-    static char strBuffer[105]; 
+    static char strBuffer[122]; 
 
     strcpy(strBuffer, "Turno do jogador 1\n");
     strcat(strBuffer, "1- Mostrar mao\n");
@@ -134,7 +134,7 @@ void displayMainGameUIPlayer2Turn()
     //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
     static char strBuffer[122]; 
 
-    strcpy(strBuffer, "Turno do jogador 1\n");
+    strcpy(strBuffer, "Turno do jogador 2\n");
     strcat(strBuffer, "1- Mostrar mao\n");
     strcat(strBuffer, "2- Esconder mao\n");
     strcat(strBuffer, "3- Compra peca\n");
@@ -152,7 +152,7 @@ void displayPlaceDominoUIPlayer1Turn()
     static char strBuffer[128]; 
 
     strcpy(strBuffer, "Turno do jogador 1, posicionar dominó\n");
-    strcat(strBuffer, "---Utilize as setas do teclado para mover o domino---");
+    strcat(strBuffer, "---Utilize as setas do teclado para mover o domino---\n");
     strcat(strBuffer, "1- Confirmar posição\n");
     strcat(strBuffer, "2- Mudar peca\n");
     strcat(strBuffer, "3- Voltar\n");
@@ -168,7 +168,7 @@ void displayPlaceDominoUIPlayer2Turn()
     static char strBuffer[128]; 
 
     strcpy(strBuffer, "Turno do jogador 2, posicionar dominó\n");
-    strcat(strBuffer, "---Utilize as setas do teclado para mover o domino---");
+    strcat(strBuffer, "---Utilize as setas do teclado para mover o domino---\n");
     strcat(strBuffer, "1- Confirmar posição\n");
     strcat(strBuffer, "2- Mudar peca\n");
     strcat(strBuffer, "3- Voltar\n");
@@ -203,7 +203,7 @@ void printDominoes(Domino* _dominoArray, int _arraySize)
         int dominoGObjectIndex = getDominoindexByType(currentDomino.leftType, currentDomino.rightType);
 
         oglDomino = oglDominos[dominoGObjectIndex]; //seleciona um dominó do opengl análogo ao domino do jogo
-
+        oglDomino.colorID = currentDomino.pickedByPlayer1;
         oglDomino.visible = TRUE;
         setGObjectPosition(&oglDomino.left, (currentDomino.posX -0.25f) * 0.2f,(currentDomino.posY * 0.2f), -1.0f);
         setGObjectPosition(&oglDomino.right, (currentDomino.posX +0.25f) * 0.2f, (currentDomino.posY  * 0.2f), -1.0f); 
@@ -226,7 +226,7 @@ void printDominoesBasedOnState(Domino* _dominoArray, int _arraySize, int _stateF
         int dominoGObjectIndex = getDominoindexByType(currentDomino.leftType, currentDomino.rightType);
 
         oglDomino = oglDominos[dominoGObjectIndex]; //seleciona um dominó do opengl análogo ao domino do jogo
-
+        oglDomino.colorID = currentDomino.pickedByPlayer1;
         oglDomino.visible = TRUE;        
         setDominoGOScale(&oglDomino, 0.4f, 0.4f, 0.4f);
         setDominoGOLocalPosition(&oglDomino, currentDomino.posX, currentDomino.posY * 1.3333333f, -1.0f);

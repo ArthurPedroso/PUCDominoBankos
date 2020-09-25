@@ -19,15 +19,28 @@
 #define GAME_DOMINOES_AMOUNT 28
 #define HAND_DOMINOES_STARTING_AMOUNT 7
 
-typedef struct 
+typedef struct DominoStructTAG
 {
+    //Estado de jogo do domino
     int state;
+    //Posicao em x do domino
     int posX;
+    //Posicao em x do domino
     int posY;
+    //Rotacao do domino
     int rotation;
+    //Tipo do quadrado da direira do domino
     int rightType;
+    //Tipo do quadrado da esquerda do domino
     int leftType;
+    //estado de conexão do domino
+    int linkableDominoState;
+    //Tamanho do domino
     float scale;
+    //Domino linkado com esse domino
+    struct DominoStructTAG* linkedDomino;
+    //flag usada para determinar se o dominó foi pego pelo player 1->1 ou 2->2 ou nenhum 0
+    int pickedByPlayer1;
 }Domino;
 
 #endif

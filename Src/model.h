@@ -16,11 +16,17 @@
 //-----ESTADOS DO DOMINO-----//
 
 //-----DIRECAO DE MOVIMENTO-----//
-#define MOVE_DOMINO_UP 0
-#define MOVE_DOMINO_DOWN 1
-#define MOVE_DOMINO_LEFT 2
-#define MOVE_DOMINO_RIGHT 3
+#define CYCLE_POSITION_FORWARD 0
+#define CYCLE_POSITION_BACKWARDS 1
 //-----DIRECAO DE MOVIMENTO-----//
+
+
+//-----ESTADO DOMINO CONECTAVEL-----//
+#define UNLINKABLE_DOMINO 0
+#define LINKABLE_DOMINO_LEFT 1
+#define LINKABLE_DOMINO_RIGHT 2
+#define LINKABLE_DOMINO_LEFT_RIGHT 3
+//-----ESTADO DOMINO CONECTAVEL-----//
 
 #include "common.h"
 
@@ -33,8 +39,9 @@ void resetDominoesState();
 void assignPlayerStartingHand(int _player);
 void changePlayerSelectedDomino(int _player);
 void pickDominoeFromPile(int _playerState);
-void movePlayerDomino(int _moveDirection, int _player);
+void movePlayerDomino(int _player);
 void unselectPlayerDomino(int _player);
+bool tryToSetSelectedDominoToTable();
 
 //-----ETAPA1-----//
 //void shuffleDominoesAndDisplay();

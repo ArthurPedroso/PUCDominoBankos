@@ -223,7 +223,13 @@ void managePlaceDominoUIPlayer1Turn(uiInput _menuInput)
 {
     switch (_menuInput)
     {
-        case 1: //Confirma a posicao do domino
+        case 1: //Confirma a posicao do domino e passa o turno para o jogador 2
+            if(tryToSetSelectedDominoToTable())
+            {
+                *s_getControllerState() = UI_STATE_MAIN_GAME_PLAYER2_TURN;
+                hideDominoesBasedOnState(s_getGameDominoes(), GAME_DOMINOES_AMOUNT, STATE_PLAYER_ONE);
+                displayMainGameUIPlayer2Turn();
+            }
             break;
         case 2: //Seleciona outro domino
             changePlayerSelectedDomino(STATE_PLAYER_ONE);
@@ -235,16 +241,16 @@ void managePlaceDominoUIPlayer1Turn(uiInput _menuInput)
             unselectPlayerDomino(STATE_PLAYER_ONE);
             break;
         case 10: //Move o domino selecionado para cima
-            movePlayerDomino(MOVE_DOMINO_UP, STATE_PLAYER_ONE);
+            movePlayerDomino(STATE_PLAYER_ONE);
             break;
         case 11: //Move o domino selecionado para baixo
-            movePlayerDomino(MOVE_DOMINO_DOWN, STATE_PLAYER_ONE);
+            //movePlayerDomino(STATE_PLAYER_ONE);
             break;
         case 12: //Move o domino selecionado para a esquerda
-            movePlayerDomino(MOVE_DOMINO_LEFT, STATE_PLAYER_ONE);
+            //movePlayerDomino(MOVE_DOMINO_LEFT, STATE_PLAYER_ONE);
             break;
         case 13: //Move o domino selecionado para a direita
-            movePlayerDomino(MOVE_DOMINO_RIGHT, STATE_PLAYER_ONE);
+            //movePlayerDomino(MOVE_DOMINO_RIGHT, STATE_PLAYER_ONE);
             break;
     }
 
@@ -255,7 +261,35 @@ void managePlaceDominoUIPlayer2Turn(uiInput _menuInput)
 {
     switch (_menuInput)
     {
-
+        case 1: //Confirma a posicao do domino
+            if(tryToSetSelectedDominoToTable())
+            {
+                *s_getControllerState() = UI_STATE_MAIN_GAME_PLAYER1_TURN;
+                hideDominoesBasedOnState(s_getGameDominoes(), GAME_DOMINOES_AMOUNT, STATE_PLAYER_TWO);
+                displayMainGameUIPlayer1Turn();
+            }
+            break;
+        case 2: //Seleciona outro domino
+            changePlayerSelectedDomino(STATE_PLAYER_TWO);
+            break;
+        case 3: //Volta para o menu anterior
+            *s_getControllerState() = UI_STATE_MAIN_GAME_PLAYER2_TURN;
+            hideDominoesBasedOnState(s_getGameDominoes(), GAME_DOMINOES_AMOUNT, STATE_GAME_MOVING);
+            displayMainGameUIPlayer2Turn();
+            unselectPlayerDomino(STATE_PLAYER_TWO);
+            break;
+        case 10: //Move o domino selecionado para cima
+            //movePlayerDomino(STATE_PLAYER_TWO);
+            break;
+        case 11: //Move o domino selecionado para baixo
+            //movePlayerDomino(STATE_PLAYER_TWO);
+            break;
+        case 12: //Move o domino selecionado para a esquerda
+            //movePlayerDomino(STATE_PLAYER_TWO);
+            break;
+        case 13: //Move o domino selecionado para a direita
+            //movePlayerDomino(STATE_PLAYER_TWO);
+            break;
     }
 }
 /* essa função não será mais utilizada

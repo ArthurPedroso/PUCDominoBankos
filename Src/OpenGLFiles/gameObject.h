@@ -25,6 +25,7 @@ typedef struct
     GObject left;
     vec3 scale;
     bool visible;
+    int colorID;
     //int leftType;
     //int rightType;
 }DominoGObject;
