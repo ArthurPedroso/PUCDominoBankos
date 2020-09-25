@@ -175,7 +175,7 @@ void manageMainGameUIPlayer1Turn(uiInput _menuInput)
             pickDominoeFromPile(STATE_PLAYER_ONE);
             displayPlayerHand(STATE_PLAYER_ONE);
             break;
-        case 4:
+        case 4: 
             *s_getControllerState() = UI_STATE_PLACE_DOMINO_PLAYER1_TURN;
             displayPlaceDominoUIPlayer1Turn();
             changePlayerSelectedDomino(STATE_PLAYER_ONE);
@@ -230,6 +230,7 @@ void managePlaceDominoUIPlayer1Turn(uiInput _menuInput)
                 hideDominoesBasedOnState(s_getGameDominoes(), GAME_DOMINOES_AMOUNT, STATE_PLAYER_ONE);
                 displayMainGameUIPlayer2Turn();
             }
+            printf("end if\n");
             break;
         case 2: //Seleciona outro domino
             changePlayerSelectedDomino(STATE_PLAYER_ONE);

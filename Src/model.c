@@ -96,19 +96,21 @@ bool checkIfThereIsDominosOnTable()
 void moveSelectedDominoToLinkedSpace(Domino* _selectedDomino)
 {
     Domino* linkedDomino = _selectedDomino->linkedDomino;
+
+    _selectedDomino->posY = 0;
     switch (linkedDomino->linkableDominoState)
     {
         case LINKABLE_DOMINO_LEFT:
-            _selectedDomino->posX = linkedDomino->posX - 1;
+            _selectedDomino->posX = linkedDomino->posX - 2;
             break;    
         case LINKABLE_DOMINO_RIGHT:
-            _selectedDomino->posX = linkedDomino->posX + 1;
+            _selectedDomino->posX = linkedDomino->posX + 2;
             break;
         case LINKABLE_DOMINO_LEFT_RIGHT:
-            if(_selectedDomino->posX == linkedDomino->posX + 1)
-                _selectedDomino->posX = linkedDomino->posX - 1;
+            if(_selectedDomino->posX == linkedDomino->posX + 2)
+                _selectedDomino->posX = linkedDomino->posX - 2;
             else 
-                _selectedDomino->posX = linkedDomino->posX + 1;            
+                _selectedDomino->posX = linkedDomino->posX + 2;            
             break;
     }
 }
@@ -160,16 +162,16 @@ void assignPlayerStartingHand(int _player)
         }
         shuffleIntArray(arrayInt, GAME_DOMINOES_AMOUNT);
 
-        for (int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+        for (int j = 0; j < GAME_DOMINOES_AMOUNT; j++)
         {
             if(nDominosAlocados == 7)
             {
                 break;
             }
-            else if(gameDominos[arrayInt[i]].state == STATE_DOMINOES_PILE)
+            else if(gameDominos[arrayInt[j]].state == STATE_DOMINOES_PILE)
             {
-                gameDominos[arrayInt[i]].state = _player;
-                gameDominos[arrayInt[i]].pickedByPlayer1 = _player;
+                gameDominos[arrayInt[j]].state = _player;
+                gameDominos[arrayInt[j]].pickedByPlayer1 = _player;
                 nDominosAlocados++;
             }
         }
@@ -192,9 +194,9 @@ void pickDominoeFromPile(int _playerState)
 
     if(checkDominoesPile(gameDominos) >= 1)
     {
-        for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+        for(int j = 0; j < GAME_DOMINOES_AMOUNT; j++)
         {
-            arrayInt[i] = i;
+            arrayInt[j] = j;
         }
         shuffleIntArray(arrayInt, GAME_DOMINOES_AMOUNT);
 
@@ -244,10 +246,13 @@ void displayPlayerHand(int _player)
 void movePlayerDomino(int _player)
 {
     Domino* gameDominoes = s_getGameDominoes();
-    Domino* selectedDomino;
+    Domino* selectedDomino = NULL;
     Domino* linkableDomino1 = NULL;
     Domino* linkableDomino2 = NULL;
     int linkableDominosIndex;
+
+    if(!checkIfThereIsDominosOnTable()) return;
+    
     for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
     {
         if(gameDominoes[i].state == STATE_GAME_MOVING) 
@@ -283,7 +288,8 @@ void movePlayerDomino(int _player)
     else
         selectedDomino->linkedDomino = linkableDomino1;
 
-    
+    printf("Pointerrr 1 anterior %p\n", (void*)linkableDomino1);
+    printf("Pointerrr 2 anterior %p\n", (void*)linkableDomino2);
     moveSelectedDominoToLinkedSpace(selectedDomino);
 
     printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_GAME_MOVING);
@@ -297,7 +303,7 @@ void changePlayerSelectedDomino(int _player)
     bool foundSelectedDomino = FALSE;
     int playerSelectedDomino = -1;
 
-    for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+    for(int i = 0; i < GAME_DOMINOES_AMOUNT && playerSelectedDomino == -1; i++)
     {
         if(gameDominoes[i].state == STATE_GAME_MOVING) 
         {
@@ -309,12 +315,13 @@ void changePlayerSelectedDomino(int _player)
         }
         else if(foundSelectedDomino)
         {
-            if(gameDominoes[i].state == _player) playerSelectedDomino = i;      
+            if(gameDominoes[i].state == _player) 
+                playerSelectedDomino = i;      
         }        
     }
-    for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+    for(int j = 0; j < GAME_DOMINOES_AMOUNT && playerSelectedDomino == -1; j++)
     {
-        if(gameDominoes[i].state == _player) playerSelectedDomino = i;
+        if(gameDominoes[j].state == _player) playerSelectedDomino = j;
     }
     if(playerSelectedDomino != -1)
     {
@@ -324,10 +331,15 @@ void changePlayerSelectedDomino(int _player)
             gameDominoes[playerSelectedDomino].posX = 0;
             gameDominoes[playerSelectedDomino].posY = 0;
         }
-
+        else
+            movePlayerDomino(_player);
         hideDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, _player); //esconde o domino deselecionado
         printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_GAME_MOVING); //exibe o novo domino selecionado
     }
+    else
+    {
+        printf("!ERRO! Nenhum domino encontrado na mão do jogador");
+    }    
 }
 
 //Deseleciona o domino que o jogador estava movendo
@@ -350,24 +362,28 @@ bool checkIfDominoCanBePlaced()
     Domino* downDomino = NULL;
     Domino* selectedDomino = NULL;
 
-    for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+    if(!checkIfThereIsDominosOnTable()) return TRUE;
+
+    for(int j = 0; j < GAME_DOMINOES_AMOUNT; j++)
     {
-        if(gameDominoes[i].state == STATE_GAME_MOVING) 
+        if(gameDominoes[j].state == STATE_GAME_MOVING) 
         {
-            selectedDomino = &gameDominoes[i];
+            selectedDomino = &gameDominoes[j];
             break;
         }
     }
 
     for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
     {
-        if(selectedDomino->posX - 1 == gameDominoes[i].posX)
+        if(gameDominoes[i].state != STATE_GAME_TABLE) continue;
+
+        if(selectedDomino->posX - 2 == gameDominoes[i].posX)
             leftDomino = &gameDominoes[i];
-        else if(selectedDomino->posX + 1 == gameDominoes[i].posX)
+        else if(selectedDomino->posX + 2 == gameDominoes[i].posX)
             rightDomino = &gameDominoes[i];
-        else if(selectedDomino->posY - 1 == gameDominoes[i].posY)
+        else if(selectedDomino->posY - 2 == gameDominoes[i].posY)
             downDomino = &gameDominoes[i];
-        else if(selectedDomino->posY + 1 == gameDominoes[i].posY)
+        else if(selectedDomino->posY + 2 == gameDominoes[i].posY)
             upDomino = &gameDominoes[i];
     }
 
@@ -397,9 +413,9 @@ bool checkIfDominoCanBePlaced()
 //Tenta posicionar o domino na mesa e mudar automaticamente a peça selecionada pelo jogador
 bool tryToSetSelectedDominoToTable()
 {   
-    Domino* selectedDomino;
+    Domino* selectedDomino = NULL;
     Domino* gameDominoes = s_getGameDominoes();
-    bool oneOrMoreDominosPlaced = FALSE;
+    bool oneOrMoreDominosPlaced = checkIfThereIsDominosOnTable();
     bool canPlaceDomino = FALSE;
     for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
     {
@@ -410,26 +426,26 @@ bool tryToSetSelectedDominoToTable()
         }
     }
 
-    for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
-    {
-        if(gameDominoes[i].state == STATE_GAME_TABLE) 
-        {
-            oneOrMoreDominosPlaced = TRUE;
-            break;
-        }
-    }
-
     canPlaceDomino = checkIfDominoCanBePlaced();
-
-    if(oneOrMoreDominosPlaced && !canPlaceDomino)
+    
+    if(!selectedDomino)
     {
+        printf("!ERRO!Nenhum domino selecionado!!!!\n");
+        return false;
+    }
+    else if(oneOrMoreDominosPlaced && !canPlaceDomino)
+    {
+        printf("if 1\n");
         return FALSE;
     }
     else if(!oneOrMoreDominosPlaced)
     {
         selectedDomino->state = STATE_GAME_TABLE;
+        selectedDomino->linkableDominoState = LINKABLE_DOMINO_LEFT_RIGHT;
         selectedDomino->posX = 0;
         selectedDomino->posY = 0;
+        printf("if 2\n");
+
         printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_GAME_TABLE);
         return TRUE;
     }
@@ -437,6 +453,8 @@ bool tryToSetSelectedDominoToTable()
     {
         selectedDomino->state = STATE_GAME_TABLE;
         printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_GAME_TABLE);
+
+        printf("if 3\n");
         return TRUE;
     }
     return FALSE;
