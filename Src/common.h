@@ -40,7 +40,7 @@ typedef struct DominoStructTAG
     //Domino linkado com esse domino
     struct DominoStructTAG* linkedDomino;
     //flag usada para determinar se o dominó foi pego pelo player 1->1 ou 2->2 ou nenhum 0
-    int pickedByPlayer1;
+    int playerColorID;
 }Domino;
 
 #endif

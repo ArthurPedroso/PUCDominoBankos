@@ -1,5 +1,7 @@
 #Parametros de build e debug especificos para cada plataforma.
 .vscode/
+#Pasta de ferramenta
+.VSCodeCounter
 #Pasta de builds
 BuildOutput/
 libraries/

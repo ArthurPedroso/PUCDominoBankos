@@ -280,7 +280,7 @@ void managePlaceDominoUIPlayer2Turn(uiInput _menuInput)
             unselectPlayerDomino(STATE_PLAYER_TWO);
             break;
         case 10: //Move o domino selecionado para cima
-            //movePlayerDomino(STATE_PLAYER_TWO);
+            movePlayerDomino(STATE_PLAYER_TWO);
             break;
         case 11: //Move o domino selecionado para baixo
             //movePlayerDomino(STATE_PLAYER_TWO);
