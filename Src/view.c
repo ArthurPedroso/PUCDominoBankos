@@ -65,12 +65,12 @@ void displayStartingMenu()
     //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
     static char strBuffer[104]; 
 
-    strcpy(strBuffer, "Welcome! Let's play Domino!\n");
-    strcat(strBuffer, "To get started, select an option:\n");
-    strcat(strBuffer, "1- New Game\n");
-    strcat(strBuffer, "2- Save\n");
-    strcat(strBuffer, "3- Load\n");
-    strcat(strBuffer, "4- Exit\n");
+    strcpy(strBuffer, "Bem vindo, vamos jogar domino!\n");
+    strcat(strBuffer, "Selecione uma opcao:\n");
+    strcat(strBuffer, "1- Novo jogo\n");
+    strcat(strBuffer, "2- Salvar\n");
+    strcat(strBuffer, "3- Carregar\n");
+    strcat(strBuffer, "4- Sair\n");
 
     changeOGLText(strBuffer);
 }
@@ -149,13 +149,13 @@ void displayPlaceDominoUIPlayer1Turn()
 {
     //O 76 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
     //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
-    static char strBuffer[128]; 
+    static char strBuffer[150]; 
 
     strcpy(strBuffer, "Turno do jogador 1, posicionar dominó\n");
-    strcat(strBuffer, "---Utilize as setas do teclado para mover o domino---\n");
     strcat(strBuffer, "1- Confirmar posição\n");
     strcat(strBuffer, "2- Mudar peca\n");
-    strcat(strBuffer, "3- Voltar\n");
+    strcat(strBuffer, "3- Mudar posicao\n");
+    strcat(strBuffer, "4- Voltar\n");
 
     changeOGLText(strBuffer);
 }
@@ -165,13 +165,13 @@ void displayPlaceDominoUIPlayer2Turn()
 {
     //O 76 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
     //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
-    static char strBuffer[128]; 
+    static char strBuffer[150]; 
 
     strcpy(strBuffer, "Turno do jogador 2, posicionar dominó\n");
-    strcat(strBuffer, "---Utilize as setas do teclado para mover o domino---\n");
     strcat(strBuffer, "1- Confirmar posição\n");
     strcat(strBuffer, "2- Mudar peca\n");
-    strcat(strBuffer, "3- Voltar\n");
+    strcat(strBuffer, "3- Mudar posicao\n");
+    strcat(strBuffer, "4- Voltar\n");
 
     changeOGLText(strBuffer);
 }
