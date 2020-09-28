@@ -224,7 +224,7 @@ void printDominoesBasedOnState(Domino* _dominoArray, int _arraySize, int _stateF
         Domino currentDomino = _dominoArray[i];
         DominoGObject oglDomino;
         int dominoGObjectIndex = getDominoindexByType(currentDomino.leftType, currentDomino.rightType);
-
+    
         oglDomino = oglDominos[dominoGObjectIndex]; //seleciona um dominó do opengl análogo ao domino do jogo
         oglDomino.colorID = currentDomino.playerColorID;
         oglDomino.visible = TRUE;        

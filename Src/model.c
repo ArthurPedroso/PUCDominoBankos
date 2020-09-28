@@ -308,6 +308,11 @@ void displayPlayerHand(int _player)
         gameDominoes[i].posX = lastDominoXPos;
         lastDominoXPos += 3;
         gameDominoes[i].posY = lastDominoYPos;
+        if(lastDominoXPos >= 13) 
+        {
+            lastDominoXPos = -8;
+            lastDominoYPos -= 2;
+        }
         gameDominoes[i].linkableDominoState = UNLINKABLE_DOMINO;
         gameDominoes[i].linkedDomino = NULL;
         gameDominoes[i].playerColorID = _player;
@@ -394,6 +399,7 @@ void changePlayerSelectedDomino(int _player)
             //selectedDomino->posX = 0;
             //selectedDomino->posY = 0;
             foundSelectedDomino = TRUE;
+
         }
         else if(foundSelectedDomino)
         {

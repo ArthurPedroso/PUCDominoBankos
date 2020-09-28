@@ -30,7 +30,6 @@
 
 #include "common.h"
 
-
 Domino* s_getGameDominoes();
 
 void displayPlayerHand(int _player);
