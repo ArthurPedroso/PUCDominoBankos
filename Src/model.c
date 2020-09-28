@@ -342,7 +342,7 @@ void movePlayerDomino(int _player)
         } 
         else if(gameDominoes[i].linkableDominoState != UNLINKABLE_DOMINO)
         {
-            if(!linkableDomino1)
+            if(!linkableDomino1) // linkableDomino1 == false -> linkableDomino1 não existe
             {
                 linkableDomino1 = &gameDominoes[i];
             }
@@ -420,7 +420,7 @@ void changePlayerSelectedDomino(int _player)
             gameDominoes[playerSelectedDomino].posX = 0;
             gameDominoes[playerSelectedDomino].posY = 0;
         }
-        else if(!foundSelectedDomino)
+        else if(!foundSelectedDomino) //foundSelectedDomino == false
         {
             movePlayerDomino(_player);            
         }
