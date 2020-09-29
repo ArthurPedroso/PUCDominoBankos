@@ -6,6 +6,7 @@
 //-----UI_TEXT-----//
 void displayStartingMenu();
 void displayPlayerSelectionMenu();
+void displayInstructionsMenu();
 void displayStartDominosAssigmentMenu(int _cantStartGameWarning);
 void displayMainGameUIPlayer1Turn();
 void displayMainGameUIPlayer2Turn();

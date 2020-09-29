@@ -13,6 +13,7 @@
 #define UI_STATE_MAIN_GAME_PLAYER2_TURN 4
 #define UI_STATE_PLACE_DOMINO_PLAYER1_TURN 5
 #define UI_STATE_PLACE_DOMINO_PLAYER2_TURN 6
+#define UI_STATE_SHOW_INSTRUCTIONS 7
 //-----UI_STATES-----// 
 
 //-----StartDominosAssigmentMenuStates-----//
@@ -55,9 +56,24 @@ void manageMainMenuInput(uiInput _menuInput)
             break;
         case 3: //Load Game
             break;
-        case 4: //Exit Game
+        case 4: //Instructions
+            displayInstructionsMenu();
+            *s_getControllerState() = UI_STATE_SHOW_INSTRUCTIONS;
+            break;
+        case 5: //Exit Game
             exitGame(); 
             break; 
+    }
+}
+
+void manageInstructionsExit(uiInput _playerInput)
+{
+    switch (_playerInput)
+    {
+    case 1:
+        *s_getControllerState() = UI_STATE_MAIN_MENU;
+        displayStartingMenu();
+        break;
     }
 }
 
@@ -340,6 +356,9 @@ void managePlayerChoice(uiInput _playerInput)
             break;
         case UI_STATE_PLACE_DOMINO_PLAYER2_TURN:
             managePlaceDominoUIPlayer2Turn(_playerInput);
+            break;
+        case UI_STATE_SHOW_INSTRUCTIONS:
+            manageInstructionsExit(_playerInput);
             break;
     }    
 }

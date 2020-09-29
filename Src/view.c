@@ -63,14 +63,15 @@ void displayStartingMenu()
 {
     //O 104 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
     //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
-    static char strBuffer[104]; 
+    static char strBuffer[119]; 
 
     strcpy(strBuffer, "Bem vindo, vamos jogar domino!\n");
     strcat(strBuffer, "Selecione uma opcao:\n");
     strcat(strBuffer, "1- Novo jogo\n");
     strcat(strBuffer, "2- Salvar\n");
     strcat(strBuffer, "3- Carregar\n");
-    strcat(strBuffer, "4- Sair\n");
+    strcat(strBuffer, "4- Como jogar\n");
+    strcat(strBuffer, "5- Sair\n");
 
     changeOGLText(strBuffer);
 }
@@ -86,6 +87,23 @@ void displayPlayerSelectionMenu() //mostra a tela de seleção de jogadores
     strcat(strBuffer, "1- Jogar contra o AI\n");
     strcat(strBuffer, "2- Jogar com um amigo\n");
     strcat(strBuffer, "3- Voltar\n");
+
+    changeOGLText(strBuffer);
+}
+
+void displayInstructionsMenu() //menu de instrucoes
+{
+    static char strBuffer[719]; 
+
+    strcpy(strBuffer, "Regras\n\n");
+    strcat(strBuffer, "- Cada jogador recebe 7 peças.\n");
+    strcat(strBuffer, "- Cada jogador poderá comprar uma peça caso precise.\n");
+    strcat(strBuffer, "- Dá-se início ao jogo o jogador que tirar a pedra “seis-seis”.\n");
+    strcat(strBuffer, "- O jogador deve posicionar a peça ao lado de outra que estará na mesa, tal que os pontos de um lado coincida com os pontos da outra peça.");
+    strcat(strBuffer, "- Caso não haja peças no monte o jogador deverá passar o turno ao seguinte jogador.\n");
+    strcat(strBuffer, "- Quando  joga-se  sozinho,  o  jogador  que  ganhou  a  partida  soma  os  pontos  de  todos  os seus  adversários.\n");
+    strcat(strBuffer, "- Se o número das extremidades saiu 7 vezes antes, a partida está fechada, de modo que os  jogadores  contarão  os  pontos  das  pedras  que  ficaram, sendo que o jogador com menos pontos vencem.\n");
+    strcat(strBuffer, "Aperte 1 para retornar ao menu inicial\n");
 
     changeOGLText(strBuffer);
 }
