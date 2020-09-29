@@ -93,16 +93,18 @@ void displayPlayerSelectionMenu() //mostra a tela de seleção de jogadores
 
 void displayInstructionsMenu() //menu de instrucoes
 {
-    static char strBuffer[719]; 
+    static char strBuffer[725]; 
 
-    strcpy(strBuffer, "Regras\n\n");
-    strcat(strBuffer, "- Cada jogador recebe 7 peças.\n");
-    strcat(strBuffer, "- Cada jogador poderá comprar uma peça caso precise.\n");
-    strcat(strBuffer, "- Dá-se início ao jogo o jogador que tirar a pedra “seis-seis”.\n");
-    strcat(strBuffer, "- O jogador deve posicionar a peça ao lado de outra que estará na mesa, tal que os pontos de um lado coincida com os pontos da outra peça.");
-    strcat(strBuffer, "- Caso não haja peças no monte o jogador deverá passar o turno ao seguinte jogador.\n");
-    strcat(strBuffer, "- Quando  joga-se  sozinho,  o  jogador  que  ganhou  a  partida  soma  os  pontos  de  todos  os seus  adversários.\n");
-    strcat(strBuffer, "- Se o número das extremidades saiu 7 vezes antes, a partida está fechada, de modo que os  jogadores  contarão  os  pontos  das  pedras  que  ficaram, sendo que o jogador com menos pontos vencem.\n");
+    strcpy(strBuffer, "Regras\n");
+    strcat(strBuffer, "- Cada jogador recebe 7 pecas.\n");
+    strcat(strBuffer, "- Cada jogador podera comprar uma peca caso precise.\n");
+    strcat(strBuffer, "- Da-se inicio ao jogo o jogador que tirar a pedra “seis-seis”.\n");
+    strcat(strBuffer, "- O jogador deve posicionar a peca ao lado de outra que estara na mesa, tal que os pontos de um lado\n");
+    strcat(strBuffer, "coincida com os pontos da outra peca.\n");
+    strcat(strBuffer, "- Caso nao haja pecas no monte o jogador devera passar o turno ao seguinte jogador.\n");
+    strcat(strBuffer, "- Quando  joga-se  sozinho,  o  jogador  que  ganhou  a  partida  soma  os  pontos  de  todos  os seus  adversarios.\n");
+    strcat(strBuffer, "- Se o numero das extremidades saiu 7 vezes antes, a partida esta fechada, de modo que os  jogadores\n");
+    strcat(strBuffer, "contarao  os  pontos  das  pedras  que  ficaram, sendo que o jogador com menos pontos vencem.\n");
     strcat(strBuffer, "Aperte 1 para retornar ao menu inicial\n");
 
     changeOGLText(strBuffer);

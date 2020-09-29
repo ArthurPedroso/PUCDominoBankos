@@ -27,7 +27,7 @@ typedef struct DominoStructTAG
     int posX;
     //Posicao em x do domino
     int posY;
-    //Rotacao do domino
+    //Rotacao do dominoP
     int rotation;
     //Tipo do quadrado da direira do domino
     int rightType;
