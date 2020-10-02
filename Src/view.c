@@ -147,7 +147,7 @@ void displayMainGameUIPlayer1Turn()
 {
     //O 105 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
     //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
-    static char strBuffer[240]; 
+    static char strBuffer[257]; 
 
     strcpy(strBuffer, "Turno do jogador 1\n");
     strcat(strBuffer, "1- Mostrar mao\n");
@@ -156,7 +156,8 @@ void displayMainGameUIPlayer1Turn()
     strcat(strBuffer, "4- Posicionar peca\n");
     strcat(strBuffer, "Seta Esquerda- Mover camera para a esquerda\n");
     strcat(strBuffer, "Seta Direita- Mover camera para a direita\n");
-    strcat(strBuffer, "7- Voltar para o menu principal\n");
+    strcat(strBuffer, "5- Pedir empate\n");
+    strcat(strBuffer, "6- Voltar para o menu principal\n");
 
     changeOGLText(strBuffer);
 }
@@ -166,7 +167,7 @@ void displayMainGameUIPlayer2Turn()
 {
     //O 122 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
     //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
-    static char strBuffer[240]; 
+    static char strBuffer[257]; 
 
     strcpy(strBuffer, "Turno do jogador 2\n");
     strcat(strBuffer, "1- Mostrar mao\n");
@@ -175,7 +176,8 @@ void displayMainGameUIPlayer2Turn()
     strcat(strBuffer, "4- Posicionar peca\n");
     strcat(strBuffer, "Seta Esquerda- Mover camera para a esquerda\n");
     strcat(strBuffer, "Seta Direita- Mover camera para a direita\n");
-    strcat(strBuffer, "7- Voltar para o menu principal\n");
+    strcat(strBuffer, "5- Pedir empate\n");
+    strcat(strBuffer, "6- Voltar para o menu principal\n");
 
     changeOGLText(strBuffer);
 }
@@ -210,6 +212,19 @@ void displayPlaceDominoUIPlayer2Turn()
     strcat(strBuffer, "3- Mudar posicao\n");
     strcat(strBuffer, "4- Mudar rotacao\n");
     strcat(strBuffer, "5- Voltar\n");
+
+    changeOGLText(strBuffer);
+}
+
+//Menu de pedir empate
+void displayAskForDrawScreen()
+{
+    //O 76 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
+    //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
+    static char strBuffer[38]; 
+
+    strcpy(strBuffer, "1- Aceitar empate\n");
+    strcat(strBuffer, "2- Recusar empate\n");
 
     changeOGLText(strBuffer);
 }

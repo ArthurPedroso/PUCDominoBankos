@@ -12,6 +12,7 @@ void displayMainGameUIPlayer1Turn();
 void displayMainGameUIPlayer2Turn();
 void displayPlaceDominoUIPlayer1Turn();
 void displayPlaceDominoUIPlayer2Turn();
+void displayAskForDrawScreen();
 //-----UI_TEXT-----//
 
 int screenDisplay();

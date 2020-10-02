@@ -383,7 +383,7 @@ void pickDominoeFromPile(int _playerState)
     }
     else
     {
-        printf("Nao ha dominos suficientes na pilha");
+        
     }
 }
 
