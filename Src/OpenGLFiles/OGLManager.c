@@ -265,7 +265,7 @@ void handleShader(GLuint _shaderID, GLuint _textureID, GLuint _mvpHandler,
 	glUniform1i(_textureHandler, 0);
 
 }
-void drawObject(GLuint _vertexBuffer, GLuint _uvBuffer,  mat4 _mvp)
+void drawObject(GLuint _vertexBuffer, GLuint _uvBuffer)
 {
 
     //-----1st attribute buffer : vertices-----//
@@ -338,6 +338,11 @@ int getGameInput(GLFWwindow* _window)
 	return INPUT_NO_KEY_PRESSED;
 }
 */
+
+void updateCamera()
+{
+
+}
 int drawLoop(GLFWwindow* _window, CBRenderUpdate _updateCallBack, CBBeforeFirstFrame _firstFrameCallBack)
 {
 
@@ -470,7 +475,7 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _updateCallBack, CBBeforeFirstF
 		//-----BACKGROUND-----//
 		handleShader(programID, backGround.textureID, MVPHandler, 
 						TextureHandler, TimeHandler, DominoColorIDHandler, backGround.MVP, (float)currentTime, 0);
-		drawObject(vertexBuffer, uvBuffer, backGround.MVP);
+		drawObject(vertexBuffer, uvBuffer);
 		//-----BACKGROUND-----//
 
 
@@ -482,12 +487,12 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _updateCallBack, CBBeforeFirstF
 			//left
 			handleShader(programID, currentDomino.left.textureID, MVPHandler, 
 						TextureHandler, TimeHandler, DominoColorIDHandler, currentDomino.left.MVP, (float)currentTime, currentDomino.colorID);
-			drawObject(vertexBuffer, uvBuffer, currentDomino.left.MVP);
+			drawObject(vertexBuffer, uvBuffer);
 
 			//right
 			handleShader(programID, currentDomino.right.textureID, MVPHandler, 
 						TextureHandler, TimeHandler, DominoColorIDHandler, currentDomino.right.MVP, (float)currentTime, currentDomino.colorID);
-			drawObject(vertexBuffer, uvBuffer, currentDomino.right.MVP);
+			drawObject(vertexBuffer, uvBuffer);
 		}
 		//-----DOMINOES-----//
 

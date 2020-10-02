@@ -17,8 +17,8 @@
 //-----ESTADOS DO DOMINO-----//
 
 //-----DIRECAO DE MOVIMENTO-----//
-#define CYCLE_POSITION_FORWARD 0
-#define CYCLE_POSITION_BACKWARDS 1
+#define MOVE_DOMINOS_LEFT -1
+#define MOVE_DOMINOS_RIGHT 1
 //-----DIRECAO DE MOVIMENTO-----//
 
 
@@ -45,6 +45,7 @@ void movePlayerDomino();
 void rotatePlayerDomino();
 void unselectPlayerDomino(int _player);
 bool tryToSetSelectedDominoToTable();
+void moveAllDominoes(int _direction);
 
 //-----ETAPA1-----//
 //void shuffleDominoesAndDisplay();

@@ -17,6 +17,13 @@ void clearTerminal()
 #endif
 }
 
+float* s_getDeltaTime()
+{
+    static float deltaTime = 0.0f;
+
+    return &deltaTime;
+}
+
 //Muda o texto do OpengGl
 //É possivel mudar a posicao e o tamanho do texto alterando as outras variaveis do "textData" 
 void changeOGLText(char* _newText)
@@ -42,11 +49,10 @@ void OGLManagerUpdateCB(float _deltaTime)
     else if(OGLGetKeyDown(INPUT_KEY7)) input = 7;
     else if(OGLGetKeyDown(INPUT_KEY8)) input = 8;
     else if(OGLGetKeyDown(INPUT_KEY9)) input = 9;
-    else if(OGLGetKeyDown(INPUT_KEY_UP)) input = 10;
-    else if(OGLGetKeyDown(INPUT_KEY_DOWN)) input = 11;
-    else if(OGLGetKeyDown(INPUT_KEY_LEFT)) input = 12;
-    else if(OGLGetKeyDown(INPUT_KEY_RIGHT)) input = 13;
+    else if(OGLGetKey(INPUT_KEY_LEFT)) input = 12;
+    else if(OGLGetKey(INPUT_KEY_RIGHT)) input = 13;
 
+    *s_getDeltaTime() = _deltaTime;
     managePlayerChoice(input);//Passa para o coontroller o input atual do jogador
 }
 //Chamado antes da renderização do primeiro frame
@@ -56,6 +62,12 @@ void OGLManagerFirstFrameCB()
     displayStartingMenu();
 }
 //-----------Head Funcs-----------//
+
+//retorna o delta time armazenado pelo view
+float getDeltaTime()
+{
+    return *s_getDeltaTime();
+}
 
 //-----UI_TEXT-----//
 //Menu Principal
@@ -135,14 +147,16 @@ void displayMainGameUIPlayer1Turn()
 {
     //O 105 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
     //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
-    static char strBuffer[122]; 
+    static char strBuffer[240]; 
 
     strcpy(strBuffer, "Turno do jogador 1\n");
     strcat(strBuffer, "1- Mostrar mao\n");
     strcat(strBuffer, "2- Esconder mao\n");
     strcat(strBuffer, "3- Compra peca\n");
     strcat(strBuffer, "4- Posicionar peca\n");
-    strcat(strBuffer, "5- Voltar para o menu principal\n");
+    strcat(strBuffer, "Seta Esquerda- Mover camera para a esquerda\n");
+    strcat(strBuffer, "Seta Direita- Mover camera para a direita\n");
+    strcat(strBuffer, "7- Voltar para o menu principal\n");
 
     changeOGLText(strBuffer);
 }
@@ -152,14 +166,16 @@ void displayMainGameUIPlayer2Turn()
 {
     //O 122 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
     //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
-    static char strBuffer[122]; 
+    static char strBuffer[240]; 
 
     strcpy(strBuffer, "Turno do jogador 2\n");
     strcat(strBuffer, "1- Mostrar mao\n");
     strcat(strBuffer, "2- Esconder mao\n");
     strcat(strBuffer, "3- Compra peca\n");
     strcat(strBuffer, "4- Posicionar peca\n");
-    strcat(strBuffer, "5- Voltar para o menu principal\n");
+    strcat(strBuffer, "Seta Esquerda- Mover camera para a esquerda\n");
+    strcat(strBuffer, "Seta Direita- Mover camera para a direita\n");
+    strcat(strBuffer, "7- Voltar para o menu principal\n");
 
     changeOGLText(strBuffer);
 }
@@ -236,7 +252,7 @@ void printDominoes(Domino* _dominoArray, int _arraySize)
 }
 
 //Recebe um array de dominós e exibe seus equivalentes pelo OpenGL, exibindo apenas os dominos com o estado de "_stateFilter"
-void printDominoesBasedOnState(Domino* _dominoArray, int _arraySize, int _stateFilter)
+void printDominoesBasedOnState(Domino* _dominoArray, int _arraySize, int _stateFilter, Vec2 _offset)
 {
     DominoGObject* oglDominos = s_getDominoesGObjects();
 
@@ -253,7 +269,7 @@ void printDominoesBasedOnState(Domino* _dominoArray, int _arraySize, int _stateF
         oglDomino.visible = TRUE;  
         oglDomino.currentRotation = currentDomino.rotation;      
         setDominoGOScale(&oglDomino, currentDomino.scale, currentDomino.scale, currentDomino.scale);
-        setDominoGOLocalPosition(&oglDomino, currentDomino.position.posX, currentDomino.position.posY, -1.0f);
+        setDominoGOLocalPosition(&oglDomino, currentDomino.position.posX + _offset.posX, currentDomino.position.posY + _offset.posY, -1.0f);
         //setDominoGOPosition(&oglDomino, currentDomino.posX, currentDomino.posY, -1.0f);
 
         oglDominos[dominoGObjectIndex] = oglDomino;

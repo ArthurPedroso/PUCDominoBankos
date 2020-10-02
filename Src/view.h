@@ -18,8 +18,9 @@ int screenDisplay();
 void hideAllDominoes();
 void hideDominoesBasedOnState(Domino* _dominoArray, int _arraySize, int _stateFilter);
 void printDominoes(Domino* _dominoArray, int _arraySize);
-void printDominoesBasedOnState(Domino* _dominoArray, int _arraySize, int _stateFilter);
+void printDominoesBasedOnState(Domino* _dominoArray, int _arraySize, int _stateFilter, Vec2 _offset);
 void exitGame();
+float getDeltaTime();
 //Adicionar playerSelection
 void invalidOption();
 #endif

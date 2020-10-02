@@ -195,8 +195,14 @@ void manageMainGameUIPlayer1Turn(uiInput _menuInput)
             *s_getControllerState() = UI_STATE_PLACE_DOMINO_PLAYER1_TURN;
             displayPlaceDominoUIPlayer1Turn();
             changePlayerSelectedDomino(STATE_PLAYER_ONE);
-            break;
-        case 5: //volta
+            break;            
+        case 12: //move todos os dominos para a esquerda
+            moveAllDominoes(MOVE_DOMINOS_LEFT);
+            break;            
+        case 13: //move todos os dominos para a direita
+            moveAllDominoes(MOVE_DOMINOS_RIGHT);
+            break; 
+        case 7: //volta
             *s_getControllerState() = UI_STATE_MAIN_MENU;
             hideAllDominoes();
             resetDominoesState();
@@ -225,7 +231,13 @@ void manageMainGameUIPlayer2Turn(uiInput _menuInput)
             displayPlaceDominoUIPlayer2Turn();
             changePlayerSelectedDomino(STATE_PLAYER_TWO);
             break;
-        case 5: //Volta ao menu principal
+        case 12: //move todos os dominos para a esquerda
+            moveAllDominoes(MOVE_DOMINOS_LEFT);
+            break;            
+        case 13: //move todos os dominos para a direita
+            moveAllDominoes(MOVE_DOMINOS_RIGHT);
+            break; 
+        case 7: //volta
             *s_getControllerState() = UI_STATE_MAIN_MENU;
             hideAllDominoes();
             resetDominoesState();

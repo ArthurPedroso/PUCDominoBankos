@@ -4,6 +4,9 @@
 #include <time.h>
 #include <stdio.h>
 
+
+struct Vec2_TAG Vec2ZERO = {0.0f, 0.0f};
+
 //Armazena os dados dos dominós do jogo 
 Domino* s_getGameDominoes()
 {
@@ -16,6 +19,13 @@ Domino* s_getGameDominoes()
 float* s_getTableDominoesSize()
 {
     static float tableDominoesSize = 0.4f;
+
+    return &tableDominoesSize;
+}
+//Armazena o offset de posicao de todos os dominos
+Vec2* s_getTableDominoesOffsetPosition()
+{
+    static Vec2 tableDominoesSize;
 
     return &tableDominoesSize;
 }
@@ -276,6 +286,8 @@ void modelInitialization()
 {
     srand(time(NULL));
     initializeDominoArray(s_getGameDominoes());
+    s_getTableDominoesOffsetPosition()->posX = 0.0f;
+    s_getTableDominoesOffsetPosition()->posY = 0.0f;
 }
 //Aplica o estado de "STATE_DOMINOES_PILE" a todos os dominos do jogo
 void resetDominoesState()
@@ -402,7 +414,7 @@ void displayPlayerHand(int _player)
         gameDominoes[i].scale = 0.4f;
     }
 
-    printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, _player);
+    printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, _player, Vec2ZERO);
 }
 
 void rotatePlayerDomino()
@@ -419,7 +431,7 @@ void rotatePlayerDomino()
     }
     selectedDomino->rotation = (90 + selectedDomino->rotation) % 360;
     selectedDomino->scale = *s_getTableDominoesSize();
-    printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_GAME_MOVING);
+    printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_GAME_MOVING, *s_getTableDominoesOffsetPosition());
 }
 
 //Move o domino selecionado do jogador 1 casa para determinada direcao
@@ -479,7 +491,7 @@ void movePlayerDomino()
     moveSelectedDominoToLinkedSpace(selectedDomino);
     selectedDomino->scale = *s_getTableDominoesSize();
 
-    printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_GAME_MOVING);
+    printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_GAME_MOVING, *s_getTableDominoesOffsetPosition());
 }
 
 //Troca a selecao de domino do jogador para o proximo domino da sua mão
@@ -529,7 +541,7 @@ void changePlayerSelectedDomino(int _player)
             gameDominoes[playerSelectedDomino].rotation = selectedDomino->rotation;
         }
         hideDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, _player); //esconde o domino deselecionado
-        printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_GAME_MOVING); //exibe o novo domino selecionado
+        printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_GAME_MOVING, *s_getTableDominoesOffsetPosition()); //exibe o novo domino selecionado
     }
     else
     {
@@ -588,7 +600,7 @@ bool tryToSetSelectedDominoToTable()
         printf("if 2\n");
 
         selectedDomino->scale = *s_getTableDominoesSize();
-        printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_GAME_TABLE);
+        printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_GAME_TABLE, *s_getTableDominoesOffsetPosition());
         return TRUE;
     }
     else
@@ -616,16 +628,26 @@ bool tryToSetSelectedDominoToTable()
             selectedDomino->linkableDominoState = LINKABLE_DOMINO_RIGHT;            
         }
         
-        if(getTableDominoesAmount() > 7) setGameTableDominoesSize(0.3f);
+        //if(getTableDominoesAmount() > 7) setGameTableDominoesSize(0.3f);
         
-        printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_GAME_TABLE);
+        printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_GAME_TABLE, *s_getTableDominoesOffsetPosition());
 
         printf("if 3\n");
         return TRUE;
     }
     return FALSE;
 }
+void moveAllDominoes(int _direction)
+{
+    Domino* gameDominoes = s_getGameDominoes();
 
+    s_getTableDominoesOffsetPosition()->posX += (getDeltaTime() * 2.0f) * _direction;
+    s_getTableDominoesOffsetPosition()->posY = 0;
+        
+    printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_GAME_TABLE, *s_getTableDominoesOffsetPosition());
+    printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_GAME_MOVING, *s_getTableDominoesOffsetPosition()); 
+
+}
 //-----ORGANIZE/SHUFFLE DOMINOS-----//
 
 void organizeDominoes()
