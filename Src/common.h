@@ -43,4 +43,10 @@ typedef struct DominoStructTAG
     int playerColorID;
 }Domino;
 
+typedef struct
+{
+    Domino* domino;
+    int linkDirection;
+} LinkableDomino;
+
 #endif
