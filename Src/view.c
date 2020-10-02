@@ -228,8 +228,8 @@ void printDominoes(Domino* _dominoArray, int _arraySize)
         oglDomino.colorID = currentDomino.playerColorID;
         oglDomino.visible = TRUE;
         oglDomino.currentRotation = currentDomino.rotation;      
-        setGObjectPosition(&oglDomino.left, (currentDomino.posX -0.25f) * 0.2f,(currentDomino.posY * 0.2f), -1.0f);
-        setGObjectPosition(&oglDomino.right, (currentDomino.posX +0.25f) * 0.2f, (currentDomino.posY  * 0.2f), -1.0f); 
+        setGObjectPosition(&oglDomino.left, (currentDomino.position.posX -0.25f) * 0.2f,(currentDomino.position.posY * 0.2f), -1.0f);
+        setGObjectPosition(&oglDomino.right, (currentDomino.position.posX +0.25f) * 0.2f, (currentDomino.position.posY  * 0.2f), -1.0f); 
 
         oglDominos[dominoGObjectIndex] = oglDomino;
     }  
@@ -252,8 +252,8 @@ void printDominoesBasedOnState(Domino* _dominoArray, int _arraySize, int _stateF
         oglDomino.colorID = currentDomino.playerColorID;
         oglDomino.visible = TRUE;  
         oglDomino.currentRotation = currentDomino.rotation;      
-        setDominoGOScale(&oglDomino, 0.4f, 0.4f, 0.4f);
-        setDominoGOLocalPosition(&oglDomino, currentDomino.posX, currentDomino.posY, -1.0f);
+        setDominoGOScale(&oglDomino, currentDomino.scale, currentDomino.scale, currentDomino.scale);
+        setDominoGOLocalPosition(&oglDomino, currentDomino.position.posX, currentDomino.position.posY, -1.0f);
         //setDominoGOPosition(&oglDomino, currentDomino.posX, currentDomino.posY, -1.0f);
 
         oglDominos[dominoGObjectIndex] = oglDomino;
