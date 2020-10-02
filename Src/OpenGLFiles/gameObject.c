@@ -2,6 +2,13 @@
 #include "OGLUtilities.h"
 #include <cglm/affine.h>
 
+//-----ROTACAO DO DOMINO-----//
+#define DOMINO_ROTATION_0 0
+#define DOMINO_ROTATION_90 90
+#define DOMINO_ROTATION_180 180
+#define DOMINO_ROTATION_270 270
+//-----ROTACAO DO DOMINO-----//
+
 DominoGObject getEmptyDGObject(mat4 _startingMVP)
 {
     DominoGObject newDomino;
@@ -15,7 +22,6 @@ DominoGObject getEmptyDGObject(mat4 _startingMVP)
 
     return newDomino;
 }
-
 //-----HEADER FUNCS-----//
 
 int getDominoindexByType(int _leftType, int _rightType)
@@ -90,11 +96,48 @@ void setDominoGOPosition(DominoGObject* _outDomino, float _x,float _y,float _z)
 {
     setGObjectPosition(&(_outDomino->left), (_x - (0.1f * _outDomino->scale[0])),_y, _z);
     setGObjectPosition(&(_outDomino->right), (_x + (0.1f * _outDomino->scale[0])), _y, _z); 
+
+    switch (_outDomino->currentRotation)
+    {
+        case DOMINO_ROTATION_0:
+            setGObjectPosition(&(_outDomino->left), (_x - (0.1f * _outDomino->scale[0])),_y, _z);
+            setGObjectPosition(&(_outDomino->right), (_x + (0.1f * _outDomino->scale[0])), _y, _z); 
+            break;
+        case DOMINO_ROTATION_90:
+            setGObjectPosition(&(_outDomino->left), _x,_y + (0.1f * _outDomino->scale[0]), _z);
+            setGObjectPosition(&(_outDomino->right), _x, _y - (0.1f * _outDomino->scale[0]), _z); 
+            break;
+        case DOMINO_ROTATION_180:
+            setGObjectPosition(&(_outDomino->left), (_x + (0.1f * _outDomino->scale[0])),_y, _z);
+            setGObjectPosition(&(_outDomino->right), (_x - (0.1f * _outDomino->scale[0])), _y, _z); 
+            break;
+        case DOMINO_ROTATION_270:
+            setGObjectPosition(&(_outDomino->left), _x,_y - (0.1f * _outDomino->scale[0]), _z);
+            setGObjectPosition(&(_outDomino->right), _x, _y + (0.1f * _outDomino->scale[0]), _z); 
+            break;
+    }
 }
 void setDominoGOLocalPosition(DominoGObject* _outDomino, float _x,float _y,float _z)
 {
-    setGObjectPosition(&(_outDomino->left), ((_x * 0.2f * _outDomino->scale[0]) - (0.1f * _outDomino->scale[0])),(_y * 0.2f * _outDomino->scale[1]), _z);
-    setGObjectPosition(&(_outDomino->right), ((_x * 0.2f * _outDomino->scale[0]) + (0.1f * _outDomino->scale[0])), (_y * 0.2f * _outDomino->scale[1]), _z); 
+    switch (_outDomino->currentRotation)
+    {
+        case DOMINO_ROTATION_0:
+            setGObjectPosition(&(_outDomino->left), (_x * 0.2f * _outDomino->scale[0]) - (0.1f * _outDomino->scale[0]),(_y * 1.3333333f * 0.2f * _outDomino->scale[1]), _z);
+            setGObjectPosition(&(_outDomino->right), (_x * 0.2f * _outDomino->scale[0]) + (0.1f * _outDomino->scale[0]), (_y * 1.3333333f * 0.2f * _outDomino->scale[1]), _z); 
+            break;
+        case DOMINO_ROTATION_90:
+            setGObjectPosition(&(_outDomino->left), (_x * 0.2f * _outDomino->scale[0]),(_y * 1.3333333f * 0.2f * _outDomino->scale[1]) + (0.1f * 1.3333333f * _outDomino->scale[0]), _z);
+            setGObjectPosition(&(_outDomino->right), (_x * 0.2f * _outDomino->scale[0]), (_y * 1.3333333f * 0.2f * _outDomino->scale[1]) - (0.1f * 1.3333333f * _outDomino->scale[0]), _z); 
+            break;
+        case DOMINO_ROTATION_180:
+            setGObjectPosition(&(_outDomino->left), (_x * 0.2f * _outDomino->scale[0]) + (0.1f * _outDomino->scale[0]),(_y * 1.3333333f * 0.2f * _outDomino->scale[1]), _z);
+            setGObjectPosition(&(_outDomino->right), (_x * 0.2f * _outDomino->scale[0]) - (0.1f * _outDomino->scale[0]), (_y * 1.3333333f * 0.2f * _outDomino->scale[1]), _z); 
+            break;
+        case DOMINO_ROTATION_270:
+            setGObjectPosition(&(_outDomino->left), (_x * 0.2f * _outDomino->scale[0]),(_y * 1.3333333f * 0.2f * _outDomino->scale[1]) - (0.1f * 1.3333333f * _outDomino->scale[0]), _z);
+            setGObjectPosition(&(_outDomino->right), (_x * 0.2f * _outDomino->scale[0]), (_y * 1.3333333f * 0.2f * _outDomino->scale[1]) + (0.1f * 1.3333333f * _outDomino->scale[0]), _z); 
+            break;
+    }
 }
 void setDominoGOScale(DominoGObject* _outDomino, float _x,float _y,float _z)
 {

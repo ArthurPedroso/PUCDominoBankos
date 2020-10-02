@@ -41,7 +41,7 @@ void initializeDominoArray(Domino* _dominoArray) //inicializa a pilha de dominos
         _dominoArray[i].state = STATE_DOMINOES_PILE;
         _dominoArray[i].posX = 0;
         _dominoArray[i].posY = 0;
-        _dominoArray[i].rotation = DOMINO_ROTATION_0;
+        _dominoArray[i].rotation = DOMINO_ROTATION_90;
         _dominoArray[i].rightType = columCount + lineCount;
         _dominoArray[i].leftType = lineCount;
         _dominoArray[i].scale = 1.0f;
@@ -316,7 +316,7 @@ void displayPlayerHand(int _player)
         gameDominoes[i].linkableDominoState = UNLINKABLE_DOMINO;
         gameDominoes[i].linkedDomino = NULL;
         gameDominoes[i].playerColorID = _player;
-        gameDominoes[i].rotation = DOMINO_ROTATION_0;
+        gameDominoes[i].rotation = DOMINO_ROTATION_90;
     }
 
     printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, _player);

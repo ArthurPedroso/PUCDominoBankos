@@ -26,6 +26,7 @@ typedef struct
     vec3 scale;
     bool visible;
     int colorID;
+    int currentRotation;
     //int leftType;
     //int rightType;
 }DominoGObject;

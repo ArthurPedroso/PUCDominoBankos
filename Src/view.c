@@ -225,6 +225,7 @@ void printDominoes(Domino* _dominoArray, int _arraySize)
         oglDomino = oglDominos[dominoGObjectIndex]; //seleciona um dominó do opengl análogo ao domino do jogo
         oglDomino.colorID = currentDomino.playerColorID;
         oglDomino.visible = TRUE;
+        oglDomino.currentRotation = currentDomino.rotation;      
         setGObjectPosition(&oglDomino.left, (currentDomino.posX -0.25f) * 0.2f,(currentDomino.posY * 0.2f), -1.0f);
         setGObjectPosition(&oglDomino.right, (currentDomino.posX +0.25f) * 0.2f, (currentDomino.posY  * 0.2f), -1.0f); 
 
@@ -247,9 +248,10 @@ void printDominoesBasedOnState(Domino* _dominoArray, int _arraySize, int _stateF
     
         oglDomino = oglDominos[dominoGObjectIndex]; //seleciona um dominó do opengl análogo ao domino do jogo
         oglDomino.colorID = currentDomino.playerColorID;
-        oglDomino.visible = TRUE;        
+        oglDomino.visible = TRUE;  
+        oglDomino.currentRotation = currentDomino.rotation;      
         setDominoGOScale(&oglDomino, 0.4f, 0.4f, 0.4f);
-        setDominoGOLocalPosition(&oglDomino, currentDomino.posX, currentDomino.posY * 1.3333333f, -1.0f);
+        setDominoGOLocalPosition(&oglDomino, currentDomino.posX, currentDomino.posY, -1.0f);
         //setDominoGOPosition(&oglDomino, currentDomino.posX, currentDomino.posY, -1.0f);
 
         oglDominos[dominoGObjectIndex] = oglDomino;
