@@ -26,7 +26,9 @@
 #define UNLINKABLE_DOMINO 0
 #define LINKABLE_DOMINO_LEFT 1
 #define LINKABLE_DOMINO_RIGHT 2
-#define LINKABLE_DOMINO_LEFT_RIGHT 3
+#define LINKABLE_DOMINO_UP 3
+#define LINKABLE_DOMINO_DOWN 4
+#define LINKABLE_DOMINO_LEFT_RIGHT 5
 //-----ESTADO DOMINO CONECTAVEL-----//
 
 #include "common.h"
@@ -39,7 +41,8 @@ void resetDominoesState();
 void assignPlayerStartingHand(int _player);
 void changePlayerSelectedDomino(int _player);
 void pickDominoeFromPile(int _playerState);
-void movePlayerDomino(int _player);
+void movePlayerDomino();
+void rotatePlayerDomino();
 void unselectPlayerDomino(int _player);
 bool tryToSetSelectedDominoToTable();
 

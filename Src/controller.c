@@ -252,22 +252,16 @@ void managePlaceDominoUIPlayer1Turn(uiInput _menuInput)
             changePlayerSelectedDomino(STATE_PLAYER_ONE);
             break;
         case 3: //Move o domino selecionado para cima
-            movePlayerDomino(STATE_PLAYER_ONE);
+            movePlayerDomino();
             break;
-        case 4: //Volta para o menu anterior
+        case 4: //Rotaciona domino
+            rotatePlayerDomino();
+            break;
+        case 5: //Volta para o menu anterior
             *s_getControllerState() = UI_STATE_MAIN_GAME_PLAYER1_TURN;
             hideDominoesBasedOnState(s_getGameDominoes(), GAME_DOMINOES_AMOUNT, STATE_GAME_MOVING);
             displayMainGameUIPlayer1Turn();
             unselectPlayerDomino(STATE_PLAYER_ONE);
-            break;
-        case 11: //Move o domino selecionado para baixo
-            //movePlayerDomino(STATE_PLAYER_ONE);
-            break;
-        case 12: //Move o domino selecionado para a esquerda
-            //movePlayerDomino(MOVE_DOMINO_LEFT, STATE_PLAYER_ONE);
-            break;
-        case 13: //Move o domino selecionado para a direita
-            //movePlayerDomino(MOVE_DOMINO_RIGHT, STATE_PLAYER_ONE);
             break;
     }
 
@@ -290,22 +284,16 @@ void managePlaceDominoUIPlayer2Turn(uiInput _menuInput)
             changePlayerSelectedDomino(STATE_PLAYER_TWO);
             break;
         case 3: //Move o domino selecionado para cima
-            movePlayerDomino(STATE_PLAYER_TWO);
+            movePlayerDomino();
             break;
-        case 4: //Volta para o menu anterior
+        case 4: //Rotaciona domino
+            rotatePlayerDomino();
+            break;
+        case 5: //Volta para o menu anterior
             *s_getControllerState() = UI_STATE_MAIN_GAME_PLAYER2_TURN;
             hideDominoesBasedOnState(s_getGameDominoes(), GAME_DOMINOES_AMOUNT, STATE_GAME_MOVING);
             displayMainGameUIPlayer2Turn();
             unselectPlayerDomino(STATE_PLAYER_TWO);
-            break;
-        case 11: //Move o domino selecionado para baixo
-            //movePlayerDomino(STATE_PLAYER_TWO);
-            break;
-        case 12: //Move o domino selecionado para a esquerda
-            //movePlayerDomino(STATE_PLAYER_TWO);
-            break;
-        case 13: //Move o domino selecionado para a direita
-            //movePlayerDomino(STATE_PLAYER_TWO);
             break;
     }
 }

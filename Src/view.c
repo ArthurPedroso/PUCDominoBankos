@@ -175,7 +175,8 @@ void displayPlaceDominoUIPlayer1Turn()
     strcat(strBuffer, "1- Confirmar posição\n");
     strcat(strBuffer, "2- Mudar peca\n");
     strcat(strBuffer, "3- Mudar posicao\n");
-    strcat(strBuffer, "4- Voltar\n");
+    strcat(strBuffer, "4- Mudar rotacao\n");
+    strcat(strBuffer, "5- Voltar\n");
 
     changeOGLText(strBuffer);
 }
@@ -191,7 +192,8 @@ void displayPlaceDominoUIPlayer2Turn()
     strcat(strBuffer, "1- Confirmar posição\n");
     strcat(strBuffer, "2- Mudar peca\n");
     strcat(strBuffer, "3- Mudar posicao\n");
-    strcat(strBuffer, "4- Voltar\n");
+    strcat(strBuffer, "4- Mudar rotacao\n");
+    strcat(strBuffer, "5- Voltar\n");
 
     changeOGLText(strBuffer);
 }

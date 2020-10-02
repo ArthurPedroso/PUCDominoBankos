@@ -41,7 +41,7 @@ void initializeDominoArray(Domino* _dominoArray) //inicializa a pilha de dominos
         _dominoArray[i].state = STATE_DOMINOES_PILE;
         _dominoArray[i].posX = 0;
         _dominoArray[i].posY = 0;
-        _dominoArray[i].rotation = DOMINO_ROTATION_90;
+        _dominoArray[i].rotation = DOMINO_ROTATION_0;
         _dominoArray[i].rightType = columCount + lineCount;
         _dominoArray[i].leftType = lineCount;
         _dominoArray[i].scale = 1.0f;
@@ -316,15 +316,30 @@ void displayPlayerHand(int _player)
         gameDominoes[i].linkableDominoState = UNLINKABLE_DOMINO;
         gameDominoes[i].linkedDomino = NULL;
         gameDominoes[i].playerColorID = _player;
-        gameDominoes[i].rotation = DOMINO_ROTATION_90;
+        gameDominoes[i].rotation = DOMINO_ROTATION_0;
     }
 
     printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, _player);
 }
 
+void rotatePlayerDomino()
+{
+    Domino* gameDominoes = s_getGameDominoes();
+    Domino* selectedDomino = NULL;
+
+    for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+    {
+        if(gameDominoes[i].state == STATE_GAME_MOVING) 
+        {
+            selectedDomino = &gameDominoes[i];
+        } 
+    }
+    selectedDomino->rotation = (90 + selectedDomino->rotation) % 360;
+    printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_GAME_MOVING);
+}
 
 //Move o domino selecionado do jogador 1 casa para determinada direcao
-void movePlayerDomino(int _player)
+void movePlayerDomino()
 {
     Domino* gameDominoes = s_getGameDominoes();
     Domino* selectedDomino = NULL;
@@ -396,10 +411,7 @@ void changePlayerSelectedDomino(int _player)
         {
             selectedDomino = &gameDominoes[i];
             selectedDomino->state = _player;
-            //selectedDomino->posX = 0;
-            //selectedDomino->posY = 0;
             foundSelectedDomino = TRUE;
-
         }
         else if(foundSelectedDomino)
         {
@@ -428,6 +440,7 @@ void changePlayerSelectedDomino(int _player)
         {
             gameDominoes[playerSelectedDomino].posX = selectedDomino->posX;
             gameDominoes[playerSelectedDomino].posY = selectedDomino->posY;
+            gameDominoes[playerSelectedDomino].rotation = selectedDomino->rotation;
         }
         hideDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, _player); //esconde o domino deselecionado
         printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_GAME_MOVING); //exibe o novo domino selecionado

@@ -24,9 +24,9 @@ typedef struct DominoStructTAG
     //Estado de jogo do domino
     int state;
     //Posicao em x do domino
-    int posX;
+    float posX;
     //Posicao em x do domino
-    int posY;
+    float posY;
     //Rotacao do dominoP
     int rotation;
     //Tipo do quadrado da direira do domino
