@@ -637,6 +637,17 @@ bool tryToSetSelectedDominoToTable()
     }
     return FALSE;
 }
+bool checkIfPlayerWon(int _player)
+{
+    Domino* gameDominos = s_getGameDominoes();
+    bool playerWon = TRUE;
+
+    for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+    {
+        if(gameDominos[i].state == _player) playerWon = FALSE;
+    }
+    return playerWon;
+}
 void moveAllDominoes(int _direction)
 {
     Domino* gameDominoes = s_getGameDominoes();

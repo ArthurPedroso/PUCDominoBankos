@@ -229,6 +229,30 @@ void displayAskForDrawScreen()
     changeOGLText(strBuffer);
 }
 
+//Menu de vitoria jogador 1
+void displayPlayer1Victory()
+{
+    //O 76 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
+    //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
+    static char strBuffer[100]; 
+
+    strcpy(strBuffer, "Jogador 1 e o vencedor!!!\n");
+    strcat(strBuffer, "1- Sair do jogo\n");;
+
+    changeOGLText(strBuffer);
+}
+//Menu de vitoria jogador 2
+void displayPlayer2Victory()
+{
+    //O 76 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
+    //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
+    static char strBuffer[100]; 
+
+    strcpy(strBuffer, "Jogador 2 e o vencedor!!!\n");
+    strcat(strBuffer, "1- Sair do jogo\n");;
+
+    changeOGLText(strBuffer);
+}
 /*
 Old, only to organize dominoes
 void screenDisplayOptions() //mostra as opcoes do jogador

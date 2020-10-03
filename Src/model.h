@@ -46,7 +46,7 @@ void rotatePlayerDomino();
 void unselectPlayerDomino(int _player);
 bool tryToSetSelectedDominoToTable();
 void moveAllDominoes(int _direction);
-
+bool checkIfPlayerWon(int _player);
 //-----ETAPA1-----//
 //void shuffleDominoesAndDisplay();
 //void organizeDominoes();
