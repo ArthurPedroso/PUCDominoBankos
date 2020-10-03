@@ -94,6 +94,35 @@ int checkDominoesPile(Domino* _dominoArray)
     return dominoesInPileNumber;
 }
 
+int getPlayerHandDominoesAmount(Domino* _dominoArray, int _player)
+{
+     int dominoesInHandNumber = 0;
+
+    if(_player == 1)
+    {
+        for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+        {
+            if(_dominoArray[i].state == STATE_PLAYER_ONE)
+            {
+            dominoesInHandNumber++;
+            }
+        }
+    }
+    else if(_player == 2)
+    {
+        for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+        {
+            if(_dominoArray[i].state == STATE_PLAYER_TWO)
+            {
+            dominoesInHandNumber++;
+            }
+        }
+    }
+
+    return dominoesInHandNumber;
+}
+
+
 //verifica se existem dominos na mesa
 bool checkIfThereIsDominosOnTable()
 {
@@ -383,7 +412,7 @@ void pickDominoeFromPile(int _playerState)
     }
     else
     {
-        
+
     }
 }
 

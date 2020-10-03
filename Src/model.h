@@ -35,6 +35,7 @@
 
 Domino* s_getGameDominoes();
 
+int getPlayerHandDominoesAmount(Domino* _dominoArray, int _player);
 void displayPlayerHand(int _player);
 void modelInitialization();
 void resetDominoesState();

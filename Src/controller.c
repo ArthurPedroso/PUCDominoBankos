@@ -300,9 +300,19 @@ void managePlaceDominoUIPlayer1Turn(uiInput _menuInput)
         case 1: //Confirma a posicao do domino e passa o turno para o jogador 2
             if(tryToSetSelectedDominoToTable())
             {
-                *s_getControllerState() = UI_STATE_MAIN_GAME_PLAYER2_TURN;
-                hideDominoesBasedOnState(s_getGameDominoes(), GAME_DOMINOES_AMOUNT, STATE_PLAYER_ONE);
-                displayMainGameUIPlayer2Turn();
+                if(getPlayerHandDominoesAmount(s_getGameDominoes(), 1) > 0)
+                {
+                    *s_getControllerState() = UI_STATE_MAIN_GAME_PLAYER2_TURN;
+                    hideDominoesBasedOnState(s_getGameDominoes(), GAME_DOMINOES_AMOUNT, STATE_PLAYER_ONE);
+                    displayMainGameUIPlayer2Turn();
+                }
+                else
+                {
+                    *s_getControllerState() = UI_STATE_MAIN_MENU;
+                    resetDominoesState();
+                    hideAllDominoes();
+                    displayStartingMenu();
+                }
             }
             printf("end if\n");
             break;
@@ -332,10 +342,21 @@ void managePlaceDominoUIPlayer2Turn(uiInput _menuInput)
         case 1: //Confirma a posicao do domino
             if(tryToSetSelectedDominoToTable())
             {
-                *s_getControllerState() = UI_STATE_MAIN_GAME_PLAYER1_TURN;
-                hideDominoesBasedOnState(s_getGameDominoes(), GAME_DOMINOES_AMOUNT, STATE_PLAYER_TWO);
-                displayMainGameUIPlayer1Turn();
+                if(getPlayerHandDominoesAmount(s_getGameDominoes(), 2) > 0)
+                {
+                    *s_getControllerState() = UI_STATE_MAIN_GAME_PLAYER1_TURN;
+                    hideDominoesBasedOnState(s_getGameDominoes(), GAME_DOMINOES_AMOUNT, STATE_PLAYER_TWO);
+                    displayMainGameUIPlayer1Turn();
+                }
+                else
+                {
+                    *s_getControllerState() = UI_STATE_MAIN_MENU;
+                    resetDominoesState();
+                    hideAllDominoes();
+                    displayStartingMenu();
+                }
             }
+            printf("end if\n");
             break;
         case 2: //Seleciona outro domino
             changePlayerSelectedDomino(STATE_PLAYER_TWO);
