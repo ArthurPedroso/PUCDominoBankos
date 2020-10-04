@@ -416,7 +416,7 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _updateCallBack, CBBeforeFirstF
 
 
 	textData = s_getTextData();
-	textData->scale = 2.0f;
+	textData->scale = 1.5f;
 	textData->textToDraw = "";
 	textData->xPos = 0.0f;
 	textData->yPos = 760.0f;
