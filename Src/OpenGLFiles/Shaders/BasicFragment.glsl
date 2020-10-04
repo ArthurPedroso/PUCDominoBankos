@@ -1,11 +1,11 @@
 #version 330 core
 
 // Interpolated values from the vertex shaders
-in vec3 fragmentColor; //vertexColor
+in vec4 fragmentColor; //vertexColor
 // Interpolated values from the vertex shaders
 in vec2 UV;
 
-out vec3 color;
+out vec4 color;
 
 // Values that stay constant for the whole mesh.
 uniform sampler2D textureSampler;
@@ -27,5 +27,5 @@ void main() //glsl frag
             texColor += vec3(0.0,0.55,1.0);
         }
     } 
-    color = texColor; //rgb deve ignorar o alfa(eu acho)
+    color = vec4(texColor, 1.0); //rgb deve ignorar o alfa(eu acho)
 }

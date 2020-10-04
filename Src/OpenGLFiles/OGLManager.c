@@ -416,7 +416,7 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _updateCallBack, CBBeforeFirstF
 
 
 	textData = s_getTextData();
-	textData->scale = 1.5f;
+	textData->scale = 2.0f;
 	textData->textToDraw = "";
 	textData->xPos = 0.0f;
 	textData->yPos = 760.0f;
@@ -442,6 +442,9 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _updateCallBack, CBBeforeFirstF
 	GLTtext *text = NULL;
 
 	_firstFrameCallBack();
+	
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	do
 	{    			
