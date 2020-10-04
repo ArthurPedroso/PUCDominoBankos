@@ -16,7 +16,7 @@ void displayAskForDrawScreen();
 void displayPlayer1Victory();
 void displayPlayer2Victory();
 //-----UI_TEXT-----//
-
+void resetOGLTextPosition();
 int screenDisplay();
 void hideAllDominoes();
 void hideDominoesBasedOnState(Domino* _dominoArray, int _arraySize, int _stateFilter);

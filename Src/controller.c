@@ -75,6 +75,7 @@ void manageInstructionsExit(uiInput _playerInput)
     {
     case 1:
         *s_getControllerState() = UI_STATE_MAIN_MENU;
+        resetOGLTextPosition();
         displayStartingMenu();
         break;
     }

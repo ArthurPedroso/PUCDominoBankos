@@ -33,6 +33,14 @@ void changeOGLText(char* _newText)
 
     textData->textToDraw = _newText;
 }
+
+void setOGLTextPosition(Vec2 _newPosition)
+{
+    OGLTextData* textData = s_getTextData();
+
+    textData->xPos = _newPosition.posX;
+    textData->yPos = _newPosition.posY;
+}
 //Chamado no inicio de cada frame
 //A variavel _deltaTime traz o tempo que demorou para renderizar o ultimo frame
 void OGLManagerUpdateCB(float _deltaTime)
@@ -63,6 +71,11 @@ void OGLManagerFirstFrameCB()
 }
 //-----------Head Funcs-----------//
 
+//Reseta a posicao to texto para a poisicao padrao
+void resetOGLTextPosition()
+{
+    setOGLTextPosition((Vec2){0.0f, 760.0f});
+}
 //retorna o delta time armazenado pelo view
 float getDeltaTime()
 {
@@ -105,19 +118,21 @@ void displayPlayerSelectionMenu() //mostra a tela de seleção de jogadores
 
 void displayInstructionsMenu() //menu de instrucoes
 {
-    static char strBuffer[725]; 
+    static char strBuffer[735]; 
+
+    setOGLTextPosition((Vec2){0.0f, 682.0f});
 
     strcpy(strBuffer, "Regras\n");
-    strcat(strBuffer, "- Cada jogador recebe 7 pecas.\n");
-    strcat(strBuffer, "- Cada jogador podera comprar uma peca caso precise.\n");
-    strcat(strBuffer, "- Da-se inicio ao jogo o jogador que tirar a pedra “seis-seis”.\n");
-    strcat(strBuffer, "- O jogador deve posicionar a peca ao lado de outra que estara na mesa, tal que os pontos de um lado\n");
+    strcat(strBuffer, "1- Cada jogador recebe 7 pecas.\n");
+    strcat(strBuffer, "2- Cada jogador podera comprar uma peca caso precise.\n");
+    strcat(strBuffer, "3- Da-se inicio ao jogo o jogador que tirar a pedra “seis-seis”.\n");
+    strcat(strBuffer, "4- O jogador deve posicionar a peca ao lado de outra que estara na mesa, tal que os pontos de um lado\n");
     strcat(strBuffer, "coincida com os pontos da outra peca.\n");
-    strcat(strBuffer, "- Caso nao haja pecas no monte o jogador devera passar o turno ao seguinte jogador.\n");
-    strcat(strBuffer, "- Quando  joga-se  sozinho,  o  jogador  que  ganhou  a  partida  soma  os  pontos  de  todos  os seus  adversarios.\n");
-    strcat(strBuffer, "- Se o numero das extremidades saiu 7 vezes antes, a partida esta fechada, de modo que os  jogadores\n");
+    strcat(strBuffer, "5- Caso nao haja pecas no monte o jogador devera passar o turno ao seguinte jogador.\n");
+    strcat(strBuffer, "6- Quando joga-se sozinho, o jogador que ganhou a partida soma os pontos de todos os seus adversarios.\n");
+    strcat(strBuffer, "7- Se o numero das extremidades saiu 7 vezes antes, a partida esta fechada, de modo que os  jogadores\n");
     strcat(strBuffer, "contarao  os  pontos  das  pedras  que  ficaram, sendo que o jogador com menos pontos vencem.\n");
-    strcat(strBuffer, "Aperte 1 para retornar ao menu inicial\n");
+    strcat(strBuffer, "--Aperte 1 para retornar ao menu inicial--\n");
 
     changeOGLText(strBuffer);
 }
