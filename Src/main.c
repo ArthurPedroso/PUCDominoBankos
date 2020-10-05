@@ -10,8 +10,8 @@ int main()
     Domino domino;
 
     domino.state = STATE_DOMINOES_PILE;
-    domino.posX = 0;
-    domino.posY = 0;
+    domino.position.posX = 0;
+    domino.position.posY = 0;
     domino.rotation = DOMINO_ROTATION_0;
     domino.rightType = 0;
     domino.leftType = 0;
