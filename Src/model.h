@@ -47,6 +47,8 @@ void unselectPlayerDomino(int _player);
 bool tryToSetSelectedDominoToTable();
 void moveAllDominoes(int _direction);
 bool checkIfPlayerWon(int _player);
+//FUNÇÕES DE TESTE ABAIXO:  
+char* currentRunningDirName();
 //-----ETAPA1-----//
 //void shuffleDominoesAndDisplay();
 //void organizeDominoes();

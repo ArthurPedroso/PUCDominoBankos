@@ -3,7 +3,10 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
-
+#ifdef OS_Windows
+#include <winbase.h>
+#else
+#endif
 
 struct Vec2_TAG Vec2ZERO = {0.0f, 0.0f};
 
@@ -280,6 +283,35 @@ void setGameTableDominoesSize(float _newScale)
     }
 }
 //---------Header Funcs----------//
+
+void testWrite()
+{
+    FILE* writingArchive;
+
+    writingArchive = fopen("C:\\Users\\Windows10\\Desktop\\Área de Trabalho\\GitHub\\PUCDominoBankos", "wb");
+}
+
+void testRead()
+{
+    
+}
+
+bool checkDirExistence()
+{
+    bool dirExist = false;
+
+    return dirExist;
+}
+
+char* currentRunningDirName()
+{
+    static char buffer[FILENAME_MAX];
+    GetCurrentDirectory((DWORD) buffer, (LPTSTR) FILENAME_MAX);
+
+    printf(buffer);
+
+    return buffer;
+}
 
 //Inicia o sistema de numeros aleatorios e Aloca a memoria utilizada pelo array de dominos
 void modelInitialization()
