@@ -19,14 +19,21 @@
 #define GAME_DOMINOES_AMOUNT 28
 #define HAND_DOMINOES_STARTING_AMOUNT 7
 
-typedef struct DominoStructTAG
+typedef struct Vec2_TAG
 {
-    //Estado de jogo do domino
-    int state;
     //Posicao em x do domino
     float posX;
     //Posicao em x do domino
     float posY;
+} Vec2;
+
+
+typedef struct DominoStructTAG
+{
+    //Estado de jogo do domino
+    int state;
+    //posicao x e y do domino
+    Vec2 position;
     //Rotacao do dominoP
     int rotation;
     //Tipo do quadrado da direira do domino

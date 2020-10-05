@@ -17,6 +17,13 @@ void clearTerminal()
 #endif
 }
 
+float* s_getDeltaTime()
+{
+    static float deltaTime = 0.0f;
+
+    return &deltaTime;
+}
+
 //Muda o texto do OpengGl
 //É possivel mudar a posicao e o tamanho do texto alterando as outras variaveis do "textData" 
 void changeOGLText(char* _newText)
@@ -25,6 +32,14 @@ void changeOGLText(char* _newText)
     textData = s_getTextData();
 
     textData->textToDraw = _newText;
+}
+
+void setOGLTextPosition(Vec2 _newPosition)
+{
+    OGLTextData* textData = s_getTextData();
+
+    textData->xPos = _newPosition.posX;
+    textData->yPos = _newPosition.posY;
 }
 //Chamado no inicio de cada frame
 //A variavel _deltaTime traz o tempo que demorou para renderizar o ultimo frame
@@ -42,11 +57,10 @@ void OGLManagerUpdateCB(float _deltaTime)
     else if(OGLGetKeyDown(INPUT_KEY7)) input = 7;
     else if(OGLGetKeyDown(INPUT_KEY8)) input = 8;
     else if(OGLGetKeyDown(INPUT_KEY9)) input = 9;
-    else if(OGLGetKeyDown(INPUT_KEY_UP)) input = 10;
-    else if(OGLGetKeyDown(INPUT_KEY_DOWN)) input = 11;
-    else if(OGLGetKeyDown(INPUT_KEY_LEFT)) input = 12;
-    else if(OGLGetKeyDown(INPUT_KEY_RIGHT)) input = 13;
+    else if(OGLGetKey(INPUT_KEY_LEFT)) input = 12;
+    else if(OGLGetKey(INPUT_KEY_RIGHT)) input = 13;
 
+    *s_getDeltaTime() = _deltaTime;
     managePlayerChoice(input);//Passa para o coontroller o input atual do jogador
 }
 //Chamado antes da renderização do primeiro frame
@@ -56,6 +70,17 @@ void OGLManagerFirstFrameCB()
     displayStartingMenu();
 }
 //-----------Head Funcs-----------//
+
+//Reseta a posicao to texto para a poisicao padrao
+void resetOGLTextPosition()
+{
+    setOGLTextPosition((Vec2){0.0f, 760.0f});
+}
+//retorna o delta time armazenado pelo view
+float getDeltaTime()
+{
+    return *s_getDeltaTime();
+}
 
 //-----UI_TEXT-----//
 //Menu Principal
@@ -93,19 +118,21 @@ void displayPlayerSelectionMenu() //mostra a tela de seleção de jogadores
 
 void displayInstructionsMenu() //menu de instrucoes
 {
-    static char strBuffer[725]; 
+    static char strBuffer[735]; 
+
+    setOGLTextPosition((Vec2){0.0f, 682.0f});
 
     strcpy(strBuffer, "Regras\n");
-    strcat(strBuffer, "- Cada jogador recebe 7 pecas.\n");
-    strcat(strBuffer, "- Cada jogador podera comprar uma peca caso precise.\n");
-    strcat(strBuffer, "- Da-se inicio ao jogo o jogador que tirar a pedra “seis-seis”.\n");
-    strcat(strBuffer, "- O jogador deve posicionar a peca ao lado de outra que estara na mesa, tal que os pontos de um lado\n");
+    strcat(strBuffer, "1- Cada jogador recebe 7 pecas.\n");
+    strcat(strBuffer, "2- Cada jogador podera comprar uma peca caso precise.\n");
+    strcat(strBuffer, "3- Da-se inicio ao jogo o jogador que tirar a pedra “seis-seis”.\n");
+    strcat(strBuffer, "4- O jogador deve posicionar a peca ao lado de outra que estara na mesa, tal que os pontos de um lado\n");
     strcat(strBuffer, "coincida com os pontos da outra peca.\n");
-    strcat(strBuffer, "- Caso nao haja pecas no monte o jogador devera passar o turno ao seguinte jogador.\n");
-    strcat(strBuffer, "- Quando  joga-se  sozinho,  o  jogador  que  ganhou  a  partida  soma  os  pontos  de  todos  os seus  adversarios.\n");
-    strcat(strBuffer, "- Se o numero das extremidades saiu 7 vezes antes, a partida esta fechada, de modo que os  jogadores\n");
+    strcat(strBuffer, "5- Caso nao haja pecas no monte o jogador devera passar o turno ao seguinte jogador.\n");
+    strcat(strBuffer, "6- Quando joga-se sozinho, o jogador que ganhou a partida soma os pontos de todos os seus adversarios.\n");
+    strcat(strBuffer, "7- Se o numero das extremidades saiu 7 vezes antes, a partida esta fechada, de modo que os  jogadores\n");
     strcat(strBuffer, "contarao  os  pontos  das  pedras  que  ficaram, sendo que o jogador com menos pontos vencem.\n");
-    strcat(strBuffer, "Aperte 1 para retornar ao menu inicial\n");
+    strcat(strBuffer, "--Aperte 1 para retornar ao menu inicial--\n");
 
     changeOGLText(strBuffer);
 }
@@ -135,14 +162,17 @@ void displayMainGameUIPlayer1Turn()
 {
     //O 105 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
     //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
-    static char strBuffer[122]; 
+    static char strBuffer[257]; 
 
     strcpy(strBuffer, "Turno do jogador 1\n");
     strcat(strBuffer, "1- Mostrar mao\n");
     strcat(strBuffer, "2- Esconder mao\n");
     strcat(strBuffer, "3- Compra peca\n");
     strcat(strBuffer, "4- Posicionar peca\n");
-    strcat(strBuffer, "5- Voltar para o menu principal\n");
+    strcat(strBuffer, "Seta Esquerda- Mover camera para a esquerda\n");
+    strcat(strBuffer, "Seta Direita- Mover camera para a direita\n");
+    strcat(strBuffer, "5- Pedir empate\n");
+    strcat(strBuffer, "6- Voltar para o menu principal\n");
 
     changeOGLText(strBuffer);
 }
@@ -152,14 +182,17 @@ void displayMainGameUIPlayer2Turn()
 {
     //O 122 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
     //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
-    static char strBuffer[122]; 
+    static char strBuffer[257]; 
 
     strcpy(strBuffer, "Turno do jogador 2\n");
     strcat(strBuffer, "1- Mostrar mao\n");
     strcat(strBuffer, "2- Esconder mao\n");
     strcat(strBuffer, "3- Compra peca\n");
     strcat(strBuffer, "4- Posicionar peca\n");
-    strcat(strBuffer, "5- Voltar para o menu principal\n");
+    strcat(strBuffer, "Seta Esquerda- Mover camera para a esquerda\n");
+    strcat(strBuffer, "Seta Direita- Mover camera para a direita\n");
+    strcat(strBuffer, "5- Pedir empate\n");
+    strcat(strBuffer, "6- Voltar para o menu principal\n");
 
     changeOGLText(strBuffer);
 }
@@ -198,6 +231,43 @@ void displayPlaceDominoUIPlayer2Turn()
     changeOGLText(strBuffer);
 }
 
+//Menu de pedir empate
+void displayAskForDrawScreen()
+{
+    //O 76 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
+    //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
+    static char strBuffer[38]; 
+
+    strcpy(strBuffer, "1- Aceitar empate\n");
+    strcat(strBuffer, "2- Recusar empate\n");
+
+    changeOGLText(strBuffer);
+}
+
+//Menu de vitoria jogador 1
+void displayPlayer1Victory()
+{
+    //O 76 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
+    //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
+    static char strBuffer[100]; 
+
+    strcpy(strBuffer, "Jogador 1 e o vencedor!!!\n");
+    strcat(strBuffer, "1- Sair do jogo\n");;
+
+    changeOGLText(strBuffer);
+}
+//Menu de vitoria jogador 2
+void displayPlayer2Victory()
+{
+    //O 76 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
+    //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
+    static char strBuffer[100]; 
+
+    strcpy(strBuffer, "Jogador 2 e o vencedor!!!\n");
+    strcat(strBuffer, "1- Sair do jogo\n");;
+
+    changeOGLText(strBuffer);
+}
 /*
 Old, only to organize dominoes
 void screenDisplayOptions() //mostra as opcoes do jogador
@@ -228,15 +298,15 @@ void printDominoes(Domino* _dominoArray, int _arraySize)
         oglDomino.colorID = currentDomino.playerColorID;
         oglDomino.visible = TRUE;
         oglDomino.currentRotation = currentDomino.rotation;      
-        setGObjectPosition(&oglDomino.left, (currentDomino.posX -0.25f) * 0.2f,(currentDomino.posY * 0.2f), -1.0f);
-        setGObjectPosition(&oglDomino.right, (currentDomino.posX +0.25f) * 0.2f, (currentDomino.posY  * 0.2f), -1.0f); 
+        setGObjectPosition(&oglDomino.left, (currentDomino.position.posX -0.25f) * 0.2f,(currentDomino.position.posY * 0.2f), -1.0f);
+        setGObjectPosition(&oglDomino.right, (currentDomino.position.posX +0.25f) * 0.2f, (currentDomino.position.posY  * 0.2f), -1.0f); 
 
         oglDominos[dominoGObjectIndex] = oglDomino;
     }  
 }
 
 //Recebe um array de dominós e exibe seus equivalentes pelo OpenGL, exibindo apenas os dominos com o estado de "_stateFilter"
-void printDominoesBasedOnState(Domino* _dominoArray, int _arraySize, int _stateFilter)
+void printDominoesBasedOnState(Domino* _dominoArray, int _arraySize, int _stateFilter, Vec2 _offset)
 {
     DominoGObject* oglDominos = s_getDominoesGObjects();
 
@@ -252,8 +322,8 @@ void printDominoesBasedOnState(Domino* _dominoArray, int _arraySize, int _stateF
         oglDomino.colorID = currentDomino.playerColorID;
         oglDomino.visible = TRUE;  
         oglDomino.currentRotation = currentDomino.rotation;      
-        setDominoGOScale(&oglDomino, 0.4f, 0.4f, 0.4f);
-        setDominoGOLocalPosition(&oglDomino, currentDomino.posX, currentDomino.posY, -1.0f);
+        setDominoGOScale(&oglDomino, currentDomino.scale, currentDomino.scale, currentDomino.scale);
+        setDominoGOLocalPosition(&oglDomino, currentDomino.position.posX + _offset.posX, currentDomino.position.posY + _offset.posY, -1.0f);
         //setDominoGOPosition(&oglDomino, currentDomino.posX, currentDomino.posY, -1.0f);
 
         oglDominos[dominoGObjectIndex] = oglDomino;

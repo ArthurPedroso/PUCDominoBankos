@@ -10,7 +10,7 @@ uniform mat4 MVP;
 uniform float Time;
 
 // Output data ; will be interpolated for each fragment.
-out vec3 fragmentColor;
+out vec4 fragmentColor;
 out vec2 UV;
   
 void main()
