@@ -306,9 +306,9 @@ bool checkDirExistence()
 char* currentRunningDirName()
 {
     static char buffer[FILENAME_MAX];
-    GetCurrentDirectory((DWORD) buffer, (LPTSTR) FILENAME_MAX);
+    GetCurrentDirectory( FILENAME_MAX,  buffer);
 
-    printf(buffer);
+    printf("%s", buffer);
 
     return buffer;
 }
