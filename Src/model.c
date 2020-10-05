@@ -7,6 +7,7 @@
 #include <winbase.h>
 #else
 #endif
+#define SAVE_DIR "saves"
 
 struct Vec2_TAG Vec2ZERO = {0.0f, 0.0f};
 
@@ -300,6 +301,8 @@ bool checkDirExistence()
 {
     bool dirExist = false;
 
+    
+
     return dirExist;
 }
 
@@ -307,8 +310,6 @@ char* currentRunningDirName()
 {
     static char buffer[FILENAME_MAX];
     GetCurrentDirectory( FILENAME_MAX,  buffer);
-
-    printf("%s", buffer);
 
     return buffer;
 }
