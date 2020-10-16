@@ -48,6 +48,7 @@ void controllerInitialization()
 //Gerencia o input do menu principal
 void manageMainMenuInput(uiInput _menuInput)
 {
+    int controllerLoadedState = 0;
     switch(_menuInput)
     {
         case 1: //New Game
@@ -55,13 +56,18 @@ void manageMainMenuInput(uiInput _menuInput)
             *s_getControllerState() = UI_STATE_SELECT_PLAYERS;
             break;
         case 2: //Load Game
-            *s_getControllerState() = readGameSave();
-            if(*s_getControllerState() == UI_STATE_MAIN_GAME_PLAYER1_TURN)
-                displayMainGameUIPlayer1Turn();
-            else
-                displayMainGameUIPlayer2Turn();            
-            hideAllDominoes();    
-            printDominoesBasedOnState(s_getGameDominoes(), GAME_DOMINOES_AMOUNT, STATE_GAME_TABLE, (Vec2){0.0f, 0.0f});
+            controllerLoadedState = readGameSave();
+
+            if(controllerLoadedState != -1)
+            {
+                *s_getControllerState() = controllerLoadedState;
+                if(*s_getControllerState() == UI_STATE_MAIN_GAME_PLAYER1_TURN)
+                    displayMainGameUIPlayer1Turn();
+                else
+                    displayMainGameUIPlayer2Turn();            
+                hideAllDominoes();    
+                printDominoesBasedOnState(s_getGameDominoes(), GAME_DOMINOES_AMOUNT, STATE_GAME_TABLE, (Vec2){0.0f, 0.0f});
+            }
             break;
         case 3: //Instructions
             displayInstructionsMenu();

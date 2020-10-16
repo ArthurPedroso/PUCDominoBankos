@@ -345,7 +345,7 @@ char* checkSaveDirAndReturnPath(char* _runningDirPath)
 int readGameSave()
 {
     Domino* gameDominoes = s_getGameDominoes();
-    int controllerStateOut = 0;
+    int controllerStateOut = -1;
     char filePath[_MAX_DIR];     
     
      
@@ -356,14 +356,18 @@ int readGameSave()
 
     readingFile = fopen(filePath, "rb");
 
-    for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+    if(readingFile)
     {
-        fread(&gameDominoes[i],sizeof(Domino),1,readingFile);
+
+        for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+        {
+            fread(&gameDominoes[i],sizeof(Domino),1,readingFile);
+        }
+        fread(&controllerStateOut,sizeof(controllerStateOut),1,readingFile);
+
+
+        fclose(readingFile);
     }
-    fread(&controllerStateOut,sizeof(controllerStateOut),1,readingFile);
-
-
-    fclose(readingFile);
 
     return controllerStateOut;
 }
