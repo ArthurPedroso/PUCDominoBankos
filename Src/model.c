@@ -3,13 +3,36 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
+#include <dirent.h>
+#include <errno.h>
+
 #ifdef OS_Windows
 #include <winbase.h>
 #else
+#include <sys/stat.h>
 #endif
-#define SAVE_DIR "saves"
+
+#ifdef OS_Windows
+#define SAVE_DIR "\\saves"
+#define SAVE_FILE "\\save.bin"
+#else
+#define SAVE_DIR "/saves"
+#define SAVE_FILE "/save.bin"
+#endif
 
 struct Vec2_TAG Vec2ZERO = {0.0f, 0.0f};
+
+#ifdef OS_Windows
+void createSaveDir(char* _path)
+{
+    CreateDirectory(_path, NULL); 
+}
+#else
+void createSaveDir(char* _path)
+{
+    mkdir(_path, 0777);
+}
+#endif
 
 //Armazena os dados dos dominós do jogo 
 Domino* s_getGameDominoes()
@@ -283,29 +306,7 @@ void setGameTableDominoesSize(float _newScale)
         gameDominoes[i].scale = _newScale;
     }
 }
-//---------Header Funcs----------//
-
-void testWrite()
-{
-    FILE* writingArchive;
-
-    writingArchive = fopen("C:\\Users\\Windows10\\Desktop\\Área de Trabalho\\GitHub\\PUCDominoBankos", "wb");
-}
-
-void testRead()
-{
-    
-}
-
-bool checkDirExistence()
-{
-    bool dirExist = false;
-
-    
-
-    return dirExist;
-}
-
+//---------Header Funcs----------//[
 char* currentRunningDirName()
 {
     static char buffer[FILENAME_MAX];
@@ -313,6 +314,83 @@ char* currentRunningDirName()
 
     return buffer;
 }
+char* checkSaveDirAndReturnPath(char* _runningDirPath)
+{
+    static char dirFullPath[_MAX_DIR];
+    bool dirExist = false;
+    
+    strcpy(dirFullPath, _runningDirPath); //    A://PAsta1/Pasta3/BuildOutput + saves = A://PAsta1/Pasta3/BuildOutput/saves
+    strcat(dirFullPath, SAVE_DIR);
+    
+    DIR* dir = opendir(dirFullPath);
+    
+    if (dir) 
+    {
+        /* Directory exists. */
+        closedir(dir);
+    } 
+    else if (ENOENT == errno) 
+    {
+        createSaveDir(dirFullPath);
+    }
+    else 
+    {
+        printf("!ERRO!Pasta save nao abriu com sucesso");
+    }
+
+    return dirFullPath;
+}
+
+//le os dados dos dominos e retorna o estado do controlador 
+int readGameSave()
+{
+    Domino* gameDominoes = s_getGameDominoes();
+    int controllerStateOut = 0;
+    char filePath[_MAX_DIR];     
+    
+     
+    strcpy(filePath, checkSaveDirAndReturnPath(currentRunningDirName())); //    A://PAsta1/Pasta3/BuildOutput/saves + save.bin = A://PAsta1/Pasta3/BuildOutput/saves/save.bin
+    strcat(filePath, SAVE_FILE);
+
+    FILE* readingFile;
+
+    readingFile = fopen(filePath, "rb");
+
+    for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+    {
+        fread(&gameDominoes[i],sizeof(Domino),1,readingFile);
+    }
+    fread(&controllerStateOut,sizeof(controllerStateOut),1,readingFile);
+
+
+    fclose(readingFile);
+
+    return controllerStateOut;
+}
+void writeGameSave(int _controllerStateIn)
+{
+    Domino* gameDominoes = s_getGameDominoes();
+    char filePath[_MAX_DIR];     
+    
+     
+    strcpy(filePath, checkSaveDirAndReturnPath(currentRunningDirName())); //    A://PAsta1/Pasta3/BuildOutput/saves + save.bin = A://PAsta1/Pasta3/BuildOutput/saves/save.bin
+    strcat(filePath, SAVE_FILE);
+
+    FILE* writingFile;
+
+    writingFile = fopen(filePath, "wb");
+
+    for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+    {
+        fwrite(&gameDominoes[i],sizeof(Domino),1,writingFile);
+    }
+    fwrite(&_controllerStateIn,sizeof(_controllerStateIn),1,writingFile);
+
+    fclose(writingFile);
+}
+
+
+
 
 //Inicia o sistema de numeros aleatorios e Aloca a memoria utilizada pelo array de dominos
 void modelInitialization()

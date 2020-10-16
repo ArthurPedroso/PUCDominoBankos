@@ -419,7 +419,7 @@ int drawLoop(GLFWwindow* _window, CBRenderUpdate _updateCallBack, CBBeforeFirstF
 	textData->scale = 1.5f;
 	textData->textToDraw = "";
 	textData->xPos = 0.0f;
-	textData->yPos = 760.0f;
+	textData->yPos = 700.0f;
 	//GAME DATA INIT//
 
 	// Initialize glText

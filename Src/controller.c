@@ -37,7 +37,6 @@ controllerState* s_getControllerState()
 
     return &s_controllerState;
 }
-
 //Executado apenas uma vez no incio do jogo
 void controllerInitialization()
 {
@@ -55,15 +54,20 @@ void manageMainMenuInput(uiInput _menuInput)
             displayPlayerSelectionMenu();
             *s_getControllerState() = UI_STATE_SELECT_PLAYERS;
             break;
-        case 2: //Save Game
+        case 2: //Load Game
+            *s_getControllerState() = readGameSave();
+            if(*s_getControllerState() == UI_STATE_MAIN_GAME_PLAYER1_TURN)
+                displayMainGameUIPlayer1Turn();
+            else
+                displayMainGameUIPlayer2Turn();            
+            hideAllDominoes();    
+            printDominoesBasedOnState(s_getGameDominoes(), GAME_DOMINOES_AMOUNT, STATE_GAME_TABLE, (Vec2){0.0f, 0.0f});
             break;
-        case 3: //Load Game
-            break;
-        case 4: //Instructions
+        case 3: //Instructions
             displayInstructionsMenu();
             *s_getControllerState() = UI_STATE_SHOW_INSTRUCTIONS;
             break;
-        case 5: //Exit Game
+        case 4: //Exit Game
             exitGame(); 
             break; 
     }
@@ -247,6 +251,9 @@ void manageMainGameUIPlayer1Turn(uiInput _menuInput)
             resetDominoesState();
             displayStartingMenu();
             break;
+        case 7:
+            writeGameSave((*s_getControllerState()));
+            break;
         case 12: //move todos os dominos para a esquerda
             moveAllDominoes(MOVE_DOMINOS_LEFT);
             break;            
@@ -285,6 +292,9 @@ void manageMainGameUIPlayer2Turn(uiInput _menuInput)
             hideAllDominoes();
             resetDominoesState();
             displayStartingMenu();
+            break;        
+        case 7:
+            writeGameSave((*s_getControllerState()));
             break;
         case 12: //move todos os dominos para a esquerda
             moveAllDominoes(MOVE_DOMINOS_LEFT);

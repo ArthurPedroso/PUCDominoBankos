@@ -74,7 +74,7 @@ void OGLManagerFirstFrameCB()
 //Reseta a posicao to texto para a poisicao padrao
 void resetOGLTextPosition()
 {
-    setOGLTextPosition((Vec2){0.0f, 760.0f});
+    setOGLTextPosition((Vec2){0.0f, 700.0f});
 }
 //retorna o delta time armazenado pelo view
 float getDeltaTime()
@@ -93,10 +93,9 @@ void displayStartingMenu()
     strcpy(strBuffer, "Bem vindo, vamos jogar domino!\n");
     strcat(strBuffer, "Selecione uma opcao:\n");
     strcat(strBuffer, "1- Novo jogo\n");
-    strcat(strBuffer, "2- Salvar\n");
-    strcat(strBuffer, "3- Carregar\n");
-    strcat(strBuffer, "4- Como jogar\n");
-    strcat(strBuffer, "5- Sair\n");
+    strcat(strBuffer, "2- Carregar\n");
+    strcat(strBuffer, "3- Como jogar\n");
+    strcat(strBuffer, "4- Sair\n");
 
     changeOGLText(strBuffer);
 }
@@ -162,7 +161,7 @@ void displayMainGameUIPlayer1Turn()
 {
     //O 105 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
     //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
-    static char strBuffer[257]; 
+    static char strBuffer[277]; 
 
     strcpy(strBuffer, "Turno do jogador 1\n");
     strcat(strBuffer, "1- Mostrar mao\n");
@@ -173,6 +172,7 @@ void displayMainGameUIPlayer1Turn()
     strcat(strBuffer, "Seta Direita- Mover camera para a direita\n");
     strcat(strBuffer, "5- Pedir empate\n");
     strcat(strBuffer, "6- Voltar para o menu principal\n");
+    strcat(strBuffer, "7- Salvar jogo\n");
 
     changeOGLText(strBuffer);
 }
@@ -182,7 +182,7 @@ void displayMainGameUIPlayer2Turn()
 {
     //O 122 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
     //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
-    static char strBuffer[257]; 
+    static char strBuffer[277]; 
 
     strcpy(strBuffer, "Turno do jogador 2\n");
     strcat(strBuffer, "1- Mostrar mao\n");
@@ -193,6 +193,7 @@ void displayMainGameUIPlayer2Turn()
     strcat(strBuffer, "Seta Direita- Mover camera para a direita\n");
     strcat(strBuffer, "5- Pedir empate\n");
     strcat(strBuffer, "6- Voltar para o menu principal\n");
+    strcat(strBuffer, "7- Salvar jogo\n");
 
     changeOGLText(strBuffer);
 }
