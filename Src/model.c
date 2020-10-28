@@ -306,6 +306,127 @@ void setGameTableDominoesSize(float _newScale)
         gameDominoes[i].scale = _newScale;
     }
 }
+
+void findLinkableDominoes(Domino** _outLeftLinkableDomino,  Domino** _outRightLinkableDomino)
+{
+    Domino* gameDominoes = s_getGameDominoes();
+    Domino* linkableDomino1 = NULL;
+    Domino* linkableDomino2 = NULL;
+
+    if(!checkIfThereIsDominosOnTable()) return;
+    
+    for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+    {
+        if(gameDominoes[i].linkableDominoState != UNLINKABLE_DOMINO)
+        {
+            if(!linkableDomino1) // linkableDomino1 == false -> linkableDomino1 não existe
+            {
+                linkableDomino1 = &gameDominoes[i];
+            }
+            else if(!linkableDomino2)
+            {
+                linkableDomino2 =  &gameDominoes[i];
+            }
+            else
+            {
+                printf("!ERRO! - Mais de um domino linkavel!!!");
+                return;
+            }          
+        }
+    }
+
+    if(!linkableDomino2)
+    {
+        *_outLeftLinkableDomino = linkableDomino1;
+        *_outRightLinkableDomino = linkableDomino1;
+    }
+    else
+    {
+        if(linkableDomino1->linkableDominoState == LINKABLE_DOMINO_RIGHT)
+        {
+            *_outLeftLinkableDomino = linkableDomino2;
+            *_outRightLinkableDomino = linkableDomino1;
+        }
+        else
+        {
+            *_outLeftLinkableDomino = linkableDomino1;
+            *_outRightLinkableDomino = linkableDomino2;
+        }
+    }
+}
+
+bool setAiDomino(Domino* _candidate, Domino* _tableDomino, int dominosLinkType)
+{
+    
+}
+
+bool tryToPlaceAiDomino()
+{
+    Domino* gameDominos = s_getGameDominoes();
+    Domino* placementCandidate = NULL;
+    Domino* linkableLeft = NULL;
+    Domino* linkableRight = NULL;
+    int linkableLeftType;
+    int linkableRightType;
+
+    findLinkableDominoes(&linkableLeft, &linkableRight);
+
+    if(linkableLeft->rotation == DOMINO_ROTATION_180)
+        linkableLeftType = linkableLeft->rightType;
+    else
+        linkableLeftType = linkableLeft->leftType;
+
+    if(linkableRight->rotation == DOMINO_ROTATION_180)
+        linkableRightType = linkableRight->leftType;
+    else
+        linkableRightType = linkableRight->rightType;
+
+    for(int i = 0; i < GAME_DOMINOES_AMOUNT; i++)
+    {
+        if(gameDominos[i].state == STATE_PLAYER_TWO)
+        {
+            if(linkableLeftType == gameDominos[i].leftType || linkableLeftType == gameDominos[i].rightType)
+            {
+                placementCandidate = &gameDominos[i];
+                placementCandidate->linkedDomino = linkableLeft;
+                placementCandidate->position.posX = linkableLeft->position.posX - 2;
+                placementCandidate->linkableDominoState = LINKABLE_DOMINO_LEFT;
+                
+                if(linkableLeft->linkableDominoState == LINKABLE_DOMINO_LEFT_RIGHT)
+                    linkableLeft->linkableDominoState = LINKABLE_DOMINO_RIGHT;
+                else
+                    linkableLeft->linkableDominoState = UNLINKABLE_DOMINO;
+
+                if(linkableLeftType == placementCandidate->leftType)
+                    placementCandidate->rotation = DOMINO_ROTATION_180;
+                break;
+            }
+            else if(linkableRightType == gameDominos[i].leftType || linkableRightType == gameDominos[i].rightType)
+            {
+                placementCandidate = &gameDominos[i];
+                placementCandidate->linkedDomino = linkableRight;
+                placementCandidate->position.posX = linkableRight->position.posX + 2;
+                placementCandidate->linkableDominoState = LINKABLE_DOMINO_RIGHT;
+
+                if(linkableRight->linkableDominoState == LINKABLE_DOMINO_LEFT_RIGHT)
+                    linkableRight->linkableDominoState = LINKABLE_DOMINO_LEFT;
+                else
+                    linkableRight->linkableDominoState = UNLINKABLE_DOMINO;
+                
+                if(linkableRightType == placementCandidate->rightType)
+                    placementCandidate->rotation = DOMINO_ROTATION_180;
+                break;
+            }
+        }
+    }
+    if(placementCandidate)
+    {
+        placementCandidate->state = STATE_GAME_TABLE;
+        placementCandidate->scale = *s_getTableDominoesSize();
+        return TRUE;
+    }
+    return FALSE;
+}
 //---------Header Funcs----------//[
 char* currentRunningDirName()
 {
@@ -767,12 +888,34 @@ void moveAllDominoes(int _direction)
 {
     Domino* gameDominoes = s_getGameDominoes();
 
-    s_getTableDominoesOffsetPosition()->posX += (getDeltaTime() * 2.0f) * _direction;
+    s_getTableDominoesOffsetPosition()->posX += (getDeltaTime() * 6.0f) * _direction;
     s_getTableDominoesOffsetPosition()->posY = 0;
         
     printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_GAME_TABLE, *s_getTableDominoesOffsetPosition());
     printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_GAME_MOVING, *s_getTableDominoesOffsetPosition()); 
 
+}
+void playAiTurn()
+{
+    int dominoesInDominoPile = checkDominoesPile(s_getGameDominoes());
+    bool dominoPlaced = FALSE;
+    
+    dominoPlaced = tryToPlaceAiDomino();
+    while (!dominoPlaced && dominoesInDominoPile)
+    {
+        printf("AI comprou domino!");
+        pickDominoeFromPile(STATE_PLAYER_TWO);
+        dominoPlaced = tryToPlaceAiDomino();
+    }
+    if(checkDominoesPile(s_getGameDominoes()) == 0 && !dominoPlaced)
+    {
+        printf("!ERROR! acabaram os dominos da pilha");
+    }
+    else
+    {        
+        hideAllDominoes();
+        printDominoesBasedOnState(s_getGameDominoes(), GAME_DOMINOES_AMOUNT, STATE_GAME_TABLE, *s_getTableDominoesOffsetPosition());
+    }        
 }
 //-----ORGANIZE/SHUFFLE DOMINOS-----//
 

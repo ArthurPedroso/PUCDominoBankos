@@ -8,6 +8,7 @@ void displayStartingMenu();
 void displayPlayerSelectionMenu();
 void displayInstructionsMenu();
 void displayStartDominosAssigmentMenu(int _cantStartGameWarning);
+void displayStartDominosAssigmentMenu1Player(int _cantStartGameWarning);
 void displayMainGameUIPlayer1Turn();
 void displayMainGameUIPlayer2Turn();
 void displayPlaceDominoUIPlayer1Turn();
