@@ -461,13 +461,13 @@ void manageAIGameUIPlayer1Turn(uiInput _menuInput)
             displayPlayerHand(STATE_PLAYER_ONE);
             break;
         case 4: 
-            *s_getControllerState() = UI_STATE_PLACE_DOMINO_PLAYER1_TURN;
+            *s_getControllerState() = UI_STATE_AI_PLACE_DOMINO_PLAYER1_TURN;
             displayPlaceDominoUIPlayer1Turn();
             changePlayerSelectedDomino(STATE_PLAYER_ONE);
             break;            
         case 5:
-            displayAskForDrawScreen();
-            *s_getControllerState() = UI_STATE_ASK_FOR_DRAW_PLAYER1;
+            //displayAskForDrawScreen();
+            //*s_getControllerState() = UI_STATE_ASK_FOR_DRAW_PLAYER1;
             break;
         case 6: //volta
             *s_getControllerState() = UI_STATE_MAIN_MENU;
@@ -502,7 +502,18 @@ void managePlaceDominoUIAIPlayer1Turn(uiInput _menuInput)
                 }
                 else
                 {                
-                    
+                    playAiTurn();
+                    if(checkIfPlayerWon(STATE_PLAYER_TWO))
+                    {
+                        *s_getControllerState() = UI_STATE_PLAYER_2_WIN;
+                        hideAllDominoes();
+                        displayPlayer2Victory();
+                    }
+                    else
+                    {
+                        displayMainGameUIPlayer1Turn();
+                        *s_getControllerState() = UI_STATE_AI_GAME_PLAYER1_TURN;    
+                    }
                 }
             }
             printf("end if\n");
