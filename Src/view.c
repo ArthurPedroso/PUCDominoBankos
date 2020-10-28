@@ -155,6 +155,23 @@ void displayStartDominosAssigmentMenu(int _cantStartGameWarning)
 
     changeOGLText(strBuffer);
 }
+//Menu de atribuição de dominós de apenas 1 jogador
+void displayStartDominosAssigmentMenu1Player(int _cantStartGameWarning)
+{
+    //O 290 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
+    //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
+    static char strBuffer[290]; 
+
+    if(!_cantStartGameWarning) strcpy(strBuffer, "Distribuir dominós iniciais para o jogador:\n");
+    else strcpy(strBuffer, "Só é possivel iniciar o jogo após a distribuição de domínos para o jogador:\n");
+    strcat(strBuffer, "1- Iniciar jogo\n");
+    strcat(strBuffer, "2- Distribuir para jogador 1\n");
+    strcat(strBuffer, "3- Visualizar dominós atribuidos para jogador 1\n");
+    strcat(strBuffer, "4- Ocultar dominós\n");
+    strcat(strBuffer, "5- Voltar\n");
+
+    changeOGLText(strBuffer);
+}
 
 //Menu de gameplay do jogador 1
 void displayMainGameUIPlayer1Turn()

@@ -6,7 +6,6 @@
 
 //-----UI_STATES-----// 
 #define UI_STATE_MAIN_MENU 0
-//#define UI_STATE_ORGANIZE_DOMINOES 1 //old name
 #define UI_STATE_SELECT_PLAYERS 1
 #define UI_STATE_ASSING_STARTING_DOMINOES 2
 #define UI_STATE_MAIN_GAME_PLAYER1_TURN 3
@@ -18,6 +17,9 @@
 #define UI_STATE_ASK_FOR_DRAW_PLAYER2 9
 #define UI_STATE_PLAYER_1_WIN 10
 #define UI_STATE_PLAYER_2_WIN 11
+#define UI_STATE_ASSING_STARTING_DOMINOES_1PLAYER 12
+#define UI_STATE_AI_GAME_PLAYER1_TURN 13
+#define UI_STATE_AI_PLACE_DOMINO_PLAYER1_TURN 14
 //-----UI_STATES-----// 
 
 //-----StartDominosAssigmentMenuStates-----//
@@ -97,10 +99,8 @@ void playerNumberSelection(uiInput _menuInput)
     switch (_menuInput)
     {
         case 1:
-            // *old getPlayersHands(getGameDominoes());
-
-            //determina q so tem 1 jogador
-            //Chamar funcao q inicia jogo contra AI
+            displayStartDominosAssigmentMenu1Player(FALSE);
+            *s_getControllerState() = UI_STATE_ASSING_STARTING_DOMINOES_1PLAYER;
             break;
         case 2:
             displayStartDominosAssigmentMenu(FALSE);
@@ -391,6 +391,142 @@ void managePlaceDominoUIPlayer2Turn(uiInput _menuInput)
             break;
     }
 }
+
+//-----IA-----//
+void manageStartDominosAssigment1Player(uiInput _menuInput)
+{    
+    static int assigmentMenuState = ASSIGMENT_MENU_INITIAL;
+    switch (_menuInput)
+    {
+        case 1: //Iniciar jogo
+            if((int)(assigmentMenuState & ASSIGMENT_MENU_PLAYER1_ASSIGNED) != 0) //Se os dominós já estiverem sido atribuidos para o jogador 1
+            {
+                assignPlayerStartingHand(STATE_PLAYER_TWO);
+                //Avancar para o inicio do jogo
+                displayMainGameUIPlayer1Turn();
+                hideAllDominoes();
+                *s_getControllerState() = UI_STATE_AI_GAME_PLAYER1_TURN;                
+            }
+            else //Se não, falta atribuir dominós para alguem
+            {
+                displayStartDominosAssigmentMenu1Player(TRUE);                
+            }
+            break;
+        case 2: //Atribuir dominós para o jogador 1
+            if((int)(assigmentMenuState & ASSIGMENT_MENU_PLAYER1_ASSIGNED) == 0) //Se o jogador 1 não tiver sido atribuido
+            {
+                assigmentMenuState += ASSIGMENT_MENU_PLAYER1_ASSIGNED; //Armazenar que o jogador 1 ja foi atribuido
+
+                assignPlayerStartingHand(STATE_PLAYER_ONE);
+            }
+            break;
+        case 3: //Show player 1 hand
+            if((int)(assigmentMenuState & ASSIGMENT_MENU_PLAYER1_DISPLAY) == 0) //Se o jogador 1 não estiver com a mão exposta
+            {
+                assigmentMenuState += ASSIGMENT_MENU_PLAYER1_DISPLAY; //Armazenar que o jogador 1 tem a mão exposta
+
+                hideAllDominoes();
+                displayPlayerHand(STATE_PLAYER_ONE);
+            }
+            break;
+        case 4: //Hide all dominoes
+            if((int)(assigmentMenuState & ASSIGMENT_MENU_PLAYER1_DISPLAY) != 0) //Se algum dos jogadores estiver com a mão exposta
+            {
+                if((int)(assigmentMenuState & ASSIGMENT_MENU_PLAYER1_DISPLAY) != 0) assigmentMenuState -= ASSIGMENT_MENU_PLAYER1_DISPLAY; //se o jogador 1 estiver com a mão exposta
+                hideAllDominoes();
+            }
+            break;
+        case 5: //Go back
+            *s_getControllerState() = UI_STATE_SELECT_PLAYERS;
+            assigmentMenuState = ASSIGMENT_MENU_INITIAL;
+            resetDominoesState();
+            hideAllDominoes();
+            displayPlayerSelectionMenu();
+            break;
+    }
+}
+
+void manageAIGameUIPlayer1Turn(uiInput _menuInput)
+{
+    switch (_menuInput)
+    {
+        case 1: //Mostra mão do jogador 1
+            displayPlayerHand(STATE_PLAYER_ONE);
+            break;
+        case 2: //Esconde mão do jogador 1
+            hideDominoesBasedOnState(s_getGameDominoes(), GAME_DOMINOES_AMOUNT, STATE_PLAYER_ONE);
+            break;
+        case 3: //Pega 1 dominó da pilha de dominós
+            pickDominoeFromPile(STATE_PLAYER_ONE);
+            displayPlayerHand(STATE_PLAYER_ONE);
+            break;
+        case 4: 
+            *s_getControllerState() = UI_STATE_PLACE_DOMINO_PLAYER1_TURN;
+            displayPlaceDominoUIPlayer1Turn();
+            changePlayerSelectedDomino(STATE_PLAYER_ONE);
+            break;            
+        case 5:
+            displayAskForDrawScreen();
+            *s_getControllerState() = UI_STATE_ASK_FOR_DRAW_PLAYER1;
+            break;
+        case 6: //volta
+            *s_getControllerState() = UI_STATE_MAIN_MENU;
+            hideAllDominoes();
+            resetDominoesState();
+            displayStartingMenu();
+            break;
+        case 7:
+            writeGameSave((*s_getControllerState()));
+            break;
+        case 12: //move todos os dominos para a esquerda
+            moveAllDominoes(MOVE_DOMINOS_LEFT);
+            break;            
+        case 13: //move todos os dominos para a direita
+            moveAllDominoes(MOVE_DOMINOS_RIGHT);
+            break;
+    }
+}
+//Gerencia o input do menu de posicionamento de dominos do jogador 1
+void managePlaceDominoUIAIPlayer1Turn(uiInput _menuInput)
+{
+    switch (_menuInput)
+    {
+        case 1: //Confirma a posicao do domino e faz a jogada do jogador 2
+            if(tryToSetSelectedDominoToTable())
+            {
+                if(checkIfPlayerWon(STATE_PLAYER_ONE))
+                {
+                    *s_getControllerState() = UI_STATE_PLAYER_1_WIN;
+                    hideAllDominoes();
+                    displayPlayer1Victory();
+                }
+                else
+                {                
+                    
+                }
+            }
+            printf("end if\n");
+            break;
+        case 2: //Seleciona outro domino
+            changePlayerSelectedDomino(STATE_PLAYER_ONE);
+            break;
+        case 3: //Move o domino selecionado para cima
+            movePlayerDomino();
+            break;
+        case 4: //Rotaciona domino
+            rotatePlayerDomino();
+            break;
+        case 5: //Volta para o menu anterior
+            *s_getControllerState() = UI_STATE_AI_GAME_PLAYER1_TURN;
+            hideDominoesBasedOnState(s_getGameDominoes(), GAME_DOMINOES_AMOUNT, STATE_GAME_MOVING);
+            displayMainGameUIPlayer1Turn();
+            unselectPlayerDomino(STATE_PLAYER_ONE);
+            break;
+    }
+}
+//-----IA-----//
+
+//Gerencia Vitoria jogador 1
 void managePlayer1VicoryUI(uiInput _menuInput)
 {
     if(_menuInput == 1)
@@ -398,6 +534,8 @@ void managePlayer1VicoryUI(uiInput _menuInput)
         exitGame();
     }
 }
+
+//Gerencia Vitoria jogador 2
 void managePlayer2VicoryUI(uiInput _menuInput)
 {
     if(_menuInput == 1)
@@ -405,6 +543,7 @@ void managePlayer2VicoryUI(uiInput _menuInput)
         exitGame();
     }
 }
+
 /* essa função não será mais utilizada
 void manageOrganizeDominosInput(uiInput _organizeDominosInput)
 {
@@ -468,6 +607,17 @@ void managePlayerChoice(uiInput _playerInput)
         case UI_STATE_PLAYER_2_WIN:
             managePlayer2VicoryUI(_playerInput);
             break;
+        //-----AI-----//
+        case UI_STATE_ASSING_STARTING_DOMINOES_1PLAYER:
+            manageStartDominosAssigment1Player(_playerInput);
+            break;
+        case UI_STATE_AI_GAME_PLAYER1_TURN:
+            manageAIGameUIPlayer1Turn(_playerInput);
+            break;
+        case UI_STATE_AI_PLACE_DOMINO_PLAYER1_TURN:
+            managePlaceDominoUIAIPlayer1Turn(_playerInput);
+            break;
+        //-----AI-----//
     }    
 }
 //inicializa o controller
