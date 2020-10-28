@@ -63,7 +63,8 @@ void manageMainMenuInput(uiInput _menuInput)
             if(controllerLoadedState != -1)
             {
                 *s_getControllerState() = controllerLoadedState;
-                if(*s_getControllerState() == UI_STATE_MAIN_GAME_PLAYER1_TURN)
+                
+                if(*s_getControllerState() == UI_STATE_AI_GAME_PLAYER1_TURN || *s_getControllerState() == UI_STATE_MAIN_GAME_PLAYER1_TURN)
                     displayMainGameUIPlayer1Turn();
                 else
                     displayMainGameUIPlayer2Turn();            

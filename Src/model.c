@@ -888,7 +888,7 @@ void moveAllDominoes(int _direction)
 {
     Domino* gameDominoes = s_getGameDominoes();
 
-    s_getTableDominoesOffsetPosition()->posX += (getDeltaTime() * 2.0f) * _direction;
+    s_getTableDominoesOffsetPosition()->posX += (getDeltaTime() * 6.0f) * _direction;
     s_getTableDominoesOffsetPosition()->posY = 0;
         
     printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_GAME_TABLE, *s_getTableDominoesOffsetPosition());
