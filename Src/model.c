@@ -901,7 +901,8 @@ void moveAllDominoes(int _direction)
     printDominoesBasedOnState(gameDominoes, GAME_DOMINOES_AMOUNT, STATE_GAME_MOVING, *s_getTableDominoesOffsetPosition()); 
 
 }
-void playAiTurn()
+//Executa o turno da AI e retorna true se ela quiser empate
+bool playAiTurn()
 {
     int dominoesInDominoPile = checkDominoesPile(s_getGameDominoes());
     bool dominoPlaced = FALSE;
@@ -911,17 +912,21 @@ void playAiTurn()
     {
         printf("AI comprou domino!");
         pickDominoeFromPile(STATE_PLAYER_TWO);
+        dominoesInDominoPile = checkDominoesPile(s_getGameDominoes());
         dominoPlaced = tryToPlaceAiDomino();
     }
-    if(checkDominoesPile(s_getGameDominoes()) == 0 && !dominoPlaced)
+    if(checkDominoesPile(s_getGameDominoes()) <= 0 && !dominoPlaced)
     {
-        printf("!ERROR! acabaram os dominos da pilha");
+        printf("Acabaram os dominos da pilha");
+        return TRUE;
     }
     else
     {        
         hideAllDominoes();
         printDominoesBasedOnState(s_getGameDominoes(), GAME_DOMINOES_AMOUNT, STATE_GAME_TABLE, *s_getTableDominoesOffsetPosition());
-    }        
+        return FALSE;
+    } 
+    return FALSE;       
 }
 //-----ORGANIZE/SHUFFLE DOMINOS-----//
 

@@ -261,6 +261,18 @@ void displayAskForDrawScreen()
 
     changeOGLText(strBuffer);
 }
+//Menu de pedir empate em singleplayer
+void displaySinglePlayerDrawScreen()
+{
+    //O 76 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
+    //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
+    static char strBuffer[38]; 
+
+    strcpy(strBuffer, "1- Declarar empate\n");
+    strcat(strBuffer, "2- Voltar\n");
+
+    changeOGLText(strBuffer);
+}
 
 //Menu de vitoria jogador 1
 void displayPlayer1Victory()
@@ -282,6 +294,18 @@ void displayPlayer2Victory()
     static char strBuffer[100]; 
 
     strcpy(strBuffer, "Jogador 2 e o vencedor!!!\n");
+    strcat(strBuffer, "1- Sair do jogo\n");;
+
+    changeOGLText(strBuffer);
+}
+//Menu de empate AI
+void displayAIDraw()
+{
+    //O 76 corresponde a quantidade total de caracteres, usar http://string-functions.com/length.aspx para descobrir o tamanho da string.
+    //O static é necessário para que a memória alocada no ponteiro srtBuffer não seja desalocada automaticamente quando a funcão chegar no fim
+    static char strBuffer[100]; 
+
+    strcpy(strBuffer, "O computador nao tem mais jogadas disponiveis\n");
     strcat(strBuffer, "1- Sair do jogo\n");;
 
     changeOGLText(strBuffer);

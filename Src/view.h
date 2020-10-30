@@ -14,8 +14,10 @@ void displayMainGameUIPlayer2Turn();
 void displayPlaceDominoUIPlayer1Turn();
 void displayPlaceDominoUIPlayer2Turn();
 void displayAskForDrawScreen();
+void displaySinglePlayerDrawScreen();
 void displayPlayer1Victory();
 void displayPlayer2Victory();
+void displayAIDraw();
 //-----UI_TEXT-----//
 void resetOGLTextPosition();
 int screenDisplay();

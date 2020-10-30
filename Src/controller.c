@@ -20,6 +20,7 @@
 #define UI_STATE_ASSING_STARTING_DOMINOES_1PLAYER 12
 #define UI_STATE_AI_GAME_PLAYER1_TURN 13
 #define UI_STATE_AI_PLACE_DOMINO_PLAYER1_TURN 14
+#define UI_STATE_AI_PLAYER_DRAW 15
 //-----UI_STATES-----// 
 
 //-----StartDominosAssigmentMenuStates-----//
@@ -467,8 +468,9 @@ void manageAIGameUIPlayer1Turn(uiInput _menuInput)
             changePlayerSelectedDomino(STATE_PLAYER_ONE);
             break;            
         case 5:
-            //displayAskForDrawScreen();
-            //*s_getControllerState() = UI_STATE_ASK_FOR_DRAW_PLAYER1;
+            displaySinglePlayerDrawScreen();
+            hideAllDominoes();
+            *s_getControllerState() = UI_STATE_AI_PLAYER_DRAW;
             break;
         case 6: //volta
             *s_getControllerState() = UI_STATE_MAIN_MENU;
@@ -484,6 +486,21 @@ void manageAIGameUIPlayer1Turn(uiInput _menuInput)
             break;            
         case 13: //move todos os dominos para a direita
             moveAllDominoes(MOVE_DOMINOS_RIGHT);
+            break;
+    }
+}
+void manageSinglePlayerDrawUI(uiInput _menuInput)
+{
+    switch (_menuInput)
+    {
+        case 1: //Mostra mão do jogador 1
+            exitGame();
+            break;
+        case 2: //Esconde mão do jogador 1
+            displayMainGameUIPlayer1Turn();
+            hideAllDominoes();
+            printDominoesBasedOnState(s_getGameDominoes(), GAME_DOMINOES_AMOUNT, STATE_GAME_TABLE, (Vec2){0.0f, 0.0f});
+            *s_getControllerState() = UI_STATE_AI_GAME_PLAYER1_TURN;  
             break;
     }
 }
@@ -503,8 +520,13 @@ void managePlaceDominoUIAIPlayer1Turn(uiInput _menuInput)
                 }
                 else
                 {                
-                    playAiTurn();
-                    if(checkIfPlayerWon(STATE_PLAYER_TWO))
+                    if(playAiTurn())
+                    {
+                        *s_getControllerState() = UI_STATE_PLAYER_1_WIN; //esse controlador consegue controlar esse estado
+                        hideAllDominoes();
+                        displayAIDraw();
+                    }
+                    else if(checkIfPlayerWon(STATE_PLAYER_TWO))
                     {
                         *s_getControllerState() = UI_STATE_PLAYER_2_WIN;
                         hideAllDominoes();
@@ -625,6 +647,9 @@ void managePlayerChoice(uiInput _playerInput)
             break;
         case UI_STATE_AI_GAME_PLAYER1_TURN:
             manageAIGameUIPlayer1Turn(_playerInput);
+            break;
+        case UI_STATE_AI_PLAYER_DRAW:
+            manageSinglePlayerDrawUI(_playerInput);
             break;
         case UI_STATE_AI_PLACE_DOMINO_PLAYER1_TURN:
             managePlaceDominoUIAIPlayer1Turn(_playerInput);

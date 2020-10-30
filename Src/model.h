@@ -47,7 +47,7 @@ void unselectPlayerDomino(int _player);
 bool tryToSetSelectedDominoToTable();
 void moveAllDominoes(int _direction);
 bool checkIfPlayerWon(int _player);
-void playAiTurn();
+bool playAiTurn();
 void writeGameSave(int _controllerStateIn);
 int readGameSave();
 
