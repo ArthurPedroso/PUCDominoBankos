@@ -155,20 +155,20 @@ void manageStartDominosAssigmentMenuInput(uiInput _menuInput)
             }
             break;
         case 4: //Show player 1 hand
-            if((int)(assigmentMenuState & ASSIGMENT_MENU_PLAYER1_DISPLAY) == 0) //Se o jogador 1 estiver não estiver com a mão exposta
+            if((int)(assigmentMenuState & ASSIGMENT_MENU_PLAYER1_DISPLAY) == 0) //Se o jogador 1 não estiver com a mão exposta
             {
                 if((int)(assigmentMenuState & ASSIGMENT_MENU_PLAYER2_DISPLAY) != 0) assigmentMenuState -= ASSIGMENT_MENU_PLAYER2_DISPLAY; //Se o jogador 2 estiver com a mão exposta, armazenar que ele vai deixar de ter a mão exposta
-                assigmentMenuState += ASSIGMENT_MENU_PLAYER1_DISPLAY; //Armazenar que o jogador 1 tem a mão exposta
+                if ((int)(assigmentMenuState & ASSIGMENT_MENU_PLAYER1_ASSIGNED) != 0) assigmentMenuState += ASSIGMENT_MENU_PLAYER1_DISPLAY; //Armazenar que o jogador 1 tem a mão exposta
 
                 hideAllDominoes();
                 displayPlayerHand(STATE_PLAYER_ONE);
             }
             break;
         case 5: //Show player 2 hand
-            if((int)(assigmentMenuState & ASSIGMENT_MENU_PLAYER2_DISPLAY) == 0) //Se o jogador 2 estiver não estiver com a mão exposta
+            if((int)(assigmentMenuState & ASSIGMENT_MENU_PLAYER2_DISPLAY) == 0) //Se o jogador 2 não estiver com a mão exposta
             {
                 if((int)(assigmentMenuState & ASSIGMENT_MENU_PLAYER1_DISPLAY) != 0) assigmentMenuState -= ASSIGMENT_MENU_PLAYER1_DISPLAY; //Se o jogador 1 estiver com a mão exposta, armazenar que ele vai deixar de ter a mão exposta
-                assigmentMenuState += ASSIGMENT_MENU_PLAYER2_DISPLAY; //Armazenar que o jogador 2 tem a mão exposta
+                if ((int)(assigmentMenuState & ASSIGMENT_MENU_PLAYER2_ASSIGNED) != 0) assigmentMenuState += ASSIGMENT_MENU_PLAYER2_DISPLAY; //Armazenar que o jogador 2 tem a mão exposta
 
                 hideAllDominoes();
                 displayPlayerHand(STATE_PLAYER_TWO);                
