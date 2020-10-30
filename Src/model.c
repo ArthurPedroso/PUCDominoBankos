@@ -10,6 +10,9 @@
 #include <winbase.h>
 #else
 #include <sys/stat.h>
+#include <unistd.h>
+#include <string.h>
+#define _MAX_DIR FILENAME_MAX
 #endif
 
 #ifdef OS_Windows
@@ -431,8 +434,11 @@ bool tryToPlaceAiDomino()
 char* currentRunningDirName()
 {
     static char buffer[FILENAME_MAX];
+#ifdef OS_Windows
     GetCurrentDirectory( FILENAME_MAX,  buffer);
-
+#else
+    getcwd(buffer, FILENAME_MAX);
+#endif
     return buffer;
 }
 char* checkSaveDirAndReturnPath(char* _runningDirPath)
